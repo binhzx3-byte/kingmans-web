@@ -1,5 +1,16 @@
 const articles = [
   {
+    slug: "danh-gia-thi-truong-can-ho-thuan-an-2026",
+    title: "Đánh giá toàn diện thị trường căn hộ Thuận An 2026 - Đâu là điểm rơi lợi nhuận?",
+    category: "market",
+    label: "Thị trường",
+    date: "02.05.2026",
+    image: "assets/images/article-thuan-an-2026.webp",
+    excerpt:
+      "Phân tích hạ tầng, mặt bằng giá, dòng tiền cho thuê và vùng an toàn tài chính khi đầu tư căn hộ Thuận An 2026.",
+    link: "danh-gia-thi-truong-can-ho-thuan-an-2026.html"
+  },
+  {
     slug: "can-ho-thuan-an-2025-dong-tien-cua-ngo",
     title: "Căn hộ Thuận An 2025 - Tại sao dòng tiền đang dồn về khu vực cửa ngõ?",
     category: "market",

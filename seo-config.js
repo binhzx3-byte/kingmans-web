@@ -6,8 +6,8 @@ const SEO_CONFIG = {
   phoneDisplay: "0396 460 442",
   email: "binhopusrealty@gmail.com",
   facebook: "https://www.facebook.com/profile.php?id=61586688100723&locale=vi_VN",
-  logo: "assets/kingmans-logo.webp",
-  defaultImage: "assets/kingmans-logo.webp",
+  logo: "assets/kingmans-logo.png",
+  defaultImage: "assets/kingmans-logo.png",
   locale: "vi_VN"
 };
 

@@ -3,7 +3,16 @@
   "name": "kingmans-web",
   "compatibility_date": "2026-05-01",
   "observability": {
-    "enabled": false
+    "enabled": false,
+    "logs": {
+      "enabled": false,
+      "persist": false,
+      "invocation_logs": false
+    },
+    "traces": {
+      "enabled": false,
+      "persist": false
+    }
   },
   "assets": {
     "directory": "."

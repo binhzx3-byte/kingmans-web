@@ -495,6 +495,114 @@
   box-shadow: inset 0 0 0 5px #fff6df;
 }
 
+.opal-legal-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.opal-legal-status,
+.opal-buyer-grid,
+.opal-related-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.opal-legal-status {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.opal-legal-status article,
+.opal-buyer-grid article,
+.opal-related-grid a {
+  padding: 22px;
+  background: var(--opal-white);
+  border: 1px solid rgba(11, 17, 29, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(11, 17, 29, 0.08);
+}
+
+.opal-legal-status span,
+.opal-buyer-grid span {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  margin-bottom: 16px;
+  color: var(--opal-gold);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.opal-legal-status h3,
+.opal-buyer-grid h3 {
+  margin: 0;
+  color: var(--opal-ink);
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.opal-legal-status p,
+.opal-buyer-grid p {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.opal-source-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: var(--opal-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.opal-source-list span {
+  font-weight: 800;
+  color: var(--opal-ink);
+}
+
+.opal-source-list a,
+.opal-related-grid a {
+  color: var(--opal-green);
+  font-weight: 800;
+}
+
+.opal-source-list a {
+  padding: 8px 10px;
+  background: rgba(201, 164, 92, 0.14);
+  border-radius: 8px;
+}
+
+.opal-comparison {
+  padding-top: 34px;
+}
+
+.opal-buyers {
+  padding-top: 52px;
+}
+
+.opal-buyer-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.opal-related {
+  padding-top: 42px;
+}
+
+.opal-related-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.opal-related-grid a {
+  display: flex;
+  align-items: center;
+  min-height: 118px;
+  line-height: 1.4;
+}
+
 .opal-gallery {
   padding-top: 48px;
 }
@@ -715,14 +823,18 @@
   }
 
   .opal-hero h1 {
-    font-size: 36px;
-    line-height: 1.02;
-    overflow-wrap: normal;
+    max-width: 100%;
+    font-size: 34px;
+    line-height: 1.04;
+    overflow-wrap: break-word;
+    text-wrap: balance;
   }
 
   .opal-hero p:not(.opal-eyebrow) {
+    max-width: 100%;
     font-size: 16px;
     line-height: 1.65;
+    overflow-wrap: break-word;
   }
 
   .opal-actions,
@@ -759,9 +871,12 @@
   }
 
   .opal-stat-panel,
+  .opal-legal-status,
   .opal-location-grid,
   .opal-feature-grid,
   .opal-gallery-grid,
+  .opal-buyer-grid,
+  .opal-related-grid,
   .opal-form {
     grid-template-columns: 1fr;
   }
@@ -814,12 +929,15 @@
 
   .opal-sticky-cta {
     display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
   }
 }
 
 @media (max-width: 420px) {
   .opal-hero h1 {
-    font-size: 31px;
+    font-size: 29px;
   }
 
   .opal-hero p:not(.opal-eyebrow) {
@@ -833,5 +951,20 @@
 
   .opal-table {
     min-width: 640px;
+  }
+
+  .opal-sticky-cta {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .opal-sticky-cta a {
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 8px;
+    font-size: 13px;
+    line-height: 1.15;
+    white-space: normal;
+    text-align: center;
   }
 }

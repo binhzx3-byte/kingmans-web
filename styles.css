@@ -1326,14 +1326,19 @@ textarea:focus {
 
   .hero-statement {
     margin-top: 14px;
-    font-size: clamp(23px, 6.2vw, 28px);
+    max-width: 100%;
+    font-size: clamp(21px, 5.7vw, 25px);
     line-height: 1.16;
+    overflow-wrap: break-word;
+    text-wrap: balance;
   }
 
   .hero-copy {
     margin-top: 18px;
-    font-size: 17px;
+    max-width: 100%;
+    font-size: 16px;
     line-height: 1.62;
+    overflow-wrap: break-word;
   }
 
   .hero-actions {

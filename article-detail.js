@@ -5,29 +5,29 @@ const articleDetails = {
     date: "01.05.2026",
     image: "assets/images/article-market-binh-duong.webp",
     excerpt:
-      "Khi Thuận An và Dĩ An liên tục thiết lập mặt bằng giá mới, người mua cần nhìn vào dữ liệu thực thay vì chỉ nghe câu chuyện quảng cáo.",
+      "Khi Thuận An và Dĩ An liên tục thiết lập mặt bằng giá mới, người mua cần dựa vào dữ liệu thực thay vì chỉ nghe câu chuyện quảng cáo.",
     intro:
-      "Khi các dự án mới tại khu vực Thuận An và Dĩ An liên tục thiết lập các mặt bằng giá mới, người mua nhà và nhà đầu tư cần giữ một cái đầu lạnh để đánh giá đúng giá trị thực của bất động sản. Thay vì cuốn theo những thông tin quảng cáo hào nhoáng hay tâm lý đám đông, có ba dữ liệu thực tế mà bạn bắt buộc phải theo dõi trước khi đưa ra quyết định xuống tiền.",
+      "Khi các dự án mới tại Thuận An và Dĩ An liên tục thiết lập mặt bằng giá mới, người mua nhà và nhà đầu tư cần giữ sự tỉnh táo để đánh giá đúng giá trị thực của bất động sản. Thay vì bị cuốn theo thông tin quảng cáo hoặc tâm lý đám đông, có ba dữ liệu cần theo dõi trước khi ra quyết định xuống tiền.",
     sections: [
       {
         heading: "1. Tỷ lệ hấp thụ thực tế và nguồn cung mới",
         paragraphs: [
-          "Nguồn cung trên các phương tiện truyền thông luôn rất lớn, nhưng số lượng sản phẩm đủ điều kiện mở bán thực tế lại là một câu chuyện hoàn toàn khác. Khi tìm hiểu một dự án, bạn hãy quan sát lượng giao dịch thật tại các sự kiện mở bán tập trung và đối chiếu với số lượng căn hộ còn tồn kho của các giai đoạn trước đó.",
-          "Một thị trường khỏe mạnh là khi tỷ lệ hấp thụ đạt trên 70% trong đợt mở bán đầu tiên. Nếu một khu vực có quá nhiều dự án treo biển nhưng tỷ lệ lấp đầy thấp, đó là tín hiệu bạn nên dừng lại để đánh giá kỹ hơn về nhu cầu thực của khu vực đó."
+          "Nguồn cung trên truyền thông thường rất lớn, nhưng số lượng sản phẩm đủ điều kiện mở bán thực tế lại là câu chuyện khác. Khi tìm hiểu một dự án, nên quan sát lượng giao dịch thật tại các sự kiện mở bán và đối chiếu với lượng căn hộ tồn kho của các giai đoạn trước.",
+          "Một thị trường khỏe mạnh thường thể hiện ở tỷ lệ hấp thụ tốt trong đợt mở bán đầu tiên. Nếu một khu vực có nhiều dự án quảng bá mạnh nhưng tỷ lệ lấp đầy thấp, đó là tín hiệu cần dừng lại để đánh giá kỹ hơn về nhu cầu ở thật."
         ]
       },
       {
         heading: "2. Tiến độ đồng bộ của hạ tầng giao thông",
         paragraphs: [
           "Giá trị bất động sản tăng trưởng bền vững luôn đi kèm với sự phát triển của hạ tầng giao thông kết nối. Đối với thị trường Bình Dương, các trục đường huyết mạch như Quốc lộ 13, đường Mỹ Phước - Tân Vạn hay các tuyến đường vành đai kết nối trực tiếp vào TP.HCM là yếu tố cốt lõi.",
-          "Tuy nhiên, bạn cần phân biệt rõ giữa hạ tầng \"đã có quy hoạch\" và hạ tầng \"đang triển khai thực tế\". Những dự án có vị trí đón đầu các công trình đang thi công hoặc sắp hoàn thành sẽ mang lại tiềm năng tăng giá chắc chắn và an toàn hơn rất nhiều so với các dự án chỉ ăn theo quy hoạch trên giấy."
+          "Điểm quan trọng là phân biệt rõ giữa hạ tầng đã có quy hoạch và hạ tầng đang triển khai thực tế. Dự án nằm gần các công trình đang thi công hoặc sắp hoàn thành thường có cơ sở tăng giá rõ hơn so với sản phẩm chỉ đi theo câu chuyện quy hoạch."
         ]
       },
       {
         heading: "3. Lợi suất cho thuê thực tế tại khu vực",
         paragraphs: [
-          "Một căn hộ có giá trị thực phải có khả năng tạo ra dòng tiền đều đặn, không thể chỉ kỳ vọng vào việc mua đi bán lại. Bạn hãy làm một bài khảo sát nhỏ về mức giá thuê của các dự án đã bàn giao trong bán kính 3km xung quanh dự án bạn đang quan tâm.",
-          "Nếu lợi suất cho thuê, tức tổng giá thuê một năm chia cho tổng giá trị căn hộ, đạt từ 5% - 6% trở lên, đây là mức an toàn đảm bảo tính thanh khoản tốt. Mức lợi suất này chứng minh khu vực đó có lực lượng lao động cao cấp, chuyên gia nước ngoài sinh sống và sẵn sàng chi trả để thuê nhà."
+          "Một căn hộ có giá trị thực cần có khả năng tạo dòng tiền đều đặn, không nên chỉ kỳ vọng vào việc mua đi bán lại. Người mua nên khảo sát mức thuê của các dự án đã bàn giao trong bán kính khoảng 3km quanh sản phẩm đang quan tâm.",
+          "Nếu lợi suất cho thuê, tức tổng giá thuê một năm chia cho tổng giá trị căn hộ, đạt quanh 5% - 6% trở lên, đây là tín hiệu tích cực về thanh khoản. Mức lợi suất này phản ánh khu vực có nhóm khách thuê đủ khả năng chi trả và nhu cầu ở ổn định."
         ]
       }
     ]
@@ -40,7 +40,7 @@ const articleDetails = {
     excerpt:
       "Ba nhóm hồ sơ pháp lý nền tảng giúp người mua bảo vệ dòng vốn khi mua nhà hình thành trong tương lai.",
     intro:
-      "Mua nhà hình thành trong tương lai luôn là bài toán hấp dẫn nhờ tiến độ thanh toán linh hoạt. Tuy nhiên, nó cũng đi kèm với những rủi ro nhất định nếu người mua không nắm vững các bước kiểm tra pháp lý. Để bảo vệ dòng vốn của mình, bạn hãy rà soát kỹ lưỡng 3 văn bản pháp lý nền tảng dưới đây trước khi ký bất kỳ thỏa thuận đặt cọc nào.",
+      "Mua nhà hình thành trong tương lai hấp dẫn nhờ tiến độ thanh toán linh hoạt, nhưng cũng đi kèm rủi ro nếu người mua không kiểm tra pháp lý đúng cách. Để bảo vệ dòng vốn, cần rà soát kỹ ba nhóm hồ sơ nền tảng dưới đây trước khi ký bất kỳ thỏa thuận đặt cọc nào.",
     sections: [
       {
         heading: "1. Quy hoạch chi tiết 1/500 và Giấy phép xây dựng",
@@ -53,14 +53,14 @@ const articleDetails = {
         heading: "2. Văn bản đủ điều kiện bán nhà hình thành trong tương lai",
         paragraphs: [
           "Rất nhiều khách hàng nhầm lẫn rằng cứ có giấy phép xây dựng là chủ đầu tư được quyền bán hàng. Điều này hoàn toàn sai. Theo Luật Kinh doanh Bất động sản, một dự án chung cư chỉ được phép huy động vốn từ khách hàng khi đã thi công xong phần móng và được Sở Xây dựng địa phương ban hành văn bản chấp thuận cho phép bán nhà hình thành trong tương lai.",
-          "Văn bản này là lời khẳng định từ cơ quan quản lý rằng dự án đã hoàn thành các nghĩa vụ pháp lý cơ bản và sẵn sàng giao dịch thương mại."
+          "Văn bản này là xác nhận từ cơ quan quản lý rằng dự án đã hoàn thành các điều kiện pháp lý cơ bản để bước vào giao dịch thương mại."
         ]
       },
       {
         heading: "3. Chứng thư bảo lãnh nghĩa vụ tài chính từ ngân hàng",
         paragraphs: [
           "Hãy yêu cầu chủ đầu tư cung cấp thông tin về ngân hàng ký hợp đồng bảo lãnh cho dự án. Theo quy định, trước khi bán nhà, chủ đầu tư phải được ngân hàng thương mại có đủ năng lực thực hiện bảo lãnh nghĩa vụ tài chính.",
-          "Chứng thư này chính là \"tấm khiên\" bảo vệ quyền lợi của bạn: Trong trường hợp chủ đầu tư chậm bàn giao nhà quá thời hạn cam kết hoặc gặp sự cố không thể tiếp tục triển khai, ngân hàng bảo lãnh có trách nhiệm đứng ra hoàn trả lại số tiền bạn đã đóng theo đúng tiến độ hợp đồng."
+          "Chứng thư bảo lãnh là lớp bảo vệ quan trọng cho người mua. Nếu chủ đầu tư chậm bàn giao quá thời hạn cam kết hoặc không thể tiếp tục triển khai, ngân hàng bảo lãnh có trách nhiệm xử lý nghĩa vụ tài chính theo điều khoản hợp đồng."
         ]
       }
     ]
@@ -73,13 +73,13 @@ const articleDetails = {
     excerpt:
       "Sử dụng khoản vay đúng cách giúp sở hữu nhà sớm hơn, nhưng cần kiểm soát vốn tự có, tỷ lệ trả nợ và lãi suất thả nổi.",
     intro:
-      "Sử dụng đòn bẩy tài chính, tức vay vốn ngân hàng, là một phương án thông minh giúp bạn sở hữu nhà sớm hơn mà không cần chờ tích lũy đủ 100% giá trị tài sản. Tuy nhiên, nếu không tính toán kỹ, khoản vay này có thể biến thành gánh nặng tâm lý đè nặng lên cuộc sống hàng ngày. Dưới đây là 3 nguyên tắc cốt lõi giúp bạn kiểm soát đòn bẩy tài chính một cách thông minh nhất.",
+      "Sử dụng đòn bẩy tài chính, tức vay vốn ngân hàng, có thể giúp bạn sở hữu nhà sớm hơn mà không cần chờ tích lũy đủ 100% giá trị tài sản. Tuy nhiên, nếu tính toán thiếu thận trọng, khoản vay có thể trở thành áp lực dài hạn. Dưới đây là ba nguyên tắc giúp kiểm soát đòn bẩy tài chính một cách an toàn hơn.",
     sections: [
       {
         heading: "1. Quy tắc 30/70 - Ngưỡng vốn tự có tối ưu",
         paragraphs: [
           "Dù hiện tại nhiều chủ đầu tư và ngân hàng liên kết hỗ trợ cho vay lên đến 70% hoặc 80% giá trị tài sản, mức vốn tự có an toàn nhất bạn nên chuẩn bị sẵn là 30%.",
-          "Khi bạn sở hữu sẵn 30% giá trị căn hộ bằng tiền mặt, bạn không chỉ dễ dàng được ngân hàng phê duyệt khoản vay với lãi suất tốt hơn, mà còn giữ cho tổng số dư nợ ở mức vừa phải. Điều này giúp bạn kiểm soát được phần gốc và lãi phải trả hàng tháng trong tầm tay, tránh rơi vào trạng thái áp lực tài chính quá mức."
+          "Khi đã có sẵn khoảng 30% giá trị căn hộ bằng tiền mặt, người mua thường dễ được ngân hàng phê duyệt khoản vay hơn và giữ dư nợ ở mức vừa phải. Điều này giúp kiểm soát phần gốc và lãi hàng tháng, tránh áp lực tài chính vượt quá khả năng chịu đựng."
         ]
       },
       {
@@ -99,7 +99,7 @@ const articleDetails = {
     ]
   },
   "smart-home-song-xanh": {
-    title: "Xu hướng Smart Home và tiêu chuẩn sống xanh trong các dự án căn hộ mới.",
+    title: "Smart Home và tiêu chuẩn sống xanh trong các dự án căn hộ mới",
     label: "Phong cách sống & Công nghệ",
     date: "18.04.2026",
     image: "assets/images/article-smart-home.webp",
@@ -139,17 +139,17 @@ const articleUrl = seoAbsoluteUrl(`/article-detail.html?article=${slug}`);
 const articleImageUrl = seoAbsoluteUrl(article.image);
 const articleIsoDate = toIsoDate(article.date);
 
-document.title = `${article.title} | KINGMANS`;
+document.title = `${article.title} | KINGMANS Realty`;
 setSeoMeta('meta[name="description"]', article.excerpt);
 setSeoLink("#canonicalLink", articleUrl);
-setSeoMeta("#ogTitle", `${article.title} | KINGMANS`);
+setSeoMeta("#ogTitle", `${article.title} | KINGMANS Realty`);
 setSeoMeta("#ogDescription", article.excerpt);
 setSeoMeta("#ogUrl", articleUrl);
 setSeoMeta("#ogImage", articleImageUrl);
 setSeoMeta("#ogImageAlt", article.title);
 setSeoMeta("#articlePublishedTime", articleIsoDate);
 setSeoMeta("#articleModifiedTime", articleIsoDate);
-setSeoMeta("#twitterTitle", `${article.title} | KINGMANS`);
+setSeoMeta("#twitterTitle", `${article.title} | KINGMANS Realty`);
 setSeoMeta("#twitterDescription", article.excerpt);
 setSeoMeta("#twitterImage", articleImageUrl);
 document.querySelector("#articleHero").style.setProperty("--article-image", `url("${article.image}")`);

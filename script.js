@@ -1,24 +1,79 @@
 const articles = [
   {
+    slug: "phap-ly-opal-luxury-can-kiem-tra-gi",
+    title: "Pháp lý Opal Luxury cần kiểm tra gì trước khi đặt chỗ?",
+    category: "guide",
+    label: "Hướng dẫn",
+    date: "02.05.2026",
+    image: "assets/images/opal-luxury-masterplan.webp",
+    excerpt:
+      "Checklist 1/500, tiền sử dụng đất, điều kiện mở bán và bảo lãnh ngân hàng cần kiểm chứng trước khi giữ chỗ Opal Luxury.",
+    link: "phap-ly-opal-luxury-can-kiem-tra-gi.html"
+  },
+  {
+    slug: "opal-luxury-so-voi-can-ho-tp-thu-duc",
+    title: "Opal Luxury so với căn hộ TP.Thủ Đức: nên chọn bên nào?",
+    category: "market",
+    label: "Thị trường",
+    date: "02.05.2026",
+    image: "assets/images/opal-luxury-location.webp",
+    excerpt:
+      "So sánh Opal Luxury Dĩ An và căn hộ TP.Thủ Đức theo vị trí, giá vào, pháp lý, dòng tiền thuê và khả năng nắm giữ.",
+    link: "opal-luxury-so-voi-can-ho-tp-thu-duc.html"
+  },
+  {
+    slug: "dong-tien-cho-thue-can-ho-di-an",
+    title: "Dòng tiền cho thuê căn hộ Dĩ An: nhìn gì trước khi mua?",
+    category: "finance",
+    label: "Tài chính",
+    date: "02.05.2026",
+    image: "assets/images/article-finance-2-5-ty.webp",
+    excerpt:
+      "Cách kiểm tra lợi suất thuê căn hộ Dĩ An, tệp khách thuê quanh Sóng Thần và bảng dòng tiền cần lập trước khi đầu tư.",
+    link: "dong-tien-cho-thue-can-ho-di-an.html"
+  },
+  {
+    slug: "bang-gia-can-ho-di-an-2026",
+    title: "Bảng giá căn hộ Dĩ An 2026: đọc thế nào để không mua sai?",
+    category: "market",
+    label: "Thị trường",
+    date: "02.05.2026",
+    image: "assets/images/article-market-binh-duong.webp",
+    excerpt:
+      "Cách bóc tách giá/m², tổng giá trị căn, chiết khấu, lãi vay và tổng chi phí sở hữu khi xem bảng giá căn hộ Dĩ An.",
+    link: "bang-gia-can-ho-di-an-2026.html"
+  },
+  {
+    slug: "co-nen-mua-can-ho-gan-song-than",
+    title: "Có nên mua căn hộ gần Sóng Thần, Dĩ An?",
+    category: "market",
+    label: "Thị trường",
+    date: "02.05.2026",
+    image: "assets/images/opal-luxury-location.webp",
+    excerpt:
+      "Phân tích nhu cầu thuê, rủi ro vị trí, môi trường sống và cách đánh giá căn hộ gần Sóng Thần như Opal Luxury.",
+    link: "co-nen-mua-can-ho-gan-song-than.html"
+  },
+  {
     slug: "danh-gia-thi-truong-can-ho-thuan-an-2026",
-    title: "Đánh giá toàn diện thị trường căn hộ Thuận An 2026 - Đâu là điểm rơi lợi nhuận?",
+    title: "Thị trường căn hộ Thuận An 2026: đâu là điểm rơi lợi nhuận cho nhà đầu tư?",
     category: "market",
     label: "Thị trường",
     date: "02.05.2026",
     image: "assets/images/article-thuan-an-2026.webp",
     excerpt:
-      "Phân tích hạ tầng, mặt bằng giá, dòng tiền cho thuê và vùng an toàn tài chính khi đầu tư căn hộ Thuận An 2026.",
+      "Góc nhìn toàn diện về hạ tầng, mặt bằng giá, dòng tiền cho thuê và vùng an toàn tài chính khi đầu tư căn hộ Thuận An.",
     link: "danh-gia-thi-truong-can-ho-thuan-an-2026.html"
   },
   {
     slug: "can-ho-thuan-an-2025-dong-tien-cua-ngo",
-    title: "Căn hộ Thuận An 2025 - Tại sao dòng tiền đang dồn về khu vực cửa ngõ?",
+    title: "Căn hộ Thuận An 2025: vì sao dòng tiền dịch chuyển về khu vực cửa ngõ?",
     category: "market",
     label: "Thị trường",
     date: "02.05.2026",
     image: "assets/images/article-thuan-an-2025.webp",
     excerpt:
-      "Thuận An đang hưởng lợi từ hạ tầng, chênh lệch giá với TP.HCM và nhu cầu ở thật tại khu vực cửa ngõ.",
+      "Phân tích lực kéo từ hạ tầng, khoảng chênh giá với TP.HCM và nhu cầu ở thật đang nâng vị thế Thuận An.",
     link: "can-ho-thuan-an-2025-dong-tien-cua-ngo.html"
   },
   {
@@ -29,29 +84,29 @@ const articles = [
     date: "02.05.2026",
     image: "assets/images/article-checklist-hop-dong.webp",
     excerpt:
-      "Bảy điểm pháp lý và vận hành cần rà soát trước khi ký hợp đồng để hạn chế rủi ro tài chính.",
+      "Bảy điểm pháp lý, tài chính và vận hành cần rà soát để bảo vệ dòng tiền trước khi ký hợp đồng mua căn hộ.",
     link: "checklist-7-diem-hop-dong-mua-can-ho.html"
   },
   {
     slug: "mua-can-ho-2-5-ty-von-700-trieu",
-    title: "Mua căn hộ 2,5 tỷ với vốn tự có 700 triệu - Bài toán dòng tiền thực tế",
+    title: "Mua căn hộ 2,5 tỷ với vốn tự có 700 triệu: bài toán dòng tiền cần biết",
     category: "finance",
     label: "Tài chính",
     date: "02.05.2026",
     image: "assets/images/article-finance-2-5-ty.webp",
     excerpt:
-      "Mô phỏng khoản vay, thu nhập an toàn và kịch bản lãi suất thả nổi khi mua căn hộ 2,5 tỷ.",
+      "Mô phỏng khoản vay, ngưỡng thu nhập an toàn và kịch bản lãi suất thả nổi trước khi xuống tiền.",
     link: "mua-can-ho-2-5-ty-von-700-trieu.html"
   },
   {
     slug: "smart-home-can-ho-binh-duong-thuc-te",
-    title: "Smart Home ở căn hộ Bình Dương - Thực tế hay chỉ là chiêu marketing?",
+    title: "Smart Home ở căn hộ Bình Dương: giá trị thật hay chỉ là điểm nhấn marketing?",
     category: "lifestyle",
     label: "Sống xanh & Công nghệ",
     date: "02.05.2026",
     image: "assets/images/article-smart-home-binh-duong.webp",
     excerpt:
-      "Phân loại 3 mức smart home và những câu hỏi cần đặt ra trước khi tin vào phần trình diễn nhà mẫu.",
+      "Phân loại các cấp độ smart home và những câu hỏi người mua cần đặt ra trước khi tin vào phần trình diễn nhà mẫu.",
     link: "smart-home-can-ho-binh-duong-thuc-te.html"
   },
   {
@@ -62,18 +117,18 @@ const articles = [
     date: "01.05.2026",
     image: "assets/images/article-market-binh-duong.webp",
     excerpt:
-      "Phân tích nguồn cung, tỷ lệ hấp thụ, tiến độ hạ tầng và lợi suất cho thuê để nhận diện giá trị thực.",
+      "Theo dõi nguồn cung, tỷ lệ hấp thụ, tiến độ hạ tầng và lợi suất cho thuê để nhận diện giá trị thực.",
     link: "thi-truong-can-ho-binh-duong.html"
   },
   {
     slug: "checklist-phap-ly-can-ho-so-cap",
-    title: "Checklist pháp lý cơ bản cần kiểm tra trước khi đặt cọc căn hộ sơ cấp.",
+    title: "Checklist pháp lý cần kiểm tra trước khi đặt cọc căn hộ sơ cấp",
     category: "guide",
     label: "Hướng dẫn",
     date: "28.04.2026",
     image: "assets/images/article-legal-checklist.webp",
     excerpt:
-      "Rà soát quy hoạch 1/500, giấy phép xây dựng, văn bản đủ điều kiện bán và bảo lãnh ngân hàng.",
+      "Các hồ sơ nền tảng cần đối chiếu: quy hoạch 1/500, giấy phép xây dựng, điều kiện mở bán và bảo lãnh ngân hàng.",
     link: "checklist-phap-ly-can-ho-so-cap.html"
   },
   {
@@ -84,18 +139,18 @@ const articles = [
     date: "24.04.2026",
     image: "assets/images/article-finance-leverage.webp",
     excerpt:
-      "Ba nguyên tắc giúp kiểm soát khoản vay, dòng tiền trả nợ và kịch bản lãi suất thả nổi.",
+      "Ba nguyên tắc giúp kiểm soát khoản vay, dòng tiền trả nợ và rủi ro lãi suất sau giai đoạn ưu đãi.",
     link: "don-bay-tai-chinh-mua-can-ho.html"
   },
   {
     slug: "smart-home-song-xanh",
-    title: "Xu hướng Smart Home và tiêu chuẩn sống xanh trong các dự án căn hộ mới.",
+    title: "Smart Home và sống xanh: tiêu chuẩn mới trong các dự án căn hộ hiện đại",
     category: "lifestyle",
     label: "Phong cách sống & Công nghệ",
     date: "18.04.2026",
     image: "assets/images/article-smart-home.webp",
     excerpt:
-      "Đánh giá thực tế các tiện ích công nghệ mang lại giá trị gia tăng lâu dài cho tài sản của bạn.",
+      "Đánh giá những tiện ích công nghệ và tiêu chuẩn sống xanh có khả năng tạo giá trị gia tăng dài hạn cho tài sản.",
     link: "smart-home-song-xanh.html"
   }
 ];
@@ -107,8 +162,8 @@ const projects = [
     location: "Dĩ An, Bình Dương",
     image: "assets/images/opal-luxury-hero.webp",
     description:
-      "Khu căn hộ cao cấp thuộc hệ sinh thái Đất Xanh, quy mô khoảng 8,68 ha với định hướng tiện ích resort tại cửa ngõ TP.HCM.",
-    stats: ["8,68 ha", "11 block căn hộ", "45+ tiện ích", "Tư vấn pháp lý"],
+      "Khu căn hộ cao cấp thuộc hệ sinh thái Đất Xanh, quy mô khoảng 8,68 ha, định vị như một tổ hợp sống resort tại cửa ngõ TP.HCM.",
+    stats: ["8,68 ha", "11 block căn hộ", "45+ tiện ích", "Kiểm định pháp lý"],
     areas: ["binh-duong", "di-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
     link: "opal-luxury.html"
@@ -119,8 +174,8 @@ const projects = [
     location: "Thuận An, Bình Dương",
     image: "assets/images/the-emerald-boulevard.webp",
     description:
-      "Căn hộ cao cấp mặt tiền đại lộ, ứng dụng công nghệ Smart Home Samsung hiện đại.",
-    stats: ["Mặt tiền Quốc lộ 13", "Căn hộ 1-3 phòng ngủ", "Khai thác thuê tốt", "Pháp lý minh bạch"],
+      "Căn hộ cao cấp trên trục Quốc lộ 13, nổi bật với chuẩn bàn giao hiện đại và lợi thế khai thác thuê tại Thuận An.",
+    stats: ["Mặt tiền Quốc lộ 13", "Căn hộ 1-3PN", "Tệp thuê chuyên gia", "Pháp lý cần đối chiếu"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
     link: "https://emeraldboulevard.io.vn"
@@ -131,8 +186,8 @@ const projects = [
     location: "Thuận An, Bình Dương",
     image: "assets/images/the-emerald-garden-view.webp",
     description:
-      "Tổ hợp căn hộ hướng đến nhóm khách hàng cần kết nối nhanh về TP.HCM và tiện ích sống hoàn chỉnh.",
-    stats: ["Mặt tiền Quốc lộ 13", "Căn hộ 1-3 phòng ngủ", "Khai thác thuê tốt", "Pháp lý minh bạch"],
+      "Tổ hợp căn hộ phù hợp khách hàng cần kết nối nhanh về TP.HCM, đồng thời ưu tiên môi trường sống hoàn chỉnh tại Thuận An.",
+    stats: ["Trục Quốc lộ 13", "Căn hộ 1-3PN", "Nhu cầu ở thật", "Khai thác thuê"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
     link: "https://theemerald.io.vn"
@@ -143,8 +198,8 @@ const projects = [
     location: "Lái Thiêu, Thuận An",
     image: "assets/images/at-sky-garden.webp",
     description:
-      "Căn hộ cao cấp chuẩn B+ tại 54C Cách Mạng Tháng Tám, nổi bật với địa thế 3 mặt hướng thủy.",
-    stats: ["2 tháp 40 tầng", "946 căn hộ + 17 shophouse", "Bàn giao Q2/2026", "Liên hệ bảng giá"],
+      "Căn hộ cao cấp chuẩn B+ tại trung tâm Lái Thiêu, nổi bật với địa thế ba mặt hướng thủy và hệ tiện ích tầng cao.",
+    stats: ["2 tháp 40 tầng", "946 căn hộ + shophouse", "Dự kiến Q2/2026", "Liên hệ bảng giá"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang"],
     link: "project-detail.html?project=at-sky-garden"
@@ -155,8 +210,8 @@ const projects = [
     location: "Vĩnh Phú, Thuận An",
     image: "assets/images/symlife.webp",
     description:
-      "Căn hộ cao cấp mặt tiền Quốc lộ 13, hướng đến người mua lần đầu với phương án thanh toán linh hoạt.",
-    stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Bàn giao Q3/2027", "MB Bank bảo trợ"],
+      "Căn hộ cao cấp mặt tiền Quốc lộ 13, phù hợp người mua lần đầu và nhà đầu tư cần lịch thanh toán dễ kiểm soát.",
+    stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Dự kiến Q3/2027", "MB Bank bảo trợ"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
     link: "project-detail.html?project=symlife"
@@ -167,8 +222,8 @@ const projects = [
     location: "Thuận An, Bình Dương",
     image: "assets/images/astral-city.webp",
     description:
-      "Dự án căn hộ quy mô lớn tại trục thương mại sầm uất, phù hợp khách hàng tìm sản phẩm đô thị cửa ngõ.",
-    stats: ["Trục Quốc lộ 13", "Tiện ích nội khu lớn", "Thanh toán linh hoạt", "Kết nối TP.HCM"],
+      "Dự án căn hộ quy mô lớn trên trục thương mại Thuận An, phù hợp khách hàng tìm sản phẩm đô thị cửa ngõ có hệ tiện ích đồng bộ.",
+    stats: ["Trục Quốc lộ 13", "Tiện ích quy mô lớn", "Lịch thanh toán linh hoạt", "Kết nối TP.HCM"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
     link: "project-detail.html?project=astral-city"
@@ -283,13 +338,13 @@ function renderArticles() {
             </div>
             <h3>${article.title}</h3>
             <p>${article.excerpt}</p>
-            <span class="card-link">Đọc phân tích</span>
+            <span class="card-link">Xem góc nhìn chi tiết</span>
           </div>
         </a>
       `
     )
     .join("")
-    : emptyState("Chưa có bài phù hợp", "Thử đổi từ khóa hoặc chọn lại danh mục phân tích.");
+    : emptyState("Chưa tìm thấy bài phù hợp", "Hãy thử đổi từ khóa, khu vực hoặc nhóm chủ đề bạn muốn nghiên cứu.");
 
   articleResultCount.textContent = `${filteredArticles.length} bài phân tích`;
   articleLoadMore.hidden = filteredArticles.length <= state.articleVisible;
@@ -317,13 +372,13 @@ function renderProjects() {
             <div class="project-stats">
               ${project.stats.map((item) => `<span>${item}</span>`).join("")}
             </div>
-            <span class="card-link">Tìm hiểu chi tiết</span>
+            <span class="card-link">Xem phân tích dự án</span>
           </div>
         </a>
       `
     )
     .join("")
-    : emptyState("Chưa có dự án phù hợp", "Danh mục đã sẵn sàng cho TP.HCM. Bạn chỉ cần thêm dự án mới vào dữ liệu.");
+    : emptyState("Chưa tìm thấy dự án phù hợp", "Hãy thử mở rộng khu vực, loại hình hoặc gửi nhu cầu để KINGMANS lọc danh mục riêng cho bạn.");
 
   projectResultCount.textContent = `${filteredProjects.length} dự án`;
   projectLoadMore.hidden = filteredProjects.length <= state.projectVisible;
@@ -389,7 +444,7 @@ mainNav?.addEventListener("click", () => {
 });
 
 leadForm?.addEventListener("submit", () => {
-  formNote.textContent = "Đang gửi thông tin, vui lòng chờ trong giây lát...";
+  formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Tôi sẽ phản hồi lại trong thời gian sớm nhất.";
 });
 
 renderArticles();

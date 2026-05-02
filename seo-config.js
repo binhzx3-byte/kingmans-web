@@ -1,7 +1,7 @@
 const SEO_CONFIG = {
   siteUrl: "https://kingmansrealty.com",
-  brandName: "KINGMANS",
-  slogan: "Cố vấn bất động sản cá nhân",
+  brandName: "KINGMANS Realty",
+  slogan: "Cố vấn đầu tư bất động sản cá nhân",
   phone: "0396460442",
   phoneDisplay: "0396 460 442",
   email: "binhopusrealty@gmail.com",

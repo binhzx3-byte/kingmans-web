@@ -30,9 +30,6 @@
     <meta name="twitter:title" content="Opal Luxury Dĩ An | KINGMANS">
     <meta name="twitter:description" content="Căn hộ Opal Luxury Dĩ An: phân tích vị trí, tiện ích, pháp lý và dòng tiền trước khi đặt chỗ.">
     <meta name="twitter:image" content="https://kingmansrealty.com/assets/images/opal-luxury-hero.webp">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="opal-luxury.css">
     <script type="application/ld+json">
@@ -140,7 +137,7 @@
         ]
       }
     </script>
-    <script src="tracking-config.js"></script>
+    <script src="tracking-config.js" defer></script>
     <script src="tracking.js" defer></script>
   </head>
   <body class="opal-page">
@@ -458,7 +455,10 @@
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="https://kingmansrealty.com/thank-you.html">
-          <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden-field">
+          <label class="hidden-field">
+            Không điền trường này
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off">
+          </label>
           <input type="hidden" name="source" value="Landing page Opal Luxury">
           <label>
             Họ tên

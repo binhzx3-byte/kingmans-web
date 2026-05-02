@@ -10,7 +10,21 @@
     document.head.append(script);
   }
 
-  if (hasGa4) {
+  function schedule(callback) {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback, { timeout: 2500 });
+      return;
+    }
+
+    window.setTimeout(callback, 1800);
+  }
+
+  function initGa4() {
+    if (!hasGa4 || window.__kingmansGa4Loaded) {
+      return;
+    }
+
+    window.__kingmansGa4Loaded = true;
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () {
       window.dataLayer.push(arguments);
@@ -20,7 +34,12 @@
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${config.ga4Id}`);
   }
 
-  if (hasMetaPixel) {
+  function initMetaPixel() {
+    if (!hasMetaPixel || window.__kingmansMetaPixelLoaded) {
+      return;
+    }
+
+    window.__kingmansMetaPixelLoaded = true;
     window.fbq =
       window.fbq ||
       function () {
@@ -35,7 +54,20 @@
     loadScript("https://connect.facebook.net/en_US/fbevents.js");
   }
 
+  function initTrackingVendors() {
+    initGa4();
+    initMetaPixel();
+  }
+
+  if (hasGa4 || hasMetaPixel) {
+    window.addEventListener("load", () => schedule(initTrackingVendors), { once: true });
+    window.addEventListener("pointerdown", initTrackingVendors, { once: true, passive: true });
+    window.addEventListener("keydown", initTrackingVendors, { once: true });
+  }
+
   function track(eventName, params = {}) {
+    initTrackingVendors();
+
     if (hasGa4 && window.gtag) {
       window.gtag("event", eventName, { transport_type: "beacon", ...params });
     }

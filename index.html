@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
+    <link rel="preload" as="image" href="assets/images/hero-luxury-home.webp" fetchpriority="high">
     <meta property="og:locale" content="vi_VN">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="KINGMANS">
@@ -29,12 +30,6 @@
     <meta name="twitter:title" content="KINGMANS | Cố vấn bất động sản TP.HCM & Bình Dương">
     <meta name="twitter:description" content="Tư vấn bất động sản cá nhân dựa trên dữ liệu thực, pháp lý minh bạch, dòng tiền và danh mục dự án căn hộ chọn lọc.">
     <meta name="twitter:image" content="https://kingmansrealty.com/assets/kingmans-logo.webp">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    >
     <link rel="stylesheet" href="styles.css">
     <script type="application/ld+json">
       {
@@ -100,7 +95,7 @@
         ]
       }
     </script>
-    <script src="tracking-config.js"></script>
+    <script src="tracking-config.js" defer></script>
     <script src="tracking.js" defer></script>
   </head>
   <body>
@@ -127,7 +122,10 @@
 
     <main id="home">
       <section class="hero">
-        <div class="hero-media" aria-hidden="true"></div>
+        <picture class="hero-media" aria-hidden="true">
+          <source srcset="assets/images/hero-luxury-home.webp" type="image/webp">
+          <img src="assets/images/hero-luxury-home.webp" alt="" width="1800" height="1040" fetchpriority="high" loading="eager" decoding="async">
+        </picture>
         <div class="hero-content">
           <p class="eyebrow">Cố vấn bất động sản cá nhân</p>
           <h1>KINGMANS</h1>
@@ -315,7 +313,10 @@
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="https://kingmansrealty.com/thank-you.html">
-          <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden-field">
+          <label class="hidden-field">
+            Không điền trường này
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off">
+          </label>
           <input type="hidden" name="source" value="Trang chủ KINGMANS Realty">
           <label>
             Họ và tên

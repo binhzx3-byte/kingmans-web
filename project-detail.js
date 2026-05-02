@@ -55,6 +55,62 @@ const projectDetails = {
       }
     ]
   },
+  "at-sky-garden": {
+    name: "A&T Sky Garden",
+    location: "Lái Thiêu, Thuận An",
+    image: "assets/images/at-sky-garden.webp",
+    description:
+      "Căn hộ cao cấp chuẩn B+ tại 54C Cách Mạng Tháng Tám, nổi bật với địa thế 3 mặt hướng thủy.",
+    overview:
+      "A&T Sky Garden do Công ty CP Đầu tư Phát triển Đô thị A&T Bình Dương làm chủ đầu tư, DXMD Vietnam phát triển. Dự án có 2 tòa tháp 40 tầng nổi, 2 tầng hầm, khoảng 946 căn hộ và 17 shophouse, định vị căn hộ cao cấp chuẩn B+ tại trung tâm Lái Thiêu. KINGMANS khuyến nghị khách hàng kiểm tra bảng giá cập nhật theo từng thời điểm, tiến độ xây dựng thực tế và hồ sơ pháp lý trước khi giữ chỗ.",
+    stats: ["2 tòa 40 tầng", "946 căn hộ + 17 shophouse", "Bàn giao Q2/2026", "Sổ hồng riêng"],
+    points: [
+      {
+        title: "Địa thế 3 mặt hướng thủy",
+        text: "Lợi thế nhìn về Sông Sài Gòn, Sông Lái Thiêu và Hồ Gươm Xanh giúp phần lớn căn hộ có tầm nhìn thoáng."
+      },
+      {
+        title: "Cửa ngõ Thuận An",
+        text: "Vị trí gần Quốc lộ 13 đang mở rộng, thuận tiện kết nối Quận 12, TP.Thủ Đức và các trung tâm dịch vụ lân cận."
+      },
+      {
+        title: "Hệ tiện ích trên cao",
+        text: "Hơn 40 tiện ích nội khu, vườn trên mây tầng thượng và cầu nối check-in giữa hai tòa là điểm cần kiểm chứng tại nhà mẫu."
+      },
+      {
+        title: "Pháp lý và tiến độ",
+        text: "Dự án đã có giấy phép xây dựng theo thông tin công bố, nhưng người mua vẫn nên đối chiếu bản hồ sơ trước khi ký."
+      }
+    ]
+  },
+  "symlife": {
+    name: "Symlife - Symphony of Life",
+    location: "Vĩnh Phú, Thuận An",
+    image: "assets/images/symlife.webp",
+    description:
+      "Căn hộ cao cấp mặt tiền Quốc lộ 13, hướng đến người mua lần đầu với phương án thanh toán linh hoạt.",
+    overview:
+      "Symlife - Symphony of Life do Công ty CP Đầu tư Xây dựng Nam Hiệp Thành Bình Dương làm chủ đầu tư, Hoàng Anh Holdings phát triển. Dự án nằm trên mặt tiền Quốc lộ 13, gồm 2 block hình chữ L, 27 tầng nổi, 1 tầng hầm và khoảng 659 căn hộ. Với mức giá tham chiếu từ 36,8 triệu/m² theo thông tin cung cấp, dự án phù hợp nhóm khách hàng cần bài toán dòng tiền rõ ràng khi mua căn hộ cửa ngõ TP.HCM.",
+    stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Bàn giao Q3/2027", "MB Bank bảo trợ"],
+    points: [
+      {
+        title: "Mặt tiền Quốc lộ 13",
+        text: "Vị trí trên trục huyết mạch giúp rút ngắn thời gian về TP.HCM, TP.Thủ Đức và các khu công nghiệp lớn."
+      },
+      {
+        title: "Tầm nhìn sông",
+        text: "Lợi thế 4 mặt view sông Sài Gòn và kênh Vĩnh Bình tạo điểm cộng về cảnh quan, thông gió và khả năng khai thác thuê."
+      },
+      {
+        title: "Dòng tiền linh hoạt",
+        text: "Chính sách 10% ký hợp đồng mua bán và trả góp 0% cần được đưa vào bảng dòng tiền 5 năm trước khi quyết định."
+      },
+      {
+        title: "Pháp lý cần đối chiếu",
+        text: "Nên kiểm tra giấy phép xây dựng số 1338/GPXD, thư bảo trợ ngân hàng và điều khoản bàn giao dự kiến Q3/2027."
+      }
+    ]
+  },
   "astral-city": {
     name: "Astral City",
     location: "Thuận An, Bình Dương",

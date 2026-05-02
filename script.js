@@ -1,5 +1,49 @@
 const articles = [
   {
+    slug: "can-ho-thuan-an-2025-dong-tien-cua-ngo",
+    title: "Căn hộ Thuận An 2025 - Tại sao dòng tiền đang dồn về khu vực cửa ngõ?",
+    category: "market",
+    label: "Thị trường",
+    date: "02.05.2026",
+    image: "assets/images/article-thuan-an-2025.webp",
+    excerpt:
+      "Thuận An đang hưởng lợi từ hạ tầng, chênh lệch giá với TP.HCM và nhu cầu ở thật tại khu vực cửa ngõ.",
+    link: "can-ho-thuan-an-2025-dong-tien-cua-ngo.html"
+  },
+  {
+    slug: "checklist-7-diem-hop-dong-mua-can-ho",
+    title: "Checklist 7 điểm cần kiểm tra trước khi ký hợp đồng mua căn hộ",
+    category: "guide",
+    label: "Hướng dẫn",
+    date: "02.05.2026",
+    image: "assets/images/article-checklist-hop-dong.webp",
+    excerpt:
+      "Bảy điểm pháp lý và vận hành cần rà soát trước khi ký hợp đồng để hạn chế rủi ro tài chính.",
+    link: "checklist-7-diem-hop-dong-mua-can-ho.html"
+  },
+  {
+    slug: "mua-can-ho-2-5-ty-von-700-trieu",
+    title: "Mua căn hộ 2,5 tỷ với vốn tự có 700 triệu - Bài toán dòng tiền thực tế",
+    category: "finance",
+    label: "Tài chính",
+    date: "02.05.2026",
+    image: "assets/images/article-finance-2-5-ty.webp",
+    excerpt:
+      "Mô phỏng khoản vay, thu nhập an toàn và kịch bản lãi suất thả nổi khi mua căn hộ 2,5 tỷ.",
+    link: "mua-can-ho-2-5-ty-von-700-trieu.html"
+  },
+  {
+    slug: "smart-home-can-ho-binh-duong-thuc-te",
+    title: "Smart Home ở căn hộ Bình Dương - Thực tế hay chỉ là chiêu marketing?",
+    category: "lifestyle",
+    label: "Sống xanh & Công nghệ",
+    date: "02.05.2026",
+    image: "assets/images/article-smart-home-binh-duong.webp",
+    excerpt:
+      "Phân loại 3 mức smart home và những câu hỏi cần đặt ra trước khi tin vào phần trình diễn nhà mẫu.",
+    link: "smart-home-can-ho-binh-duong-thuc-te.html"
+  },
+  {
     slug: "tin-hieu-gia-can-ho-binh-duong",
     title: "Ba tín hiệu cần theo dõi khi mặt bằng giá căn hộ tại Bình Dương thay đổi",
     category: "market",
@@ -47,6 +91,16 @@ const articles = [
 
 const projects = [
   {
+    slug: "opal-luxury",
+    name: "Opal Luxury",
+    location: "Dĩ An, Bình Dương",
+    image: "assets/images/opal-luxury-hero.webp",
+    description:
+      "Khu căn hộ cao cấp thuộc hệ sinh thái Đất Xanh, quy mô khoảng 8,68 ha với định hướng tiện ích resort tại cửa ngõ TP.HCM.",
+    stats: ["8,68 ha", "11 block căn hộ", "45+ tiện ích", "Tư vấn pháp lý"],
+    link: "opal-luxury.html"
+  },
+  {
     slug: "the-emerald-boulevard",
     name: "The Emerald Boulevard",
     location: "Thuận An, Bình Dương",
@@ -65,6 +119,26 @@ const projects = [
       "Tổ hợp căn hộ hướng đến nhóm khách hàng cần kết nối nhanh về TP.HCM và tiện ích sống hoàn chỉnh.",
     stats: ["Mặt tiền Quốc lộ 13", "Căn hộ 1-3 phòng ngủ", "Khai thác thuê tốt", "Pháp lý minh bạch"],
     link: "https://theemerald.io.vn"
+  },
+  {
+    slug: "at-sky-garden",
+    name: "A&T Sky Garden",
+    location: "Lái Thiêu, Thuận An",
+    image: "assets/images/at-sky-garden.webp",
+    description:
+      "Căn hộ cao cấp chuẩn B+ tại 54C Cách Mạng Tháng Tám, nổi bật với địa thế 3 mặt hướng thủy.",
+    stats: ["2 tháp 40 tầng", "946 căn hộ + 17 shophouse", "Bàn giao Q2/2026", "Liên hệ bảng giá"],
+    link: "project-detail.html?project=at-sky-garden"
+  },
+  {
+    slug: "symlife",
+    name: "Symlife - Symphony of Life",
+    location: "Vĩnh Phú, Thuận An",
+    image: "assets/images/symlife.webp",
+    description:
+      "Căn hộ cao cấp mặt tiền Quốc lộ 13, hướng đến người mua lần đầu với phương án thanh toán linh hoạt.",
+    stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Bàn giao Q3/2027", "MB Bank bảo trợ"],
+    link: "project-detail.html?project=symlife"
   },
   {
     slug: "astral-city",

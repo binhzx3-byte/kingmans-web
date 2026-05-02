@@ -1,5 +1,5 @@
 const SEO_CONFIG = {
-  siteUrl: "https://kingmans.vn",
+  siteUrl: "https://kingmansrealty.com",
   brandName: "KINGMANS",
   slogan: "Cố vấn bất động sản cá nhân",
   phone: "0396460442",

@@ -9,10 +9,18 @@ Mở file `index.html` trực tiếp trong trình duyệt. Hai dự án Emerald 
 - The Emerald Boulevard: `https://emeraldboulevard.io.vn`
 - The Emerald Garden View: `https://theemerald.io.vn`
 
+## Nền móng domain thật
+
+- Domain chính: `https://kingmansrealty.com`.
+- Sitemap: `https://kingmansrealty.com/sitemap.xml`.
+- Robots: `https://kingmansrealty.com/robots.txt`.
+- Checklist deploy Cloudflare Pages: `GO_LIVE_CHECKLIST.md`.
+- Cấu hình redirect/cache/header cho Cloudflare Pages: `_redirects`, `_headers`.
+- Cấu hình đo lường: điền GA4/Meta Pixel trong `tracking-config.js`.
+- Form liên hệ đang gửi về `binhopusrealty@gmail.com` qua FormSubmit.
+
 ## Chỗ nên thay trước khi dùng thật
 
-- Domain SEO tạm đang dùng: `https://kingmans.vn`.
-- Khi có domain thật, thay domain trong `seo-config.js`, `sitemap.xml`, `robots.txt` và các thẻ canonical/Open Graph trong `index.html`, `article-detail.html`, `project-detail.html`.
 - Hotline hiện tại: `0396 460 442`.
 - Email hiện tại: `binhopusrealty@gmail.com`.
 - Facebook hiện tại: `https://www.facebook.com/profile.php?id=61586688100723&locale=vi_VN`.

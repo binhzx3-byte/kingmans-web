@@ -1,0 +1,23 @@
+{
+  "name": "KINGMANS Realty",
+  "short_name": "KINGMANS",
+  "description": "Cố vấn bất động sản cá nhân dựa trên dữ liệu thực và pháp lý minh bạch.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#136f63",
+  "background_color": "#17211f",
+  "display": "standalone"
+}

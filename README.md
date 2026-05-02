@@ -15,7 +15,8 @@ Mở file `index.html` trực tiếp trong trình duyệt. Hai dự án Emerald 
 - Sitemap: `https://kingmansrealty.com/sitemap.xml`.
 - Robots: `https://kingmansrealty.com/robots.txt`.
 - Checklist deploy Cloudflare Pages: `GO_LIVE_CHECKLIST.md`.
-- Cấu hình redirect/cache/header cho Cloudflare Pages: `_redirects`, `_headers`.
+- Cấu hình cache/header cho Cloudflare: `_headers`.
+- Redirect `www` về non-www nên làm trong Cloudflare Rules sau khi gắn domain.
 - Cấu hình đo lường: điền GA4/Meta Pixel trong `tracking-config.js`.
 - Form liên hệ đang gửi về `binhopusrealty@gmail.com` qua FormSubmit.
 

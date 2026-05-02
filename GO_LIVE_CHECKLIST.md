@@ -10,6 +10,10 @@ Domain chính: `https://kingmansrealty.com`
 4. Custom domain: thêm `kingmansrealty.com`.
 5. Thêm thêm `www.kingmansrealty.com` nếu muốn giữ bản www, sau đó redirect về non-www.
 6. Bật HTTPS mặc định của Cloudflare.
+7. Nếu dùng `www`, tạo Redirect Rule trong Cloudflare:
+   - When incoming requests match: hostname equals `www.kingmansrealty.com`
+   - Then URL redirect: `https://kingmansrealty.com/${uri.path}`
+   - Status code: `301`
 
 ## DNS
 

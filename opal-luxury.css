@@ -1,15 +1,15 @@
 .opal-page {
-  --opal-ink: #172321;
-  --opal-muted: #66716e;
-  --opal-soft: #f6f1e7;
+  --opal-ink: #0b111d;
+  --opal-muted: #667181;
+  --opal-soft: #f7f5ef;
   --opal-white: #ffffff;
-  --opal-green: #0f302d;
-  --opal-green-2: #163f3a;
-  --opal-gold: #c9a45c;
+  --opal-green: #0d1b2a;
+  --opal-green-2: #07090d;
+  --opal-gold: #c8a45d;
   --opal-gold-soft: #ead7a4;
   --opal-wine: #774537;
-  --opal-line: rgba(23, 35, 33, 0.14);
-  --opal-shadow: 0 28px 80px rgba(15, 48, 45, 0.18);
+  --opal-line: rgba(11, 17, 29, 0.14);
+  --opal-shadow: 0 28px 80px rgba(11, 17, 29, 0.18);
   background: var(--opal-soft);
   color: var(--opal-ink);
 }
@@ -48,8 +48,8 @@
 
 .opal-hero-overlay {
   background:
-    linear-gradient(90deg, rgba(9, 27, 25, 0.9) 0%, rgba(9, 27, 25, 0.72) 38%, rgba(9, 27, 25, 0.25) 70%, rgba(9, 27, 25, 0.12) 100%),
-    linear-gradient(0deg, rgba(9, 27, 25, 0.78) 0%, rgba(9, 27, 25, 0.06) 62%);
+    linear-gradient(90deg, rgba(7, 9, 13, 0.9) 0%, rgba(13, 27, 42, 0.72) 38%, rgba(13, 27, 42, 0.25) 70%, rgba(13, 27, 42, 0.12) 100%),
+    linear-gradient(0deg, rgba(7, 9, 13, 0.78) 0%, rgba(7, 9, 13, 0.06) 62%);
 }
 
 .opal-hero-content {
@@ -258,10 +258,10 @@
 .opal-checklist,
 .opal-faq-list,
 .opal-form {
-  border: 1px solid rgba(23, 35, 33, 0.12);
+  border: 1px solid rgba(11, 17, 29, 0.12);
   border-radius: 8px;
   background: var(--opal-white);
-  box-shadow: 0 18px 46px rgba(23, 35, 33, 0.08);
+  box-shadow: 0 18px 46px rgba(11, 17, 29, 0.08);
 }
 
 .opal-image-frame {
@@ -292,7 +292,7 @@
   padding: 12px 14px;
   border-left: 3px solid var(--opal-gold);
   background: rgba(255, 255, 255, 0.72);
-  color: #33423f;
+  color: #2d3442;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
@@ -385,7 +385,7 @@
 .opal-table th,
 .opal-table td {
   padding: 18px 20px;
-  border-bottom: 1px solid rgba(23, 35, 33, 0.1);
+  border-bottom: 1px solid rgba(11, 17, 29, 0.1);
   text-align: left;
   vertical-align: top;
 }
@@ -431,7 +431,7 @@
   display: grid;
   gap: 1px;
   overflow: hidden;
-  background: rgba(23, 35, 33, 0.12);
+  background: rgba(11, 17, 29, 0.12);
 }
 
 .opal-finance-steps div {
@@ -481,7 +481,7 @@
   align-items: start;
   padding: 18px 20px;
   background: var(--opal-white);
-  color: #394744;
+  color: #2d3442;
   font-weight: 700;
   line-height: 1.55;
 }
@@ -509,7 +509,7 @@
   min-height: 300px;
   aspect-ratio: 4 / 3;
   border-radius: 8px;
-  box-shadow: 0 18px 44px rgba(23, 35, 33, 0.12);
+  box-shadow: 0 18px 44px rgba(11, 17, 29, 0.12);
 }
 
 .opal-gallery-grid img:first-child {
@@ -525,7 +525,7 @@
 }
 
 .opal-faq-list details {
-  border-bottom: 1px solid rgba(23, 35, 33, 0.1);
+  border-bottom: 1px solid rgba(11, 17, 29, 0.1);
 }
 
 .opal-faq-list details:last-child {
@@ -603,7 +603,7 @@
 .opal-form select,
 .opal-form textarea {
   width: 100%;
-  border: 1px solid rgba(23, 35, 33, 0.16);
+  border: 1px solid rgba(11, 17, 29, 0.16);
   border-radius: 8px;
   background: #fbf8f0;
   color: var(--opal-ink);
@@ -710,8 +710,8 @@
 
   .opal-hero-overlay {
     background:
-      linear-gradient(90deg, rgba(9, 27, 25, 0.94) 0%, rgba(9, 27, 25, 0.76) 62%, rgba(9, 27, 25, 0.22) 100%),
-      linear-gradient(0deg, rgba(9, 27, 25, 0.82) 0%, rgba(9, 27, 25, 0.08) 64%);
+      linear-gradient(90deg, rgba(7, 9, 13, 0.94) 0%, rgba(13, 27, 42, 0.76) 62%, rgba(13, 27, 42, 0.22) 100%),
+      linear-gradient(0deg, rgba(7, 9, 13, 0.82) 0%, rgba(7, 9, 13, 0.08) 64%);
   }
 
   .opal-hero h1 {

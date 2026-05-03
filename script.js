@@ -1,5 +1,16 @@
 const articles = [
   {
+    slug: "gem-sky-world-long-thanh-ha-tang-san-bay-2026",
+    title: "Gem Sky World Long Thành 2026: đô thị sân bay và bài toán hạ tầng Long Thành",
+    category: "market",
+    label: "Thị trường",
+    date: "03.05.2026",
+    image: "assets/images/article-gem-sky-world-hero.webp",
+    excerpt:
+      "Phân tích Gem Sky World trong bối cảnh sân bay Long Thành vận hành năm 2026: quy hoạch 92,2 ha, tiện ích, giá tham khảo, pháp lý và dòng tiền shophouse.",
+    link: "gem-sky-world-long-thanh-ha-tang-san-bay-2026.html"
+  },
+  {
     slug: "phap-ly-opal-luxury-can-kiem-tra-gi",
     title: "Pháp lý Opal Luxury cần kiểm tra gì trước khi đặt chỗ?",
     category: "guide",
@@ -341,7 +352,7 @@ function renderArticles() {
       (article) => `
         <a class="article-card" href="${article.link}" aria-label="Đọc ${article.title}">
           <span class="card-image-link">
-            <img class="card-image" src="${article.image}" alt="${article.title}" loading="lazy">
+            <img class="card-image" src="${article.image}" alt="${article.title}" width="760" height="480" loading="lazy" decoding="async">
           </span>
           <div class="article-body">
             <div class="article-meta">
@@ -372,7 +383,7 @@ function renderProjects() {
       (project) => `
         <a class="project-card" href="${project.link}" aria-label="Xem ${project.name}">
           <span class="project-image-link">
-            <img class="project-image" src="${project.image}" alt="${project.name}" loading="lazy">
+            <img class="project-image" src="${project.image}" alt="${project.name}" width="760" height="540" loading="lazy" decoding="async">
           </span>
           <div class="project-body">
             <div class="project-meta">

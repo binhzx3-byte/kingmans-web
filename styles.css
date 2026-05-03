@@ -68,6 +68,11 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+main [id] {
+  scroll-margin-top: 96px;
 }
 
 body {
@@ -1076,6 +1081,60 @@ textarea:focus {
   line-height: 1.72;
 }
 
+.article-callout {
+  padding: 20px 22px;
+  border: 1px solid rgba(200, 164, 93, 0.38);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(200, 164, 93, 0.13), rgba(255, 255, 255, 0.94));
+}
+
+.article-callout strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.article-figure {
+  margin: 8px 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.article-figure figcaption,
+.article-source-list {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.article-figure figcaption {
+  padding: 12px 14px;
+}
+
+.article-source-list {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid rgba(200, 164, 93, 0.28);
+  border-radius: 8px;
+  background: rgba(200, 164, 93, 0.08);
+}
+
+.article-source-list a {
+  color: var(--ink);
+  font-weight: 800;
+}
+
 .article-table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
@@ -1304,6 +1363,14 @@ textarea:focus {
 }
 
 @media (max-width: 640px) {
+  html {
+    scroll-padding-top: 84px;
+  }
+
+  main [id] {
+    scroll-margin-top: 84px;
+  }
+
   .brand-wordmark {
     font-size: 22px;
   }

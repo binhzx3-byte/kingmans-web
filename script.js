@@ -157,6 +157,18 @@ const articles = [
 
 const projects = [
   {
+    slug: "khai-hoan-imperial",
+    name: "Khải Hoàn Imperial",
+    location: "Thuận Giao, TP.HCM",
+    image: "assets/images/khai-hoan-imperial-exterior.webp",
+    description:
+      "Khu phức hợp căn hộ Bespoke hạng sang trên mặt tiền Quốc lộ 13, do Khải Hoàn Land phát triển dự án, nổi bật với 2 tháp 41 tầng và bộ tiện ích riêng tư.",
+    stats: ["10.542,8 m²", "2 tháp 41 tầng", "03 tầng hầm", "Dự kiến 07/2028"],
+    areas: ["tp-hcm", "binh-duong", "thuan-an"],
+    types: ["can-ho", "hang-sang", "dau-tu"],
+    link: "khai-hoan-imperial.html"
+  },
+  {
     slug: "opal-luxury",
     name: "Opal Luxury",
     location: "Dĩ An, Bình Dương",

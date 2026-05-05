@@ -3,125 +3,262 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | KINGMANS CMS</title>
+    <title>Quản trị nội dung | KINGMANS Realty</title>
     <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" href="/admin/admin.css">
   </head>
   <body>
     <main class="admin-shell">
-      <section class="card login-card" id="loginCard">
-        <h1>KINGMANS CMS</h1>
-        <p>Dang nhap de quan tri bai viet va du an.</p>
-        <form id="loginForm" class="stack">
+      <section class="login-layout" id="loginCard">
+        <div class="login-brand">
+          <span class="brand-mark">K</span>
+          <p>KINGMANS REALTY</p>
+          <h1>Trung tâm quản trị nội dung</h1>
+          <span class="brand-copy">Đăng bài phân tích, cập nhật dự án và quản lý hình ảnh cho website chính.</span>
+        </div>
+
+        <form id="loginForm" class="login-card" autocomplete="on">
+          <h2>Đăng nhập</h2>
           <label>
-            Tai khoan
-            <input type="text" name="username" required autocomplete="username">
+            Tài khoản
+            <input type="text" name="username" required autocomplete="username" placeholder="kingmans-admin">
           </label>
           <label>
-            Mat khau
-            <input type="password" name="password" required autocomplete="current-password">
+            Mật khẩu
+            <input type="password" name="password" required autocomplete="current-password" placeholder="Nhập mật khẩu quản trị">
           </label>
-          <button type="submit">Dang nhap</button>
+          <button class="primary-action" type="submit">Vào trang quản trị</button>
+          <p class="note" id="loginNote" role="status"></p>
         </form>
-        <p class="note" id="loginNote"></p>
       </section>
 
       <section class="admin-panel" id="adminPanel" hidden>
         <header class="panel-head">
           <div>
-            <h2>Bang dieu khien noi dung</h2>
-            <p>Quan ly bai viet phan tich, du an va kho hinh anh.</p>
+            <p class="panel-label">KINGMANS REALTY CMS</p>
+            <h1>Quản trị bài viết và dự án</h1>
+            <span>Tạo nội dung mới, upload ảnh lên R2 và xuất bản trực tiếp lên website.</span>
           </div>
-          <button class="ghost" id="logoutButton" type="button">Dang xuat</button>
+          <button class="ghost-action" id="logoutButton" type="button">Đăng xuất</button>
         </header>
 
-        <div class="grid-two">
-          <article class="card">
-            <h3>Upload anh (R2)</h3>
-            <form id="uploadForm" class="stack">
-              <input type="file" id="uploadFile" accept="image/*" required>
-              <button type="submit">Upload</button>
+        <nav class="admin-tabs" aria-label="Khu vực quản trị">
+          <button class="tab-button active" type="button" data-tab="articlePane">Bài viết</button>
+          <button class="tab-button" type="button" data-tab="projectPane">Dự án</button>
+          <button class="tab-button" type="button" data-tab="mediaPane">Kho ảnh</button>
+          <button class="tab-button" type="button" data-tab="contentPane">Đã xuất bản</button>
+        </nav>
+
+        <section class="tab-pane active" id="articlePane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>Tạo bài viết phân tích</h2>
+                <p>Bài chọn trạng thái “Xuất bản” sẽ tự hiện ở trang chủ, có URL riêng và vào sitemap.</p>
+              </div>
+              <span class="status-chip">Góc chuyên gia</span>
+            </div>
+
+            <form id="articleForm" class="editor-form">
+              <div class="form-grid">
+                <label>
+                  Slug
+                  <input type="text" name="slug" placeholder="thi-truong-can-ho-thuan-an-2026" required>
+                </label>
+                <label>
+                  Danh mục
+                  <select name="category" required>
+                    <option value="market">Thị trường</option>
+                    <option value="guide">Hướng dẫn</option>
+                    <option value="finance">Tài chính</option>
+                    <option value="lifestyle">Sống xanh và công nghệ</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Tiêu đề
+                <input type="text" name="title" placeholder="Nhập tiêu đề bài viết" required>
+              </label>
+              <label>
+                Tóm tắt
+                <textarea name="excerpt" rows="3" placeholder="Viết 1-2 câu ngắn để hiển thị ở thẻ bài viết." required></textarea>
+              </label>
+              <label>
+                Ảnh đại diện URL
+                <input type="text" name="cover_image_url" placeholder="/media/uploads/...">
+              </label>
+
+              <div class="form-grid">
+                <label>
+                  SEO title
+                  <input type="text" name="seo_title" placeholder="Tối đa khoảng 55-65 ký tự">
+                </label>
+                <label>
+                  Trạng thái
+                  <select name="status" required>
+                    <option value="draft">Bản nháp</option>
+                    <option value="published">Xuất bản</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                SEO description
+                <textarea name="seo_description" rows="2" placeholder="Mô tả ngắn cho Google, khoảng 140-160 ký tự."></textarea>
+              </label>
+              <label>
+                Nội dung HTML
+                <textarea name="content_html" rows="12" placeholder="<p>Đoạn mở đầu...</p>" required></textarea>
+              </label>
+              <details class="helper-box">
+                <summary>Mẫu chèn ảnh trong bài</summary>
+                <pre><code>&lt;figure&gt;
+  &lt;img src="/media/uploads/..." alt="Mô tả ảnh rõ ràng cho SEO"&gt;
+  &lt;figcaption&gt;Chú thích ảnh ngắn gọn.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+              </details>
+              <label>
+                Nội dung Markdown (tùy chọn)
+                <textarea name="content_markdown" rows="5" placeholder="Có thể lưu bản nháp markdown để đối chiếu sau này."></textarea>
+              </label>
+              <div class="form-actions">
+                <button class="primary-action" type="submit">Lưu bài viết</button>
+                <a class="secondary-link" href="/#market" target="_blank" rel="noreferrer">Xem khu bài viết</a>
+              </div>
             </form>
-            <p class="note" id="uploadNote"></p>
+            <p class="note" id="articleNote" role="status"></p>
+          </article>
+        </section>
+
+        <section class="tab-pane" id="projectPane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>Tạo trang dự án</h2>
+                <p>Dự án xuất bản sẽ có URL riêng dạng <strong>/du-an/slug</strong> và có thể dùng để chạy SEO dài hạn.</p>
+              </div>
+              <span class="status-chip">Dự án</span>
+            </div>
+
+            <form id="projectForm" class="editor-form">
+              <div class="form-grid">
+                <label>
+                  Slug
+                  <input type="text" name="slug" placeholder="ten-du-an" required>
+                </label>
+                <label>
+                  Loại dự án
+                  <select name="project_type" required>
+                    <option value="can-ho">Căn hộ</option>
+                    <option value="hang-sang">Hạng sang</option>
+                    <option value="dau-tu">Đầu tư</option>
+                    <option value="khac">Khác</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Tên dự án
+                <input type="text" name="name" placeholder="Ví dụ: Opal Luxury" required>
+              </label>
+              <label>
+                Vị trí
+                <input type="text" name="location" placeholder="Dĩ An, Bình Dương" required>
+              </label>
+              <label>
+                Tóm tắt
+                <textarea name="summary" rows="3" placeholder="Nêu điểm mạnh nhất của dự án."></textarea>
+              </label>
+              <label>
+                Ảnh đại diện URL
+                <input type="text" name="cover_image_url" placeholder="/media/uploads/...">
+              </label>
+              <label>
+                Link CTA
+                <input type="url" name="cta_url" placeholder="https://...">
+              </label>
+              <label>
+                Thông số nổi bật (mỗi dòng một ý)
+                <textarea name="stats" rows="4" placeholder="8,6 ha&#10;45+ tiện ích&#10;Liên hệ bảng giá"></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  SEO title
+                  <input type="text" name="seo_title" placeholder="Tiêu đề SEO của trang dự án">
+                </label>
+                <label>
+                  Trạng thái
+                  <select name="status" required>
+                    <option value="draft">Bản nháp</option>
+                    <option value="published">Xuất bản</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                SEO description
+                <textarea name="seo_description" rows="2" placeholder="Mô tả ngắn cho Google."></textarea>
+              </label>
+              <label>
+                Nội dung HTML
+                <textarea name="content_html" rows="12" placeholder="<h2>Tổng quan dự án</h2><p>...</p>" required></textarea>
+              </label>
+              <label>
+                Nội dung Markdown (tùy chọn)
+                <textarea name="content_markdown" rows="5"></textarea>
+              </label>
+              <div class="form-actions">
+                <button class="primary-action" type="submit">Lưu dự án</button>
+                <a class="secondary-link" href="/#projects" target="_blank" rel="noreferrer">Xem khu dự án</a>
+              </div>
+            </form>
+            <p class="note" id="projectNote" role="status"></p>
+          </article>
+        </section>
+
+        <section class="tab-pane" id="mediaPane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>Kho ảnh R2</h2>
+                <p>Upload ảnh, copy URL rồi dán vào ảnh đại diện hoặc thẻ <strong>&lt;img&gt;</strong> trong nội dung HTML.</p>
+              </div>
+              <span class="status-chip">R2 Storage</span>
+            </div>
+
+            <form id="uploadForm" class="upload-box">
+              <input type="file" id="uploadFile" accept="image/*" required>
+              <button class="primary-action" type="submit">Upload ảnh</button>
+            </form>
+            <p class="note" id="uploadNote" role="status"></p>
             <div class="media-list" id="mediaList"></div>
           </article>
+        </section>
 
-          <article class="card">
-            <h3>Tao bai viet</h3>
-            <form id="articleForm" class="stack">
-              <label>Slug<input type="text" name="slug" placeholder="vi-du-bai-viet" required></label>
-              <label>Tieu de<input type="text" name="title" required></label>
-              <label>Tom tat<input type="text" name="excerpt" required></label>
-              <label>Danh muc
-                <select name="category" required>
-                  <option value="market">Thi truong</option>
-                  <option value="guide">Huong dan</option>
-                  <option value="finance">Tai chinh</option>
-                  <option value="lifestyle">Song xanh va cong nghe</option>
-                </select>
-              </label>
-              <label>Anh dai dien URL<input type="text" name="cover_image_url" placeholder="/media/uploads/..."></label>
-              <label>SEO title<input type="text" name="seo_title"></label>
-              <label>SEO description<textarea name="seo_description" rows="2"></textarea></label>
-              <label>Noi dung HTML<textarea name="content_html" rows="8" required></textarea></label>
-              <label>Noi dung Markdown (tuy chon)<textarea name="content_markdown" rows="5"></textarea></label>
-              <label>Trang thai
-                <select name="status" required>
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                </select>
-              </label>
-              <button type="submit">Luu bai viet</button>
-            </form>
-            <p class="note" id="articleNote"></p>
-          </article>
-        </div>
-
-        <div class="grid-two">
-          <article class="card">
-            <h3>Tao du an</h3>
-            <form id="projectForm" class="stack">
-              <label>Slug<input type="text" name="slug" placeholder="ten-du-an" required></label>
-              <label>Ten du an<input type="text" name="name" required></label>
-              <label>Vi tri<input type="text" name="location" required></label>
-              <label>Tom tat<textarea name="summary" rows="3"></textarea></label>
-              <label>Loai du an
-                <select name="project_type" required>
-                  <option value="can-ho">Can ho</option>
-                  <option value="hang-sang">Hang sang</option>
-                  <option value="dau-tu">Dau tu</option>
-                  <option value="khac">Khac</option>
-                </select>
-              </label>
-              <label>Anh dai dien URL<input type="text" name="cover_image_url" placeholder="/media/uploads/..."></label>
-              <label>CTA URL<input type="url" name="cta_url" placeholder="https://..."></label>
-              <label>Stats (moi dong 1 dong)<textarea name="stats" rows="4"></textarea></label>
-              <label>SEO title<input type="text" name="seo_title"></label>
-              <label>SEO description<textarea name="seo_description" rows="2"></textarea></label>
-              <label>Noi dung HTML<textarea name="content_html" rows="8" required></textarea></label>
-              <label>Noi dung Markdown (tuy chon)<textarea name="content_markdown" rows="5"></textarea></label>
-              <label>Trang thai
-                <select name="status" required>
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                </select>
-              </label>
-              <button type="submit">Luu du an</button>
-            </form>
-            <p class="note" id="projectNote"></p>
-          </article>
-
-          <article class="card">
-            <h3>Noi dung da tao</h3>
-            <div class="toolbar">
-              <button type="button" class="ghost" id="refreshButton">Lam moi</button>
+        <section class="tab-pane" id="contentPane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>Nội dung đã tạo</h2>
+                <p>Theo dõi nhanh các bài viết và dự án đang nằm trong D1.</p>
+              </div>
+              <button type="button" class="ghost-action" id="refreshButton">Làm mới</button>
             </div>
-            <h4>Bai viet</h4>
-            <div id="articleList" class="item-list"></div>
-            <h4>Du an</h4>
-            <div id="projectList" class="item-list"></div>
+
+            <div class="content-columns">
+              <section>
+                <h3>Bài viết</h3>
+                <div id="articleList" class="item-list"></div>
+              </section>
+              <section>
+                <h3>Dự án</h3>
+                <div id="projectList" class="item-list"></div>
+              </section>
+            </div>
           </article>
-        </div>
+        </section>
       </section>
     </main>
     <script src="/admin/admin.js"></script>

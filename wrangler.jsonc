@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kingmans-web",
+  "main": "worker.js",
   "compatibility_date": "2026-05-01",
   "observability": {
     "enabled": false,
@@ -15,8 +16,22 @@
     }
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kingmans-cms",
+      "database_id": "c8bbc569-1f43-4e8c-bc5e-c1875fa81a46"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "kingmans-media"
+    }
+  ],
   "compatibility_flags": [
     "nodejs_compat"
   ]

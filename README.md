@@ -40,3 +40,75 @@ Mở file `index.html` trực tiếp trong trình duyệt. Hai dự án Emerald 
 - Ảnh dự án: thay các đường dẫn ảnh trong `script.js` và `project-detail.js` bằng phối cảnh chính thức.
 - Màu thương hiệu: các biến màu trong `:root` của `styles.css`.
 - File SEO đã có: `sitemap.xml`, `robots.txt`, meta Open Graph/Twitter và schema JSON-LD.
+
+## Cloudflare CMS (Workers + D1 + R2)
+
+Project da duoc bo sung:
+
+- Worker API: `worker.js`
+- D1 schema: `db/schema.sql`
+- Admin page: `/admin` (`admin/index.html`, `admin/admin.js`, `admin/admin.css`)
+- Public dynamic URLs:
+  - Bai viet: `/bai-viet/<slug>`
+  - Du an: `/du-an/<slug>`
+- Media serve tu R2 qua Worker: `/media/<key>`
+
+### 1) Tao D1 database va lay database_id
+
+```powershell
+npx wrangler d1 create kingmans-cms
+```
+
+Copy `database_id` tra ve va thay vao file `wrangler.jsonc` (truong `d1_databases[0].database_id`).
+
+### 2) Tao bucket R2
+
+```powershell
+npx wrangler r2 bucket create kingmans-media
+```
+
+Neu ban muon bucket ten khac, doi lai `r2_buckets[0].bucket_name` trong `wrangler.jsonc`.
+
+### 3) Chay migration schema D1
+
+```powershell
+npx wrangler d1 execute kingmans-cms --remote --file db/schema.sql
+```
+
+### 4) Set admin secrets
+
+```powershell
+npx wrangler secret put ADMIN_USERNAME
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put ADMIN_TOKEN_SECRET
+```
+
+Goi y `ADMIN_TOKEN_SECRET`: dung chuoi dai 32+ ky tu.
+
+### 5) Deploy
+
+```powershell
+npx wrangler deploy
+```
+
+### 6) Dang nhap admin
+
+- URL: `https://kingmansrealty.com/admin`
+- Dang bai/du an qua form admin
+- Upload anh len R2 trong block "Upload anh (R2)"
+- URL anh upload se co dang `/media/uploads/...`
+
+### API nhanh
+
+- Public:
+  - `GET /api/articles`
+  - `GET /api/articles/<slug>`
+  - `GET /api/projects`
+  - `GET /api/projects/<slug>`
+- Admin (can login cookie):
+  - `POST /api/admin/login`
+  - `POST /api/admin/logout`
+  - `GET /api/admin/session`
+  - `GET/POST/PUT/DELETE /api/admin/articles`
+  - `GET/POST/PUT/DELETE /api/admin/projects`
+  - `POST /api/admin/media`

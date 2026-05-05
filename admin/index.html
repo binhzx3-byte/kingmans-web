@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin | KINGMANS CMS</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="/admin/admin.css">
+  </head>
+  <body>
+    <main class="admin-shell">
+      <section class="card login-card" id="loginCard">
+        <h1>KINGMANS CMS</h1>
+        <p>Dang nhap de quan tri bai viet va du an.</p>
+        <form id="loginForm" class="stack">
+          <label>
+            Tai khoan
+            <input type="text" name="username" required autocomplete="username">
+          </label>
+          <label>
+            Mat khau
+            <input type="password" name="password" required autocomplete="current-password">
+          </label>
+          <button type="submit">Dang nhap</button>
+        </form>
+        <p class="note" id="loginNote"></p>
+      </section>
+
+      <section class="admin-panel" id="adminPanel" hidden>
+        <header class="panel-head">
+          <div>
+            <h2>Bang dieu khien noi dung</h2>
+            <p>Quan ly bai viet phan tich, du an va kho hinh anh.</p>
+          </div>
+          <button class="ghost" id="logoutButton" type="button">Dang xuat</button>
+        </header>
+
+        <div class="grid-two">
+          <article class="card">
+            <h3>Upload anh (R2)</h3>
+            <form id="uploadForm" class="stack">
+              <input type="file" id="uploadFile" accept="image/*" required>
+              <button type="submit">Upload</button>
+            </form>
+            <p class="note" id="uploadNote"></p>
+            <div class="media-list" id="mediaList"></div>
+          </article>
+
+          <article class="card">
+            <h3>Tao bai viet</h3>
+            <form id="articleForm" class="stack">
+              <label>Slug<input type="text" name="slug" placeholder="vi-du-bai-viet" required></label>
+              <label>Tieu de<input type="text" name="title" required></label>
+              <label>Tom tat<input type="text" name="excerpt" required></label>
+              <label>Danh muc
+                <select name="category" required>
+                  <option value="market">Thi truong</option>
+                  <option value="guide">Huong dan</option>
+                  <option value="finance">Tai chinh</option>
+                  <option value="lifestyle">Song xanh va cong nghe</option>
+                </select>
+              </label>
+              <label>Anh dai dien URL<input type="text" name="cover_image_url" placeholder="/media/uploads/..."></label>
+              <label>SEO title<input type="text" name="seo_title"></label>
+              <label>SEO description<textarea name="seo_description" rows="2"></textarea></label>
+              <label>Noi dung HTML<textarea name="content_html" rows="8" required></textarea></label>
+              <label>Noi dung Markdown (tuy chon)<textarea name="content_markdown" rows="5"></textarea></label>
+              <label>Trang thai
+                <select name="status" required>
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </label>
+              <button type="submit">Luu bai viet</button>
+            </form>
+            <p class="note" id="articleNote"></p>
+          </article>
+        </div>
+
+        <div class="grid-two">
+          <article class="card">
+            <h3>Tao du an</h3>
+            <form id="projectForm" class="stack">
+              <label>Slug<input type="text" name="slug" placeholder="ten-du-an" required></label>
+              <label>Ten du an<input type="text" name="name" required></label>
+              <label>Vi tri<input type="text" name="location" required></label>
+              <label>Tom tat<textarea name="summary" rows="3"></textarea></label>
+              <label>Loai du an
+                <select name="project_type" required>
+                  <option value="can-ho">Can ho</option>
+                  <option value="hang-sang">Hang sang</option>
+                  <option value="dau-tu">Dau tu</option>
+                  <option value="khac">Khac</option>
+                </select>
+              </label>
+              <label>Anh dai dien URL<input type="text" name="cover_image_url" placeholder="/media/uploads/..."></label>
+              <label>CTA URL<input type="url" name="cta_url" placeholder="https://..."></label>
+              <label>Stats (moi dong 1 dong)<textarea name="stats" rows="4"></textarea></label>
+              <label>SEO title<input type="text" name="seo_title"></label>
+              <label>SEO description<textarea name="seo_description" rows="2"></textarea></label>
+              <label>Noi dung HTML<textarea name="content_html" rows="8" required></textarea></label>
+              <label>Noi dung Markdown (tuy chon)<textarea name="content_markdown" rows="5"></textarea></label>
+              <label>Trang thai
+                <select name="status" required>
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </label>
+              <button type="submit">Luu du an</button>
+            </form>
+            <p class="note" id="projectNote"></p>
+          </article>
+
+          <article class="card">
+            <h3>Noi dung da tao</h3>
+            <div class="toolbar">
+              <button type="button" class="ghost" id="refreshButton">Lam moi</button>
+            </div>
+            <h4>Bai viet</h4>
+            <div id="articleList" class="item-list"></div>
+            <h4>Du an</h4>
+            <div id="projectList" class="item-list"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <script src="/admin/admin.js"></script>
+  </body>
+</html>

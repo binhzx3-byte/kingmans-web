@@ -1,4 +1,4 @@
-const articles = [
+let articles = [
   {
     slug: "gem-sky-world-long-thanh-ha-tang-san-bay-2026",
     title: "Gem Sky World Long Thành 2026: đô thị sân bay và bài toán hạ tầng Long Thành",
@@ -166,7 +166,7 @@ const articles = [
   }
 ];
 
-const projects = [
+let projects = [
   {
     slug: "khai-hoan-imperial",
     name: "Khải Hoàn Imperial",
@@ -283,6 +283,12 @@ const state = {
 
 const INITIAL_VISIBLE = 6;
 const LOAD_MORE_STEP = 6;
+const CATEGORY_LABELS = {
+  market: "Thi truong",
+  guide: "Huong dan",
+  finance: "Tai chinh",
+  lifestyle: "Song xanh & Cong nghe"
+};
 
 function normalizeText(value) {
   return value
@@ -295,6 +301,100 @@ function normalizeText(value) {
 function parseDate(value) {
   const [day, month, year] = value.split(".").map(Number);
   return new Date(year, month - 1, day).getTime();
+}
+
+function formatIsoDateToDisplay(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) {
+    return "01.01.2026";
+  }
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear());
+  return `${day}.${month}.${year}`;
+}
+
+function dedupeBySlug(primary, fallback) {
+  const used = new Set();
+  const merged = [];
+
+  primary.forEach((item) => {
+    if (!item?.slug || used.has(item.slug)) return;
+    used.add(item.slug);
+    merged.push(item);
+  });
+
+  fallback.forEach((item) => {
+    if (!item?.slug || used.has(item.slug)) return;
+    used.add(item.slug);
+    merged.push(item);
+  });
+
+  return merged;
+}
+
+async function loadCmsFeed() {
+  const [articleResponse, projectResponse] = await Promise.all([
+    fetch("/api/articles?limit=40", { headers: { Accept: "application/json" } }),
+    fetch("/api/projects?limit=40", { headers: { Accept: "application/json" } })
+  ]);
+
+  if (!articleResponse.ok || !projectResponse.ok) {
+    return;
+  }
+
+  const articlePayload = await articleResponse.json();
+  const projectPayload = await projectResponse.json();
+
+  if (Array.isArray(articlePayload.items) && articlePayload.items.length) {
+    const cmsArticles = articlePayload.items
+      .map((item) => ({
+        slug: item.slug,
+        title: item.title || "",
+        category: item.category || "market",
+        label: CATEGORY_LABELS[item.category] || "Thi truong",
+        date: formatIsoDateToDisplay(item.published_at || item.updated_at),
+        image: item.cover_image_url || "assets/images/article-market-binh-duong.webp",
+        excerpt: item.excerpt || "",
+        link: `/bai-viet/${item.slug}`
+      }))
+      .filter((item) => item.slug && item.title && item.link);
+
+    articles = dedupeBySlug(cmsArticles, articles);
+  }
+
+  if (Array.isArray(projectPayload.items) && projectPayload.items.length) {
+    const cmsProjects = projectPayload.items
+      .map((item) => ({
+        slug: item.slug,
+        name: item.name || "",
+        location: item.location || "TP.HCM",
+        image: item.cover_image_url || "assets/images/opal-luxury-hero.webp",
+        description: item.summary || "",
+        stats: ["Du an da xac minh", "Phap ly can doi chieu", "Lien he de nhan bang gia"],
+        areas: ["tp-hcm", "binh-duong", "di-an", "thuan-an", "trung-tam-tphcm"],
+        types: [item.project_type || "can-ho"],
+        link: `/du-an/${item.slug}`
+      }))
+      .filter((item) => item.slug && item.name && item.link);
+
+    projects = dedupeBySlug(cmsProjects, projects);
+  }
+}
+
+async function bootstrapContent() {
+  renderArticles();
+  renderProjects();
+
+  try {
+    await loadCmsFeed();
+    state.articleVisible = INITIAL_VISIBLE;
+    state.projectVisible = INITIAL_VISIBLE;
+    renderArticles();
+    renderProjects();
+  } catch (error) {
+    console.warn("CMS feed not available, using bundled content only.", error);
+  }
 }
 
 function articleMatchesQuery(article) {
@@ -470,5 +570,4 @@ leadForm?.addEventListener("submit", () => {
   formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Tôi sẽ phản hồi lại trong thời gian sớm nhất.";
 });
 
-renderArticles();
-renderProjects();
+bootstrapContent();

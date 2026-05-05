@@ -63,6 +63,7 @@
             </div>
 
             <form id="articleForm" class="editor-form">
+              <input type="hidden" name="id">
               <div class="form-grid">
                 <label>
                   Slug
@@ -126,6 +127,7 @@
               </label>
               <div class="form-actions">
                 <button class="primary-action" type="submit">Lưu bài viết</button>
+                <button class="ghost-action" id="articleCancelEdit" type="button" hidden>Hủy sửa</button>
                 <a class="secondary-link" href="/#market" target="_blank" rel="noreferrer">Xem khu bài viết</a>
               </div>
             </form>
@@ -144,6 +146,7 @@
             </div>
 
             <form id="projectForm" class="editor-form">
+              <input type="hidden" name="id">
               <div class="form-grid">
                 <label>
                   Slug
@@ -211,6 +214,7 @@
               </label>
               <div class="form-actions">
                 <button class="primary-action" type="submit">Lưu dự án</button>
+                <button class="ghost-action" id="projectCancelEdit" type="button" hidden>Hủy sửa</button>
                 <a class="secondary-link" href="/#projects" target="_blank" rel="noreferrer">Xem khu dự án</a>
               </div>
             </form>

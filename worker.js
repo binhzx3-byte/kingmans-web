@@ -45,6 +45,10 @@ async function routeRequest(request, env) {
     return serveMedia(key, env);
   }
 
+  if (url.pathname === "/sitemap.xml") {
+    return renderSitemap(env, url.origin);
+  }
+
   if (url.pathname.startsWith("/api/")) {
     return handleApi(request, env, url);
   }
@@ -119,6 +123,10 @@ async function handleApi(request, env, url) {
     if (pathname === "/api/admin/articles" && method === "POST") {
       return createArticle(request, env, session.sub);
     }
+    if (pathname.startsWith("/api/admin/articles/") && method === "GET") {
+      const id = pathname.replace(/^\/api\/admin\/articles\//, "");
+      return getAdminArticleById(id, env);
+    }
     if (pathname.startsWith("/api/admin/articles/") && method === "PUT") {
       const id = pathname.replace(/^\/api\/admin\/articles\//, "");
       return updateArticle(id, request, env);
@@ -133,6 +141,10 @@ async function handleApi(request, env, url) {
     }
     if (pathname === "/api/admin/projects" && method === "POST") {
       return createProject(request, env, session.sub);
+    }
+    if (pathname.startsWith("/api/admin/projects/") && method === "GET") {
+      const id = pathname.replace(/^\/api\/admin\/projects\//, "");
+      return getAdminProjectById(id, env);
     }
     if (pathname.startsWith("/api/admin/projects/") && method === "PUT") {
       const id = pathname.replace(/^\/api\/admin\/projects\//, "");
@@ -310,6 +322,28 @@ async function listAdminArticles(url, env) {
   return json({ ok: true, items: result.results ?? [] });
 }
 
+async function getAdminArticleById(id, env) {
+  if (!id) {
+    return json({ ok: false, error: "Thiếu id bài viết." }, 400);
+  }
+
+  const row = await env.DB.prepare(
+    `SELECT id, slug, title, excerpt, content_markdown, content_html, category, status,
+            cover_image_url, seo_title, seo_description, published_at, updated_at, created_at
+     FROM articles
+     WHERE id = ?
+     LIMIT 1`
+  )
+    .bind(id)
+    .first();
+
+  if (!row) {
+    return json({ ok: false, error: "Không tìm thấy bài viết." }, 404);
+  }
+
+  return json({ ok: true, item: row });
+}
+
 async function createArticle(request, env, author) {
   const body = await request.json().catch(() => null);
   if (!body) {
@@ -428,6 +462,30 @@ async function listAdminProjects(url, env) {
     .bind(...binds, limit, offset)
     .all();
   return json({ ok: true, items: result.results ?? [] });
+}
+
+async function getAdminProjectById(id, env) {
+  if (!id) {
+    return json({ ok: false, error: "Thiếu id dự án." }, 400);
+  }
+
+  const row = await env.DB.prepare(
+    `SELECT id, slug, name, location, summary, content_markdown, content_html, cover_image_url,
+            project_type, stats_json, cta_url, seo_title, seo_description, status,
+            published_at, updated_at, created_at
+     FROM projects
+     WHERE id = ?
+     LIMIT 1`
+  )
+    .bind(id)
+    .first();
+
+  if (!row) {
+    return json({ ok: false, error: "Không tìm thấy dự án." }, 404);
+  }
+
+  row.stats = safeParseJsonArray(row.stats_json);
+  return json({ ok: true, item: row });
 }
 
 async function createProject(request, env, author) {
@@ -625,6 +683,56 @@ async function serveMedia(key, env) {
   return new Response(object.body, { headers });
 }
 
+async function renderSitemap(env, origin) {
+  const [articlesResult, projectsResult, staticXml] = await Promise.all([
+    env.DB.prepare(
+      `SELECT slug, updated_at, published_at
+       FROM articles
+       WHERE status = 'published'
+       ORDER BY datetime(COALESCE(updated_at, published_at)) DESC
+       LIMIT 500`
+    ).all(),
+    env.DB.prepare(
+      `SELECT slug, updated_at, published_at
+       FROM projects
+       WHERE status = 'published'
+       ORDER BY datetime(COALESCE(updated_at, published_at)) DESC
+       LIMIT 300`
+    ).all(),
+    env.ASSETS.fetch(new Request(`${origin}/sitemap-static.xml`))
+      .then((response) => (response.ok ? response.text() : ""))
+      .catch(() => "")
+  ]);
+
+  const dynamicEntries = [
+    ...(articlesResult.results || []).map((item) => sitemapUrl(`${origin}/bai-viet/${item.slug}`, item.updated_at || item.published_at, "weekly", "0.72")),
+    ...(projectsResult.results || []).map((item) => sitemapUrl(`${origin}/du-an/${item.slug}`, item.updated_at || item.published_at, "weekly", "0.78"))
+  ].join("\n");
+
+  const fallbackXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrl(`${origin}/`, new Date().toISOString(), "daily", "1.0")}\n</urlset>`;
+  const baseXml = staticXml || fallbackXml;
+  const xml = baseXml.includes("</urlset>")
+    ? baseXml.replace("</urlset>", `${dynamicEntries ? `\n${dynamicEntries}` : ""}\n</urlset>`)
+    : fallbackXml.replace("</urlset>", `${dynamicEntries ? `\n${dynamicEntries}` : ""}\n</urlset>`);
+
+  return new Response(xml, {
+    headers: {
+      "content-type": "application/xml; charset=utf-8",
+      "cache-control": "public, max-age=300"
+    }
+  });
+}
+
+function sitemapUrl(loc, lastmod, changefreq, priority) {
+  const date = String(lastmod || new Date().toISOString()).slice(0, 10);
+  return `  <url>
+    <loc>${escapeXml(loc)}</loc>
+    <lastmod>${escapeXml(date)}</lastmod>
+    <changefreq>${escapeXml(changefreq)}</changefreq>
+    <priority>${escapeXml(priority)}</priority>
+  </url>`;
+}
+
 async function renderArticlePage(slug, env, origin) {
   const article = await env.DB.prepare(
     `SELECT slug, title, excerpt, content_html, category, cover_image_url, seo_title, seo_description, published_at, updated_at
@@ -642,10 +750,56 @@ async function renderArticlePage(slug, env, origin) {
   const title = escapeHtml(article.seo_title || `${article.title} | KINGMANS Realty`);
   const description = escapeHtml(article.seo_description || article.excerpt || "");
   const canonical = `${origin}/bai-viet/${article.slug}`;
-  const image = absoluteMediaUrl(origin, article.cover_image_url);
+  const image = article.cover_image_url
+    ? absoluteMediaUrl(origin, article.cover_image_url)
+    : `${origin}/assets/images/article-market-binh-duong.webp`;
   const content = sanitizeTrustedHtml(article.content_html || "");
-  const dateValue = escapeHtml((article.published_at || article.updated_at || "").slice(0, 10));
-  const category = escapeHtml(article.category || "market");
+  const publishedDate = (article.published_at || article.updated_at || "").slice(0, 10);
+  const displayDate = formatVietnameseDate(publishedDate);
+  const category = categoryLabel(article.category);
+  const jsonLd = escapeJsonForHtml(
+    JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": `${canonical}#article`,
+          headline: article.title,
+          description: article.seo_description || article.excerpt || "",
+          image: [image],
+          datePublished: publishedDate || undefined,
+          dateModified: (article.updated_at || article.published_at || "").slice(0, 10) || undefined,
+          inLanguage: "vi-VN",
+          author: {
+            "@type": "Organization",
+            name: "KINGMANS Realty",
+            url: `${origin}/`
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "KINGMANS Realty",
+            logo: {
+              "@type": "ImageObject",
+              url: `${origin}/assets/kingmans-logo.png`
+            }
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": canonical
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": `${canonical}#breadcrumbs`,
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${origin}/` },
+            { "@type": "ListItem", position: 2, name: "Góc chuyên gia", item: `${origin}/#market` },
+            { "@type": "ListItem", position: 3, name: article.title, item: canonical }
+          ]
+        }
+      ]
+    })
+  );
 
   return new Response(
     `<!doctype html>
@@ -656,47 +810,82 @@ async function renderArticlePage(slug, env, origin) {
   <title>${title}</title>
   <meta name="description" content="${description}">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="${canonical}">
+  <meta name="author" content="KINGMANS Realty">
+  <meta name="theme-color" content="#0d1b2a">
+  <link rel="canonical" href="${escapeHtml(canonical)}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:locale" content="vi_VN">
   <meta property="og:type" content="article">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
-  <meta property="og:url" content="${canonical}">
+  <meta property="og:url" content="${escapeHtml(canonical)}">
   <meta property="og:image" content="${escapeHtml(image)}">
+  <meta property="og:image:alt" content="${escapeHtml(article.title)}">
+  ${publishedDate ? `<meta property="article:published_time" content="${escapeHtml(publishedDate)}">` : ""}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${escapeHtml(image)}">
   <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="/tracking-config.js" defer></script>
+  <script src="/tracking.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/" aria-label="KINGMANS">
       <span class="brand-wordmark">KINGMANS</span>
     </a>
-    <nav class="main-nav" aria-label="Dieu huong chinh">
-      <a href="/#market">Goc chuyen gia</a>
-      <a href="/#projects">Du an</a>
-      <a href="/#profile">Ho so</a>
-      <a href="/#contact">Lien he</a>
+    <nav class="main-nav" aria-label="Điều hướng chính">
+      <a href="/#market">Góc chuyên gia</a>
+      <a href="/#projects">Dự án</a>
+      <a href="/#profile">Hồ sơ</a>
+      <a href="/#contact">Liên hệ</a>
     </nav>
-    <a class="header-cta" href="tel:0396460442">Goi hotline</a>
-    <button class="menu-button" type="button" aria-label="Mo menu" aria-expanded="false">
+    <a class="header-cta" href="tel:0396460442">Gọi hotline</a>
+    <button class="menu-button" type="button" aria-label="Mở menu" aria-expanded="false">
       <span></span><span></span>
     </button>
   </header>
-  <main class="article-main">
-    <article class="article-shell">
-      <p class="article-shell-kicker">Goc chuyen gia • ${category}</p>
-      <h1>${escapeHtml(article.title)}</h1>
-      <p class="article-shell-meta">${dateValue}</p>
-      ${
-        article.cover_image_url
-          ? `<img class="article-shell-image" src="${escapeHtml(image)}" alt="${escapeHtml(article.title)}" loading="eager" decoding="async">`
-          : ""
-      }
-      <div class="article-shell-content">${content}</div>
-    </article>
+  <main>
+    <section class="article-hero" style="--article-image: url('${escapeHtml(image)}')">
+      <div class="article-hero-content">
+        <a class="back-link" href="/#market">Quay lại góc chuyên gia</a>
+        <p class="eyebrow">${escapeHtml(category)}${displayDate ? ` | ${escapeHtml(displayDate)}` : ""}</p>
+        <h1>${escapeHtml(article.title)}</h1>
+        ${article.excerpt ? `<p>${escapeHtml(article.excerpt)}</p>` : ""}
+      </div>
+    </section>
+
+    <section class="article-layout cms-article-layout">
+      <article class="article-prose cms-article-prose">
+        ${article.excerpt ? `<p class="article-lede">${escapeHtml(article.excerpt)}</p>` : ""}
+        <section class="article-section cms-content">
+          ${content}
+        </section>
+      </article>
+
+      <aside class="article-sidebar" aria-label="Tư vấn nhanh">
+        <p class="section-kicker">Tư vấn nhanh</p>
+        <h2>Cần kiểm chứng thông tin trước khi xuống tiền?</h2>
+        <p>Gửi khu vực, ngân sách và mục tiêu mua. KINGMANS Realty sẽ hỗ trợ bóc tách pháp lý, bảng giá, dòng tiền và rủi ro thực tế trước khi bạn ra quyết định.</p>
+        <a class="button primary" href="/#contact">Gửi nhu cầu</a>
+        <a class="button secondary" href="tel:0396460442">Gọi 0396 460 442</a>
+      </aside>
+    </section>
   </main>
+  <footer class="site-footer">
+    <div><strong>KINGMANS</strong><span>Cố vấn bất động sản cá nhân tại TP.HCM, Bình Dương và khu vực vệ tinh.</span></div>
+    <div class="footer-links">
+      <a href="tel:0396460442">0396 460 442</a>
+      <a href="mailto:binhopusrealty@gmail.com">binhopusrealty@gmail.com</a>
+      <a href="https://www.facebook.com/profile.php?id=61586688100723&amp;locale=vi_VN" target="_blank" rel="noreferrer">Facebook</a>
+      <a href="https://zalo.me/0396460442" target="_blank" rel="noreferrer">Zalo</a>
+    </div>
+  </footer>
   <script src="/site.js"></script>
 </body>
 </html>`,
@@ -758,20 +947,20 @@ async function renderProjectPage(slug, env, origin) {
     <a class="brand" href="/" aria-label="KINGMANS">
       <span class="brand-wordmark">KINGMANS</span>
     </a>
-    <nav class="main-nav" aria-label="Dieu huong chinh">
-      <a href="/#market">Goc chuyen gia</a>
-      <a href="/#projects">Du an</a>
-      <a href="/#profile">Ho so</a>
-      <a href="/#contact">Lien he</a>
+    <nav class="main-nav" aria-label="Điều hướng chính">
+      <a href="/#market">Góc chuyên gia</a>
+      <a href="/#projects">Dự án</a>
+      <a href="/#profile">Hồ sơ</a>
+      <a href="/#contact">Liên hệ</a>
     </nav>
-    <a class="header-cta" href="tel:0396460442">Goi hotline</a>
-    <button class="menu-button" type="button" aria-label="Mo menu" aria-expanded="false">
+    <a class="header-cta" href="tel:0396460442">Gọi hotline</a>
+    <button class="menu-button" type="button" aria-label="Mở menu" aria-expanded="false">
       <span></span><span></span>
     </button>
   </header>
   <main class="article-main">
     <article class="article-shell">
-      <p class="article-shell-kicker">Du an tieu bieu • ${escapeHtml(project.project_type || "du-an")}</p>
+      <p class="article-shell-kicker">Dự án tiêu biểu • ${escapeHtml(project.project_type || "du-an")}</p>
       <h1>${escapeHtml(project.name)}</h1>
       <p class="article-shell-meta">${location}</p>
       ${
@@ -785,7 +974,7 @@ async function renderProjectPage(slug, env, origin) {
           : ""
       }
       <div class="article-shell-content">${content}</div>
-      <p><a class="button primary" href="${ctaUrl}" target="_blank" rel="noreferrer">Xem thong tin chi tiet</a></p>
+      <p><a class="button primary" href="${ctaUrl}" target="_blank" rel="noreferrer">Xem thông tin chi tiết</a></p>
     </article>
   </main>
   <script src="/site.js"></script>
@@ -968,6 +1157,15 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+function escapeXml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 function sanitizeTrustedHtml(value) {
   return String(value ?? "").trim();
 }
@@ -981,6 +1179,30 @@ function safeParseJsonArray(value) {
   } catch {
     return [];
   }
+}
+
+function categoryLabel(value) {
+  const labels = {
+    market: "Thị trường",
+    guide: "Hướng dẫn",
+    finance: "Tài chính",
+    lifestyle: "Sống xanh & Công nghệ"
+  };
+  return labels[value] || "Góc chuyên gia";
+}
+
+function formatVietnameseDate(value) {
+  const date = value ? new Date(`${value}T00:00:00+07:00`) : null;
+  if (!date || Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+}
+
+function escapeJsonForHtml(value) {
+  return String(value ?? "").replace(/</g, "\\u003c");
 }
 
 function absoluteMediaUrl(origin, path) {

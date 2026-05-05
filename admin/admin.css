@@ -187,7 +187,8 @@ select:focus {
 .ghost-action,
 .secondary-link,
 .tab-button,
-.copy-button {
+.copy-button,
+.danger-action {
   min-height: 42px;
   border-radius: var(--radius);
   border: 1px solid transparent;
@@ -396,6 +397,24 @@ select:focus {
   background: rgba(216, 180, 99, 0.08);
 }
 
+.danger-action {
+  color: #ffd1cf;
+  border-color: rgba(255, 170, 168, 0.42);
+  background: rgba(255, 170, 168, 0.09);
+}
+
+.item-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .content-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -461,7 +480,16 @@ select:focus {
     padding: 0 12px;
   }
 
-  .media-item {
+  .media-item,
+  .item-row {
     grid-template-columns: 1fr;
+  }
+
+  .row-actions {
+    justify-content: stretch;
+  }
+
+  .row-actions > * {
+    flex: 1 1 88px;
   }
 }

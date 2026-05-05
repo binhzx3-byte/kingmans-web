@@ -9,8 +9,12 @@ const uploadNote = document.querySelector("#uploadNote");
 const mediaList = document.querySelector("#mediaList");
 const articleForm = document.querySelector("#articleForm");
 const articleNote = document.querySelector("#articleNote");
+const articleCancelEdit = document.querySelector("#articleCancelEdit");
+const articleSubmitButton = articleForm?.querySelector("button[type='submit']");
 const projectForm = document.querySelector("#projectForm");
 const projectNote = document.querySelector("#projectNote");
+const projectCancelEdit = document.querySelector("#projectCancelEdit");
+const projectSubmitButton = projectForm?.querySelector("button[type='submit']");
 const articleList = document.querySelector("#articleList");
 const projectList = document.querySelector("#projectList");
 const refreshButton = document.querySelector("#refreshButton");
@@ -139,15 +143,17 @@ uploadForm?.addEventListener("submit", async (event) => {
 articleForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(articleForm);
+  const id = String(formData.get("id") || "").trim();
   const payload = Object.fromEntries(formData.entries());
+  delete payload.id;
 
   try {
-    const result = await requestJson("/api/admin/articles", {
-      method: "POST",
+    const result = await requestJson(id ? `/api/admin/articles/${encodeURIComponent(id)}` : "/api/admin/articles", {
+      method: id ? "PUT" : "POST",
       body: JSON.stringify(payload)
     });
-    setNote(articleNote, `Đã lưu bài viết. Link public: /bai-viet/${result.slug}`);
-    articleForm.reset();
+    setNote(articleNote, id ? `Đã cập nhật bài viết. Link public: /bai-viet/${result.slug}` : `Đã lưu bài viết. Link public: /bai-viet/${result.slug}`);
+    resetArticleEditor();
     await loadArticles();
     openTab("contentPane");
   } catch (error) {
@@ -158,24 +164,36 @@ articleForm?.addEventListener("submit", async (event) => {
 projectForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(projectForm);
+  const id = String(formData.get("id") || "").trim();
   const payload = Object.fromEntries(formData.entries());
+  delete payload.id;
   payload.stats = String(payload.stats || "")
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
 
   try {
-    const result = await requestJson("/api/admin/projects", {
-      method: "POST",
+    const result = await requestJson(id ? `/api/admin/projects/${encodeURIComponent(id)}` : "/api/admin/projects", {
+      method: id ? "PUT" : "POST",
       body: JSON.stringify(payload)
     });
-    setNote(projectNote, `Đã lưu dự án. Link public: /du-an/${result.slug}`);
-    projectForm.reset();
+    setNote(projectNote, id ? `Đã cập nhật dự án. Link public: /du-an/${result.slug}` : `Đã lưu dự án. Link public: /du-an/${result.slug}`);
+    resetProjectEditor();
     await loadProjects();
     openTab("contentPane");
   } catch (error) {
     setNote(projectNote, error.message, true);
   }
+});
+
+articleCancelEdit?.addEventListener("click", () => {
+  resetArticleEditor();
+  setNote(articleNote, "Đã hủy chế độ sửa bài viết.");
+});
+
+projectCancelEdit?.addEventListener("click", () => {
+  resetProjectEditor();
+  setNote(projectNote, "Đã hủy chế độ sửa dự án.");
 });
 
 refreshButton?.addEventListener("click", () => {
@@ -185,25 +203,50 @@ refreshButton?.addEventListener("click", () => {
 });
 
 document.addEventListener("click", async (event) => {
-  const button = event.target.closest("[data-copy-url]");
-  if (!button) return;
+  const copyButton = event.target.closest("[data-copy-url]");
+  if (copyButton) {
+    const url = copyButton.dataset.copyUrl;
+    try {
+      await navigator.clipboard.writeText(url);
+      copyButton.textContent = "Đã copy";
+      setTimeout(() => {
+        copyButton.textContent = "Copy link";
+      }, 1300);
+    } catch {
+      prompt("Copy link ảnh:", url);
+    }
+    return;
+  }
 
-  const url = button.dataset.copyUrl;
-  try {
-    await navigator.clipboard.writeText(url);
-    button.textContent = "Đã copy";
-    setTimeout(() => {
-      button.textContent = "Copy link";
-    }, 1300);
-  } catch {
-    prompt("Copy link ảnh:", url);
+  const editArticleButton = event.target.closest("[data-edit-article]");
+  if (editArticleButton) {
+    await editArticle(editArticleButton.dataset.editArticle);
+    return;
+  }
+
+  const deleteArticleButton = event.target.closest("[data-delete-article]");
+  if (deleteArticleButton) {
+    await deleteArticle(deleteArticleButton.dataset.deleteArticle, deleteArticleButton.dataset.title);
+    return;
+  }
+
+  const editProjectButton = event.target.closest("[data-edit-project]");
+  if (editProjectButton) {
+    await editProject(editProjectButton.dataset.editProject);
+    return;
+  }
+
+  const deleteProjectButton = event.target.closest("[data-delete-project]");
+  if (deleteProjectButton) {
+    await deleteProject(deleteProjectButton.dataset.deleteProject, deleteProjectButton.dataset.title);
   }
 });
 
 async function loadMedia() {
   const payload = await requestJson("/api/admin/media?limit=20", { method: "GET" });
-  mediaList.innerHTML = payload.items.length
-    ? payload.items
+  const items = payload.items || [];
+  mediaList.innerHTML = items.length
+    ? items
         .map(
           (item) => `
           <article class="media-item">
@@ -221,41 +264,164 @@ async function loadMedia() {
 }
 
 async function loadArticles() {
-  const payload = await requestJson("/api/admin/articles?limit=20", { method: "GET" });
-  articleList.innerHTML = payload.items.length
-    ? payload.items
-        .map(
-          (item) => `
-          <article class="item-row">
-            <strong>${escapeHtml(item.title)}</strong>
-            <small>${escapeHtml(readableStatus(item.status))} · /bai-viet/${escapeHtml(item.slug)}</small>
-            <code>Cập nhật: ${escapeHtml(formatDate(item.updated_at || item.created_at))}</code>
-          </article>
-        `
-        )
+  const payload = await requestJson("/api/admin/articles?limit=50", { method: "GET" });
+  const items = payload.items || [];
+  articleList.innerHTML = items.length
+    ? items
+        .map((item) => {
+          const publicUrl = `/bai-viet/${item.slug}`;
+          return `
+            <article class="item-row">
+              <div>
+                <strong>${escapeHtml(item.title)}</strong>
+                <small>${escapeHtml(readableStatus(item.status))} · ${escapeHtml(publicUrl)}</small>
+                <code>Cập nhật: ${escapeHtml(formatDate(item.updated_at || item.created_at))}</code>
+              </div>
+              <div class="row-actions">
+                <a class="copy-button" href="${escapeHtml(publicUrl)}" target="_blank" rel="noreferrer">Xem</a>
+                <button class="copy-button" type="button" data-edit-article="${escapeHtml(item.id)}">Sửa</button>
+                <button class="copy-button danger-action" type="button" data-delete-article="${escapeHtml(item.id)}" data-title="${escapeHtml(item.title)}">Xóa</button>
+              </div>
+            </article>
+          `;
+        })
         .join("")
     : '<p class="note">Chưa có bài viết nào trong CMS.</p>';
 }
 
 async function loadProjects() {
-  const payload = await requestJson("/api/admin/projects?limit=20", { method: "GET" });
-  projectList.innerHTML = payload.items.length
-    ? payload.items
-        .map(
-          (item) => `
-          <article class="item-row">
-            <strong>${escapeHtml(item.name)}</strong>
-            <small>${escapeHtml(readableStatus(item.status))} · /du-an/${escapeHtml(item.slug)}</small>
-            <code>Cập nhật: ${escapeHtml(formatDate(item.updated_at || item.created_at))}</code>
-          </article>
-        `
-        )
+  const payload = await requestJson("/api/admin/projects?limit=50", { method: "GET" });
+  const items = payload.items || [];
+  projectList.innerHTML = items.length
+    ? items
+        .map((item) => {
+          const publicUrl = `/du-an/${item.slug}`;
+          return `
+            <article class="item-row">
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <small>${escapeHtml(readableStatus(item.status))} · ${escapeHtml(publicUrl)}</small>
+                <code>Cập nhật: ${escapeHtml(formatDate(item.updated_at || item.created_at))}</code>
+              </div>
+              <div class="row-actions">
+                <a class="copy-button" href="${escapeHtml(publicUrl)}" target="_blank" rel="noreferrer">Xem</a>
+                <button class="copy-button" type="button" data-edit-project="${escapeHtml(item.id)}">Sửa</button>
+                <button class="copy-button danger-action" type="button" data-delete-project="${escapeHtml(item.id)}" data-title="${escapeHtml(item.name)}">Xóa</button>
+              </div>
+            </article>
+          `;
+        })
         .join("")
     : '<p class="note">Chưa có dự án nào trong CMS.</p>';
 }
 
 async function loadDashboard() {
   await Promise.all([loadMedia(), loadArticles(), loadProjects()]);
+}
+
+async function editArticle(id) {
+  try {
+    setNote(articleNote, "Đang tải dữ liệu bài viết...");
+    const payload = await requestJson(`/api/admin/articles/${encodeURIComponent(id)}`, { method: "GET" });
+    const item = payload.item;
+    fillField(articleForm, "id", item.id);
+    fillField(articleForm, "slug", item.slug);
+    fillField(articleForm, "category", item.category);
+    fillField(articleForm, "title", item.title);
+    fillField(articleForm, "excerpt", item.excerpt);
+    fillField(articleForm, "cover_image_url", item.cover_image_url);
+    fillField(articleForm, "seo_title", item.seo_title);
+    fillField(articleForm, "seo_description", item.seo_description);
+    fillField(articleForm, "status", item.status);
+    fillField(articleForm, "content_html", item.content_html);
+    fillField(articleForm, "content_markdown", item.content_markdown);
+    if (articleSubmitButton) articleSubmitButton.textContent = "Cập nhật bài viết";
+    if (articleCancelEdit) articleCancelEdit.hidden = false;
+    openTab("articlePane");
+    articleForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    setNote(articleNote, "Đang ở chế độ sửa. Kiểm tra nội dung rồi bấm Cập nhật bài viết.");
+  } catch (error) {
+    setNote(articleNote, error.message, true);
+  }
+}
+
+async function deleteArticle(id, title) {
+  if (!confirm(`Xóa bài viết "${title || "này"}"? Thao tác này sẽ gỡ bài khỏi website.`)) {
+    return;
+  }
+
+  try {
+    await requestJson(`/api/admin/articles/${encodeURIComponent(id)}`, { method: "DELETE" });
+    resetArticleEditor();
+    await loadArticles();
+    setNote(articleNote, "Đã xóa bài viết khỏi CMS.");
+  } catch (error) {
+    setNote(articleNote, error.message, true);
+  }
+}
+
+async function editProject(id) {
+  try {
+    setNote(projectNote, "Đang tải dữ liệu dự án...");
+    const payload = await requestJson(`/api/admin/projects/${encodeURIComponent(id)}`, { method: "GET" });
+    const item = payload.item;
+    fillField(projectForm, "id", item.id);
+    fillField(projectForm, "slug", item.slug);
+    fillField(projectForm, "project_type", item.project_type);
+    fillField(projectForm, "name", item.name);
+    fillField(projectForm, "location", item.location);
+    fillField(projectForm, "summary", item.summary);
+    fillField(projectForm, "cover_image_url", item.cover_image_url);
+    fillField(projectForm, "cta_url", item.cta_url);
+    fillField(projectForm, "stats", (item.stats || []).join("\n"));
+    fillField(projectForm, "seo_title", item.seo_title);
+    fillField(projectForm, "seo_description", item.seo_description);
+    fillField(projectForm, "status", item.status);
+    fillField(projectForm, "content_html", item.content_html);
+    fillField(projectForm, "content_markdown", item.content_markdown);
+    if (projectSubmitButton) projectSubmitButton.textContent = "Cập nhật dự án";
+    if (projectCancelEdit) projectCancelEdit.hidden = false;
+    openTab("projectPane");
+    projectForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    setNote(projectNote, "Đang ở chế độ sửa. Kiểm tra nội dung rồi bấm Cập nhật dự án.");
+  } catch (error) {
+    setNote(projectNote, error.message, true);
+  }
+}
+
+async function deleteProject(id, title) {
+  if (!confirm(`Xóa dự án "${title || "này"}"? Trang dự án sẽ không còn hiển thị.`)) {
+    return;
+  }
+
+  try {
+    await requestJson(`/api/admin/projects/${encodeURIComponent(id)}`, { method: "DELETE" });
+    resetProjectEditor();
+    await loadProjects();
+    setNote(projectNote, "Đã xóa dự án khỏi CMS.");
+  } catch (error) {
+    setNote(projectNote, error.message, true);
+  }
+}
+
+function resetArticleEditor() {
+  articleForm?.reset();
+  fillField(articleForm, "id", "");
+  if (articleSubmitButton) articleSubmitButton.textContent = "Lưu bài viết";
+  if (articleCancelEdit) articleCancelEdit.hidden = true;
+}
+
+function resetProjectEditor() {
+  projectForm?.reset();
+  fillField(projectForm, "id", "");
+  if (projectSubmitButton) projectSubmitButton.textContent = "Lưu dự án";
+  if (projectCancelEdit) projectCancelEdit.hidden = true;
+}
+
+function fillField(form, name, value) {
+  const field = form?.elements?.namedItem(name);
+  if (!field) return;
+  field.value = value ?? "";
 }
 
 function readableStatus(status) {

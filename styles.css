@@ -1135,6 +1135,95 @@ textarea:focus {
   font-weight: 800;
 }
 
+.cms-content {
+  align-content: start;
+}
+
+.cms-content > :first-child {
+  margin-top: 0;
+}
+
+.cms-content h2 {
+  margin-top: 8px;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.22;
+}
+
+.cms-content h3 {
+  margin-top: 10px;
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.cms-content p,
+.cms-content li,
+.cms-content figcaption {
+  color: var(--muted);
+  line-height: 1.82;
+}
+
+.cms-content a {
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.cms-content figure {
+  margin: 12px 0 4px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.cms-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.cms-content figcaption {
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.cms-content blockquote {
+  margin: 6px 0 0;
+  padding: 20px 22px;
+  border-left: 4px solid var(--gold);
+  background: rgba(200, 164, 93, 0.12);
+  color: #2d3442;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.72;
+}
+
+.cms-content table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.cms-content th,
+.cms-content td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.cms-content th {
+  color: var(--ink);
+  background: rgba(200, 164, 93, 0.12);
+}
+
 .article-table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);

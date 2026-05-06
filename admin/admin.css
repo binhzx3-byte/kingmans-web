@@ -18,16 +18,19 @@
 
 * {
   box-sizing: border-box;
+  min-width: 0;
 }
 
 html {
   min-height: 100%;
   background: var(--black);
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: "DM Sans", "Segoe UI", Tahoma, sans-serif;
   color: var(--text);
   background:
@@ -57,6 +60,7 @@ button {
 
 .admin-shell {
   width: min(1240px, calc(100% - 32px));
+  max-width: calc(100vw - 18px);
   margin: 0 auto;
   padding: 26px 0 52px;
 }
@@ -111,10 +115,13 @@ button {
 .panel-head span,
 .card-head p {
   display: block;
+  max-width: 100%;
   margin-top: 18px;
   color: var(--muted);
   font-size: 16px;
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .login-card,
@@ -174,6 +181,7 @@ input,
 textarea,
 select {
   width: 100%;
+  max-width: 100%;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   padding: 12px 13px;
@@ -256,6 +264,7 @@ select:focus {
 .admin-panel {
   display: grid;
   gap: 18px;
+  min-width: 0;
 }
 
 .panel-head {
@@ -300,11 +309,13 @@ select:focus {
 
 .tab-pane.active {
   display: block;
+  min-width: 0;
 }
 
 .editor-card {
   padding: clamp(18px, 3vw, 28px);
   border-radius: var(--radius);
+  min-width: 0;
 }
 
 .card-head {
@@ -343,6 +354,7 @@ select:focus {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  min-width: 0;
 }
 
 .form-actions {
@@ -378,15 +390,7 @@ select:focus {
   gap: 8px;
 }
 
-.rich-editor {
-  display: none;
-}
-
-.rich-field.rich-enabled .rich-editor {
-  display: block;
-}
-
-.rich-field.rich-enabled .rich-source {
+.rich-source {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -394,62 +398,134 @@ select:focus {
   pointer-events: none;
 }
 
-.rich-field .ql-toolbar,
-.rich-field .ql-container {
+.rich-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius) var(--radius) 0 0;
   border-color: var(--line-soft);
   background: rgba(8, 13, 20, 0.74);
-  color: var(--text);
 }
 
-.rich-field .ql-toolbar {
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.rich-field .ql-container {
-  min-height: 360px;
-  border-radius: 0 0 var(--radius) var(--radius);
-  font-family: "DM Sans", "Segoe UI", Tahoma, sans-serif;
-  font-size: 16px;
-}
-
-.rich-field .ql-editor {
-  min-height: 360px;
-  color: #f8fafc;
-  line-height: 1.72;
-}
-
-.rich-field .ql-editor.ql-blank::before {
-  color: rgba(174, 185, 203, 0.72);
-  font-style: normal;
-}
-
-.rich-field .ql-snow .ql-stroke {
-  stroke: #e7dfcb;
-}
-
-.rich-field .ql-snow .ql-fill {
-  fill: #e7dfcb;
-}
-
-.rich-field .ql-snow .ql-picker {
+.rich-tool {
+  min-height: 32px;
+  border: 1px solid rgba(216, 180, 99, 0.22);
+  border-radius: 6px;
+  padding: 0 10px;
   color: #e7dfcb;
+  background: rgba(216, 180, 99, 0.06);
+  font-size: 12px;
+  font-weight: 900;
 }
 
-.rich-field .ql-toolbar button:hover,
-.rich-field .ql-toolbar button:focus,
-.rich-field .ql-toolbar button.ql-active,
-.rich-field .ql-toolbar .ql-picker-label:hover,
-.rich-field .ql-toolbar .ql-picker-label.ql-active {
+.rich-tool:hover,
+.rich-tool:focus {
+  color: var(--gold-2);
+  border-color: rgba(216, 180, 99, 0.58);
+}
+
+.rich-editor {
+  min-height: 420px;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid var(--line-soft);
+  border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 18px;
+  background: rgba(8, 13, 20, 0.74);
+  color: #f8fafc;
+  font-size: 16px;
+  line-height: 1.78;
+  outline: 0;
+}
+
+.rich-editor:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(174, 185, 203, 0.72);
+}
+
+.rich-editor:focus {
+  border-color: rgba(216, 180, 99, 0.75);
+  background: rgba(8, 13, 20, 0.92);
+  box-shadow: 0 0 0 3px rgba(216, 180, 99, 0.14);
+}
+
+.rich-editor h2,
+.rich-editor h3 {
+  margin: 20px 0 10px;
+  color: var(--gold-2);
+  font-family: "Playfair Display", Georgia, serif;
+  line-height: 1.2;
+}
+
+.rich-editor h2 {
+  font-size: 30px;
+}
+
+.rich-editor h3 {
+  font-size: 23px;
+}
+
+.rich-editor p,
+.rich-editor li {
+  color: #dce4f2;
+}
+
+.rich-editor a {
   color: var(--gold-2);
 }
 
-.rich-field .ql-snow .ql-picker-options {
-  border-color: var(--line-soft);
-  background: var(--surface-strong);
+.rich-editor blockquote,
+.rich-editor .article-callout {
+  border-left: 4px solid var(--gold);
+  margin: 14px 0;
+  padding: 16px 18px;
+  background: rgba(216, 180, 99, 0.1);
 }
 
-.rich-field .ql-editor a {
-  color: var(--gold-2);
+.block-library {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(216, 180, 99, 0.22);
+  border-radius: var(--radius);
+  background: rgba(8, 13, 20, 0.34);
+}
+
+.block-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.block-button {
+  min-height: 38px;
+  border: 1px solid rgba(216, 180, 99, 0.28);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  color: #e7dfcb;
+  background: rgba(216, 180, 99, 0.06);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.block-button:hover,
+.block-button:focus {
+  color: #111722;
+  background: var(--gold);
+}
+
+.block-button.accent {
+  color: #10151f;
+  border-color: transparent;
+  background: linear-gradient(145deg, #f2d98c 0%, #d8b463 42%, #b78b3e 100%);
 }
 
 .upload-box {
@@ -707,6 +783,10 @@ select:focus {
     grid-template-columns: 1fr;
   }
 
+  .block-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .field-head {
     display: grid;
     align-items: start;
@@ -720,19 +800,47 @@ select:focus {
 
 @media (max-width: 560px) {
   .admin-shell {
-    width: min(100% - 18px, 1240px);
-    padding-top: 12px;
+    width: min(1240px, calc(100% - 52px));
+    max-width: calc(100vw - 52px);
+    padding-top: 18px;
+  }
+
+  .login-layout {
+    min-height: auto;
+    align-items: start;
+    gap: 22px;
+  }
+
+  .login-brand {
+    width: 100%;
+    max-width: 100%;
   }
 
   .login-card,
   .editor-card {
     padding: 16px;
+    max-width: 100%;
+  }
+
+  .login-card {
+    width: min(100%, 320px);
+    justify-self: start;
   }
 
   .login-brand h1,
   .panel-head h1 {
-    font-size: 32px;
+    font-size: 30px;
     line-height: 1.06;
+    max-width: 11.5ch;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .login-brand .brand-copy,
+  .panel-head span,
+  .card-head p {
+    max-width: 32ch;
+    font-size: 15px;
   }
 
   .admin-tabs {
@@ -752,6 +860,10 @@ select:focus {
   .media-thumb {
     width: 100%;
     height: 150px;
+  }
+
+  .block-grid {
+    grid-template-columns: 1fr;
   }
 
   .preview-modal {

@@ -284,10 +284,10 @@ const state = {
 const INITIAL_VISIBLE = 6;
 const LOAD_MORE_STEP = 6;
 const CATEGORY_LABELS = {
-  market: "Thi truong",
-  guide: "Huong dan",
-  finance: "Tai chinh",
-  lifestyle: "Song xanh & Cong nghe"
+  market: "Thị trường",
+  guide: "Hướng dẫn",
+  finance: "Tài chính",
+  lifestyle: "Sống xanh & Công nghệ"
 };
 
 function normalizeText(value) {
@@ -352,7 +352,7 @@ async function loadCmsFeed() {
         slug: item.slug,
         title: item.title || "",
         category: item.category || "market",
-        label: CATEGORY_LABELS[item.category] || "Thi truong",
+        label: CATEGORY_LABELS[item.category] || "Thị trường",
         date: formatIsoDateToDisplay(item.published_at || item.updated_at),
         image: item.cover_image_url || "assets/images/article-market-binh-duong.webp",
         excerpt: item.excerpt || "",
@@ -371,7 +371,7 @@ async function loadCmsFeed() {
         location: item.location || "TP.HCM",
         image: item.cover_image_url || "assets/images/opal-luxury-hero.webp",
         description: item.summary || "",
-        stats: ["Du an da xac minh", "Phap ly can doi chieu", "Lien he de nhan bang gia"],
+        stats: ["Dự án đã xác minh", "Pháp lý cần đối chiếu", "Liên hệ để nhận bảng giá"],
         areas: ["tp-hcm", "binh-duong", "di-an", "thuan-an", "trung-tam-tphcm"],
         types: [item.project_type || "can-ho"],
         link: `/du-an/${item.slug}`

@@ -69,7 +69,11 @@ async function routeRequest(request, env) {
     return renderProjectPage(slug, env, url.origin);
   }
 
-  if (url.pathname === "/admin" || url.pathname === "/admin/") {
+  if (url.pathname === "/admin") {
+    return Response.redirect(`${url.origin}/admin/`, 308);
+  }
+
+  if (url.pathname === "/admin/") {
     return env.ASSETS.fetch(new Request(`${url.origin}/admin/index.html`, request));
   }
 

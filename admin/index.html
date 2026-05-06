@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap&subset=vietnamese" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="admin.css">
   </head>
   <body>
     <main class="admin-shell">
@@ -114,10 +113,26 @@
               <div class="rich-field" data-rich-field="article">
                 <div class="field-head">
                   <span>Nội dung bài viết</span>
-                  <small>Soạn bằng trình biên tập, hệ thống sẽ tự lưu thành HTML chuẩn.</small>
+                  <small>Soạn nội dung và dùng block thiết kế để bài lên web đẹp hơn.</small>
                 </div>
                 <div id="articleRichEditor" class="rich-editor"></div>
                 <textarea class="rich-source" name="content_html" rows="12" placeholder="<p>Đoạn mở đầu...</p>"></textarea>
+              </div>
+              <div class="block-library">
+                <div class="field-head">
+                  <span>Block thiết kế nhanh</span>
+                  <small>Bấm để chèn vào vị trí con trỏ hoặc cuối bài.</small>
+                </div>
+                <div class="block-grid">
+                  <button type="button" class="block-button" data-insert-block="article" data-block="article-lede">Mở bài nổi bật</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="expert-quote">Nhận định chuyên gia</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="callout">Hộp lưu ý</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="image-figure">Ảnh + chú thích</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="comparison-table">Bảng so sánh</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="checklist">Checklist</button>
+                  <button type="button" class="block-button" data-insert-block="article" data-block="faq">FAQ SEO</button>
+                  <button type="button" class="block-button accent" data-insert-block="article" data-block="consult-cta">CTA tư vấn</button>
+                </div>
               </div>
               <details class="helper-box">
                 <summary>Mẫu chèn ảnh trong bài</summary>
@@ -213,10 +228,24 @@
               <div class="rich-field" data-rich-field="project">
                 <div class="field-head">
                   <span>Nội dung trang dự án</span>
-                  <small>Soạn nội dung tổng quan, pháp lý, tiện ích, tài chính và CTA.</small>
+                  <small>Chèn nhanh các phần landing page dự án chuyên nghiệp.</small>
                 </div>
                 <div id="projectRichEditor" class="rich-editor"></div>
                 <textarea class="rich-source" name="content_html" rows="12" placeholder="<h2>Tổng quan dự án</h2><p>...</p>"></textarea>
+              </div>
+              <div class="block-library">
+                <div class="field-head">
+                  <span>Block landing page dự án</span>
+                  <small>Dùng để dựng trang dự án có nhịp đọc và CTA rõ hơn.</small>
+                </div>
+                <div class="block-grid">
+                  <button type="button" class="block-button" data-insert-block="project" data-block="project-overview">Tổng quan sang trọng</button>
+                  <button type="button" class="block-button" data-insert-block="project" data-block="project-highlights">Điểm nổi bật</button>
+                  <button type="button" class="block-button" data-insert-block="project" data-block="legal-status">Pháp lý cần kiểm tra</button>
+                  <button type="button" class="block-button" data-insert-block="project" data-block="price-table">Bảng giá/tài chính</button>
+                  <button type="button" class="block-button" data-insert-block="project" data-block="buyer-groups">Có nên mua?</button>
+                  <button type="button" class="block-button accent" data-insert-block="project" data-block="project-cta">CTA nhận bảng giá</button>
+                </div>
               </div>
               <label>
                 Nội dung Markdown (tùy chọn)
@@ -289,7 +318,6 @@
         <div class="preview-body" id="previewBody"></div>
       </section>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <script src="/admin/admin.js"></script>
+    <script src="admin.js"></script>
   </body>
 </html>

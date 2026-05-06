@@ -27,7 +27,158 @@ const previewCloseButton = document.querySelector("#previewCloseButton");
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabPanes = document.querySelectorAll(".tab-pane");
 const richEditors = {};
+const savedSelections = {};
 const seoCounterUpdaters = [];
+const DESIGN_BLOCKS = {
+  "article-lede": `
+    <p class="article-lede">Đặt vấn đề bằng một góc nhìn rõ ràng: thị trường đang thay đổi như thế nào, người mua cần thận trọng ở đâu và đâu là dữ liệu nên kiểm chứng trước khi xuống tiền.</p>
+  `,
+  "expert-quote": `
+    <blockquote>Nhận định từ KINGMANS Realty: bất động sản không nên được đánh giá bằng cảm xúc nhất thời. Một quyết định tốt cần đi qua ba lớp kiểm chứng: vị trí thực, pháp lý thực và dòng tiền thực.</blockquote>
+  `,
+  callout: `
+    <div class="article-callout">
+      <strong>Điểm cần lưu ý</strong>
+      <p>Nội dung này nên được đối chiếu với hồ sơ pháp lý, tiến độ công trường và bảng giá cập nhật tại thời điểm giao dịch.</p>
+    </div>
+  `,
+  "image-figure": `
+    <figure class="article-figure">
+      <img src="/media/uploads/duong-dan-anh.webp" alt="Mô tả ảnh rõ ràng cho SEO">
+      <figcaption>Chú thích ảnh ngắn gọn, có từ khóa dự án hoặc khu vực nếu phù hợp.</figcaption>
+    </figure>
+  `,
+  "comparison-table": `
+    <div class="article-table-wrap">
+      <table class="article-table">
+        <thead>
+          <tr>
+            <th>Tiêu chí</th>
+            <th>Phương án A</th>
+            <th>Phương án B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Vị trí</td>
+            <td>Gần trục kết nối chính, tiện di chuyển hằng ngày.</td>
+            <td>Lợi thế giá vào tốt hơn nhưng cần kiểm tra thanh khoản.</td>
+          </tr>
+          <tr>
+            <td>Pháp lý</td>
+            <td>Cần đối chiếu giấy phép, 1/500 và điều kiện mở bán.</td>
+            <td>Cần kiểm tra tiến độ sổ và nghĩa vụ tài chính.</td>
+          </tr>
+          <tr>
+            <td>Dòng tiền</td>
+            <td>Phù hợp khai thác thuê nếu có cộng đồng cư dân thực.</td>
+            <td>Phù hợp nắm giữ trung hạn nếu hạ tầng đang hoàn thiện.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `,
+  checklist: `
+    <div class="article-callout">
+      <strong>Checklist kiểm tra nhanh</strong>
+      <ul>
+        <li>Quy hoạch 1/500 và giấy phép xây dựng.</li>
+        <li>Văn bản đủ điều kiện bán nhà hình thành trong tương lai.</li>
+        <li>Ngân hàng bảo lãnh và tiến độ thanh toán thực tế.</li>
+        <li>Khả năng khai thác thuê hoặc bán lại trong 3-5 năm.</li>
+      </ul>
+    </div>
+  `,
+  faq: `
+    <h2>Câu hỏi thường gặp</h2>
+    <h3>Người mua nên kiểm tra gì đầu tiên?</h3>
+    <p>Ưu tiên kiểm tra pháp lý nền tảng, tiến độ thực tế và tổng chi phí sở hữu thay vì chỉ nhìn giá niêm yết.</p>
+    <h3>Khi nào nên dùng đòn bẩy tài chính?</h3>
+    <p>Chỉ nên vay khi khoản trả hằng tháng sau ưu đãi vẫn nằm trong vùng an toàn của dòng tiền gia đình.</p>
+  `,
+  "consult-cta": `
+    <div class="article-callout cta-callout">
+      <strong>Cần kiểm tra dự án trước khi đặt cọc?</strong>
+      <p>Gửi ngân sách, khu vực quan tâm và mục tiêu mua. KINGMANS Realty sẽ hỗ trợ bóc tách bảng giá, pháp lý, dòng tiền và rủi ro trước khi ra quyết định.</p>
+      <p><a class="button primary" href="/#contact">Gửi nhu cầu tư vấn</a></p>
+    </div>
+  `,
+  "project-overview": `
+    <h2>Tổng quan dự án</h2>
+    <p>Dự án được định vị cho nhóm khách hàng tìm kiếm không gian sống có kết nối thuận tiện, hệ tiện ích đủ sâu và khả năng nắm giữ tài sản trong trung hạn.</p>
+    <div class="article-callout">
+      <strong>Góc nhìn KINGMANS</strong>
+      <p>Điểm quan trọng không nằm ở lời giới thiệu đẹp, mà nằm ở pháp lý, tiến độ, vị trí thật và khả năng tạo nhu cầu ở thực sau bàn giao.</p>
+    </div>
+  `,
+  "project-highlights": `
+    <h2>Ba điểm nổi bật cần quan tâm</h2>
+    <ul>
+      <li><strong>Vị trí:</strong> kết nối nhanh đến các trục giao thông và cụm tiện ích lớn.</li>
+      <li><strong>Sản phẩm:</strong> cơ cấu căn hộ phù hợp nhu cầu ở thực và khai thác thuê.</li>
+      <li><strong>Vận hành:</strong> tiện ích, quản lý và cộng đồng cư dân quyết định giá trị dài hạn.</li>
+    </ul>
+  `,
+  "legal-status": `
+    <h2>Cập nhật pháp lý cần kiểm tra</h2>
+    <div class="article-callout">
+      <strong>Danh mục hồ sơ nên đối chiếu</strong>
+      <ul>
+        <li>Quy hoạch chi tiết 1/500.</li>
+        <li>Giấy phép xây dựng và tiến độ nghiệm thu.</li>
+        <li>Điều kiện mở bán nhà ở hình thành trong tương lai.</li>
+        <li>Bảo lãnh ngân hàng và nghĩa vụ tài chính của chủ đầu tư.</li>
+      </ul>
+    </div>
+  `,
+  "price-table": `
+    <h2>Bài toán giá và dòng tiền</h2>
+    <div class="article-table-wrap">
+      <table class="article-table">
+        <thead>
+          <tr>
+            <th>Hạng mục</th>
+            <th>Nội dung cần kiểm tra</th>
+            <th>Ý nghĩa với người mua</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Giá vào</td>
+            <td>Giá/m2, tổng giá trị căn, chiết khấu, lịch thanh toán.</td>
+            <td>Xác định sản phẩm có đang đúng mặt bằng khu vực hay không.</td>
+          </tr>
+          <tr>
+            <td>Dòng tiền</td>
+            <td>Khoản vay, lãi sau ưu đãi, phí quản lý, quỹ dự phòng.</td>
+            <td>Đảm bảo khoản mua không tạo áp lực tài chính quá mức.</td>
+          </tr>
+          <tr>
+            <td>Thanh khoản</td>
+            <td>Nhu cầu ở thực, khả năng cho thuê, cộng đồng cư dân.</td>
+            <td>Giúp đánh giá khả năng bán lại hoặc khai thác tài sản.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `,
+  "buyer-groups": `
+    <h2>Có nên mua dự án này không?</h2>
+    <h3>Nhóm mua ở</h3>
+    <p>Phù hợp nếu vị trí đáp ứng lịch di chuyển hằng ngày, tiện ích đã đủ cho nhu cầu gia đình và tổng chi phí nằm trong vùng an toàn.</p>
+    <h3>Nhóm đầu tư cho thuê</h3>
+    <p>Cần kiểm tra tệp khách thuê thật, mức thuê của dự án lân cận và chi phí vận hành sau bàn giao.</p>
+    <h3>Nhóm mua giữ tài sản</h3>
+    <p>Nên ưu tiên sản phẩm có pháp lý rõ, vị trí khó thay thế và dư địa hạ tầng trong 3-5 năm tới.</p>
+  `,
+  "project-cta": `
+    <div class="article-callout cta-callout">
+      <strong>Nhận bảng giá và phân tích căn phù hợp</strong>
+      <p>KINGMANS Realty có thể hỗ trợ lọc giỏ hàng theo ngân sách, tầng, view, phương án vay và mục tiêu mua ở hoặc đầu tư.</p>
+      <p><a class="button primary" href="/#contact">Nhận tư vấn dự án</a></p>
+    </div>
+  `
+};
 
 async function requestJson(path, options = {}) {
   const response = await fetch(path, {
@@ -245,6 +396,12 @@ refreshButton?.addEventListener("click", () => {
 });
 
 document.addEventListener("click", async (event) => {
+  const blockButton = event.target.closest("[data-insert-block]");
+  if (blockButton) {
+    insertDesignBlock(blockButton.dataset.insertBlock, blockButton.dataset.block);
+    return;
+  }
+
   const copyButton = event.target.closest("[data-copy-url]");
   if (copyButton) {
     const url = copyButton.dataset.copyUrl;
@@ -476,40 +633,56 @@ function fillField(form, name, value) {
 }
 
 function initRichEditors() {
-  if (!window.Quill) {
-    return;
-  }
-
-  const toolbar = [
-    [{ header: [2, 3, false] }],
-    ["bold", "italic", "underline"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["blockquote", "link", "image"],
-    ["clean"]
-  ];
-
   setupRichEditor("article", "#articleRichEditor", articleForm, "Viết nội dung bài phân tích tại đây...");
   setupRichEditor("project", "#projectRichEditor", projectForm, "Viết nội dung trang dự án tại đây...");
+}
 
-  function setupRichEditor(key, selector, form, placeholder) {
-    const target = document.querySelector(selector);
-    const field = form?.elements?.namedItem("content_html");
-    if (!target || !field) return;
+function setupRichEditor(key, selector, form, placeholder) {
+  const target = document.querySelector(selector);
+  const field = form?.elements?.namedItem("content_html");
+  if (!target || !field) return;
 
-    const editor = new Quill(target, {
-      theme: "snow",
-      placeholder,
-      modules: { toolbar }
-    });
+  const toolbar = document.createElement("div");
+  toolbar.className = "rich-toolbar";
+  toolbar.innerHTML = `
+    <button class="rich-tool" type="button" data-command="formatBlock" data-value="h2">H2</button>
+    <button class="rich-tool" type="button" data-command="formatBlock" data-value="h3">H3</button>
+    <button class="rich-tool" type="button" data-command="bold">B</button>
+    <button class="rich-tool" type="button" data-command="italic">I</button>
+    <button class="rich-tool" type="button" data-command="insertUnorderedList">List</button>
+    <button class="rich-tool" type="button" data-command="formatBlock" data-value="blockquote">Quote</button>
+    <button class="rich-tool" type="button" data-command="createLink">Link</button>
+    <button class="rich-tool" type="button" data-command="insertImage">Ảnh</button>
+    <button class="rich-tool" type="button" data-command="removeFormat">Clear</button>
+  `;
+  target.insertAdjacentElement("beforebegin", toolbar);
+  target.setAttribute("contenteditable", "true");
+  target.setAttribute("role", "textbox");
+  target.setAttribute("aria-multiline", "true");
+  target.dataset.placeholder = placeholder;
+  target.innerHTML = field.value || "";
 
-    richEditors[key] = editor;
-    target.closest(".rich-field")?.classList.add("rich-enabled");
-    if (field.value) {
-      editor.clipboard.dangerouslyPasteHTML(field.value);
-    }
-    editor.on("text-change", () => syncRichEditorToField(key));
-    syncRichEditorToField(key);
-  }
+  richEditors[key] = {
+    root: target,
+    field,
+    toolbar
+  };
+
+  ["keyup", "mouseup", "focus", "input"].forEach((eventName) => {
+    target.addEventListener(eventName, () => saveEditorSelection(key));
+  });
+  target.addEventListener("input", () => syncRichEditorToField(key));
+
+  toolbar.addEventListener("mousedown", (event) => {
+    event.preventDefault();
+  });
+  toolbar.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-command]");
+    if (!button) return;
+    runEditorCommand(key, button.dataset.command, button.dataset.value);
+  });
+
+  syncRichEditorToField(key);
 }
 
 function syncRichEditorsToFields() {
@@ -519,12 +692,10 @@ function syncRichEditorsToFields() {
 
 function syncRichEditorToField(key) {
   const editor = richEditors[key];
-  const form = key === "article" ? articleForm : projectForm;
-  const field = form?.elements?.namedItem("content_html");
-  if (!editor || !field) return;
+  if (!editor) return;
 
   const html = editor.root.innerHTML.trim();
-  field.value = html === "<p><br></p>" ? "" : html;
+  editor.field.value = html === "<br>" ? "" : html;
 }
 
 function setRichEditorHtml(key, html) {
@@ -534,11 +705,73 @@ function setRichEditorHtml(key, html) {
   if (field) field.value = html || "";
   if (!editor) return;
 
-  editor.setText("");
-  if (html) {
-    editor.clipboard.dangerouslyPasteHTML(html);
-  }
+  editor.root.innerHTML = html || "";
+  savedSelections[key] = null;
   syncRichEditorToField(key);
+}
+
+function runEditorCommand(key, command, value = "") {
+  const editor = richEditors[key];
+  if (!editor) return;
+
+  editor.root.focus();
+  restoreEditorSelection(key);
+
+  if (command === "createLink") {
+    const url = prompt("Dán link cần chèn:", "https://");
+    if (!url) return;
+    document.execCommand("createLink", false, url);
+  } else if (command === "insertImage") {
+    const url = prompt("Dán URL ảnh từ kho R2:", "/media/uploads/");
+    if (!url) return;
+    document.execCommand("insertImage", false, url);
+  } else if (command === "formatBlock") {
+    document.execCommand("formatBlock", false, value === "blockquote" ? "blockquote" : `<${value}>`);
+  } else {
+    document.execCommand(command, false, value);
+  }
+
+  saveEditorSelection(key);
+  syncRichEditorToField(key);
+}
+
+function insertDesignBlock(key, blockName) {
+  const html = DESIGN_BLOCKS[blockName];
+  const editor = richEditors[key];
+  if (!html || !editor) return;
+
+  editor.root.focus();
+  restoreEditorSelection(key);
+  if (selectionIsInside(editor.root)) {
+    document.execCommand("insertHTML", false, html);
+  } else {
+    editor.root.insertAdjacentHTML("beforeend", html);
+  }
+  saveEditorSelection(key);
+  syncRichEditorToField(key);
+}
+
+function saveEditorSelection(key) {
+  const editor = richEditors[key];
+  const selection = window.getSelection();
+  if (!editor || !selection || !selection.rangeCount) return;
+  if (!selectionIsInside(editor.root)) return;
+  savedSelections[key] = selection.getRangeAt(0).cloneRange();
+}
+
+function restoreEditorSelection(key) {
+  const range = savedSelections[key];
+  if (!range) return;
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function selectionIsInside(root) {
+  const selection = window.getSelection();
+  if (!selection || !selection.rangeCount) return false;
+  const node = selection.anchorNode;
+  return !!node && root.contains(node.nodeType === Node.ELEMENT_NODE ? node : node.parentNode);
 }
 
 function isEmptyRichHtml(value) {

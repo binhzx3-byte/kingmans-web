@@ -10,16 +10,24 @@ const mediaList = document.querySelector("#mediaList");
 const articleForm = document.querySelector("#articleForm");
 const articleNote = document.querySelector("#articleNote");
 const articleCancelEdit = document.querySelector("#articleCancelEdit");
+const articlePreviewButton = document.querySelector("#articlePreviewButton");
 const articleSubmitButton = articleForm?.querySelector("button[type='submit']");
 const projectForm = document.querySelector("#projectForm");
 const projectNote = document.querySelector("#projectNote");
 const projectCancelEdit = document.querySelector("#projectCancelEdit");
+const projectPreviewButton = document.querySelector("#projectPreviewButton");
 const projectSubmitButton = projectForm?.querySelector("button[type='submit']");
 const articleList = document.querySelector("#articleList");
 const projectList = document.querySelector("#projectList");
 const refreshButton = document.querySelector("#refreshButton");
+const previewModal = document.querySelector("#previewModal");
+const previewTitle = document.querySelector("#previewTitle");
+const previewBody = document.querySelector("#previewBody");
+const previewCloseButton = document.querySelector("#previewCloseButton");
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabPanes = document.querySelectorAll(".tab-pane");
+const richEditors = {};
+const seoCounterUpdaters = [];
 
 async function requestJson(path, options = {}) {
   const response = await fetch(path, {
@@ -142,10 +150,16 @@ uploadForm?.addEventListener("submit", async (event) => {
 
 articleForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  syncRichEditorsToFields();
   const formData = new FormData(articleForm);
   const id = String(formData.get("id") || "").trim();
   const payload = Object.fromEntries(formData.entries());
   delete payload.id;
+
+  if (isEmptyRichHtml(payload.content_html)) {
+    setNote(articleNote, "Vui lòng nhập nội dung bài viết trước khi lưu.", true);
+    return;
+  }
 
   try {
     const result = await requestJson(id ? `/api/admin/articles/${encodeURIComponent(id)}` : "/api/admin/articles", {
@@ -163,6 +177,7 @@ articleForm?.addEventListener("submit", async (event) => {
 
 projectForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  syncRichEditorsToFields();
   const formData = new FormData(projectForm);
   const id = String(formData.get("id") || "").trim();
   const payload = Object.fromEntries(formData.entries());
@@ -171,6 +186,11 @@ projectForm?.addEventListener("submit", async (event) => {
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
+
+  if (isEmptyRichHtml(payload.content_html)) {
+    setNote(projectNote, "Vui lòng nhập nội dung dự án trước khi lưu.", true);
+    return;
+  }
 
   try {
     const result = await requestJson(id ? `/api/admin/projects/${encodeURIComponent(id)}` : "/api/admin/projects", {
@@ -194,6 +214,28 @@ articleCancelEdit?.addEventListener("click", () => {
 projectCancelEdit?.addEventListener("click", () => {
   resetProjectEditor();
   setNote(projectNote, "Đã hủy chế độ sửa dự án.");
+});
+
+articlePreviewButton?.addEventListener("click", () => {
+  openPreview("article");
+});
+
+projectPreviewButton?.addEventListener("click", () => {
+  openPreview("project");
+});
+
+previewCloseButton?.addEventListener("click", closePreview);
+
+previewModal?.addEventListener("click", (event) => {
+  if (event.target.closest("[data-close-preview]")) {
+    closePreview();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && previewModal && !previewModal.hidden) {
+    closePreview();
+  }
 });
 
 refreshButton?.addEventListener("click", () => {
@@ -250,6 +292,7 @@ async function loadMedia() {
         .map(
           (item) => `
           <article class="media-item">
+            <img class="media-thumb" src="${escapeHtml(item.url)}" alt="${escapeHtml(readableMime(item.mime_type))}" loading="lazy" decoding="async">
             <div>
               <strong>${escapeHtml(readableMime(item.mime_type))}</strong>
               <code>${escapeHtml(item.url)}</code>
@@ -335,6 +378,8 @@ async function editArticle(id) {
     fillField(articleForm, "status", item.status);
     fillField(articleForm, "content_html", item.content_html);
     fillField(articleForm, "content_markdown", item.content_markdown);
+    setRichEditorHtml("article", item.content_html);
+    updateSeoCounters();
     if (articleSubmitButton) articleSubmitButton.textContent = "Cập nhật bài viết";
     if (articleCancelEdit) articleCancelEdit.hidden = false;
     openTab("articlePane");
@@ -379,6 +424,8 @@ async function editProject(id) {
     fillField(projectForm, "status", item.status);
     fillField(projectForm, "content_html", item.content_html);
     fillField(projectForm, "content_markdown", item.content_markdown);
+    setRichEditorHtml("project", item.content_html);
+    updateSeoCounters();
     if (projectSubmitButton) projectSubmitButton.textContent = "Cập nhật dự án";
     if (projectCancelEdit) projectCancelEdit.hidden = false;
     openTab("projectPane");
@@ -407,21 +454,184 @@ async function deleteProject(id, title) {
 function resetArticleEditor() {
   articleForm?.reset();
   fillField(articleForm, "id", "");
+  setRichEditorHtml("article", "");
   if (articleSubmitButton) articleSubmitButton.textContent = "Lưu bài viết";
   if (articleCancelEdit) articleCancelEdit.hidden = true;
+  updateSeoCounters();
 }
 
 function resetProjectEditor() {
   projectForm?.reset();
   fillField(projectForm, "id", "");
+  setRichEditorHtml("project", "");
   if (projectSubmitButton) projectSubmitButton.textContent = "Lưu dự án";
   if (projectCancelEdit) projectCancelEdit.hidden = true;
+  updateSeoCounters();
 }
 
 function fillField(form, name, value) {
   const field = form?.elements?.namedItem(name);
   if (!field) return;
   field.value = value ?? "";
+}
+
+function initRichEditors() {
+  if (!window.Quill) {
+    return;
+  }
+
+  const toolbar = [
+    [{ header: [2, 3, false] }],
+    ["bold", "italic", "underline"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["blockquote", "link", "image"],
+    ["clean"]
+  ];
+
+  setupRichEditor("article", "#articleRichEditor", articleForm, "Viết nội dung bài phân tích tại đây...");
+  setupRichEditor("project", "#projectRichEditor", projectForm, "Viết nội dung trang dự án tại đây...");
+
+  function setupRichEditor(key, selector, form, placeholder) {
+    const target = document.querySelector(selector);
+    const field = form?.elements?.namedItem("content_html");
+    if (!target || !field) return;
+
+    const editor = new Quill(target, {
+      theme: "snow",
+      placeholder,
+      modules: { toolbar }
+    });
+
+    richEditors[key] = editor;
+    target.closest(".rich-field")?.classList.add("rich-enabled");
+    if (field.value) {
+      editor.clipboard.dangerouslyPasteHTML(field.value);
+    }
+    editor.on("text-change", () => syncRichEditorToField(key));
+    syncRichEditorToField(key);
+  }
+}
+
+function syncRichEditorsToFields() {
+  syncRichEditorToField("article");
+  syncRichEditorToField("project");
+}
+
+function syncRichEditorToField(key) {
+  const editor = richEditors[key];
+  const form = key === "article" ? articleForm : projectForm;
+  const field = form?.elements?.namedItem("content_html");
+  if (!editor || !field) return;
+
+  const html = editor.root.innerHTML.trim();
+  field.value = html === "<p><br></p>" ? "" : html;
+}
+
+function setRichEditorHtml(key, html) {
+  const editor = richEditors[key];
+  const form = key === "article" ? articleForm : projectForm;
+  const field = form?.elements?.namedItem("content_html");
+  if (field) field.value = html || "";
+  if (!editor) return;
+
+  editor.setText("");
+  if (html) {
+    editor.clipboard.dangerouslyPasteHTML(html);
+  }
+  syncRichEditorToField(key);
+}
+
+function isEmptyRichHtml(value) {
+  const html = String(value || "").trim();
+  if (!html) return true;
+  if (/<img\b/i.test(html)) return false;
+  const text = html
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .trim();
+  return !text;
+}
+
+function initSeoCounters() {
+  document
+    .querySelectorAll("input[name='seo_title'], textarea[name='seo_description']")
+    .forEach((field) => {
+      const max = field.name === "seo_title" ? 65 : 160;
+      const warningAt = field.name === "seo_title" ? 60 : 155;
+      const counter = document.createElement("small");
+      counter.className = "field-counter";
+      field.insertAdjacentElement("afterend", counter);
+
+      const update = () => {
+        const length = [...String(field.value || "")].length;
+        counter.textContent = `${length}/${max} ký tự`;
+        counter.classList.toggle("is-warning", length >= warningAt && length <= max);
+        counter.classList.toggle("is-danger", length > max);
+      };
+
+      field.addEventListener("input", update);
+      seoCounterUpdaters.push(update);
+      update();
+    });
+}
+
+function updateSeoCounters() {
+  seoCounterUpdaters.forEach((update) => update());
+}
+
+function openPreview(kind) {
+  syncRichEditorsToFields();
+
+  const isArticle = kind === "article";
+  const form = isArticle ? articleForm : projectForm;
+  const note = isArticle ? articleNote : projectNote;
+  const data = Object.fromEntries(new FormData(form).entries());
+  const html = String(data.content_html || "");
+
+  if (isEmptyRichHtml(html)) {
+    setNote(note, "Vui lòng nhập nội dung trước khi xem trước.", true);
+    return;
+  }
+
+  const title = isArticle ? data.title : data.name;
+  const subtitle = isArticle ? data.excerpt : data.summary;
+  const cover = data.cover_image_url;
+  const kicker = isArticle ? readableCategory(data.category) : data.location || "Dự án";
+
+  previewTitle.textContent = title || "Bản xem trước";
+  previewBody.innerHTML = `
+    <article class="preview-article">
+      <p class="preview-kicker">${escapeHtml(kicker)}</p>
+      <h1>${escapeHtml(title || "Chưa có tiêu đề")}</h1>
+      ${subtitle ? `<p class="preview-excerpt">${escapeHtml(subtitle)}</p>` : ""}
+      ${cover ? `<img class="preview-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(title || "Ảnh đại diện")}" loading="eager">` : ""}
+      <div class="preview-prose">${sanitizePreviewHtml(html)}</div>
+    </article>
+  `;
+  previewModal.hidden = false;
+}
+
+function closePreview() {
+  if (!previewModal) return;
+  previewModal.hidden = true;
+  previewBody.innerHTML = "";
+}
+
+function sanitizePreviewHtml(value) {
+  return String(value || "")
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/\son\w+="[^"]*"/gi, "")
+    .replace(/\son\w+='[^']*'/gi, "");
+}
+
+function readableCategory(category) {
+  const labels = {
+    market: "Thị trường",
+    guide: "Hướng dẫn",
+    finance: "Tài chính",
+    lifestyle: "Sống xanh & Công nghệ"
+  };
+  return labels[category] || "Góc chuyên gia";
 }
 
 function readableStatus(status) {
@@ -451,4 +661,6 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+initRichEditors();
+initSeoCounters();
 checkSession();

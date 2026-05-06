@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap&subset=vietnamese" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="/admin/admin.css">
   </head>
   <body>
@@ -110,10 +111,14 @@
                 SEO description
                 <textarea name="seo_description" rows="2" placeholder="Mô tả ngắn cho Google, khoảng 140-160 ký tự."></textarea>
               </label>
-              <label>
-                Nội dung HTML
-                <textarea name="content_html" rows="12" placeholder="<p>Đoạn mở đầu...</p>" required></textarea>
-              </label>
+              <div class="rich-field" data-rich-field="article">
+                <div class="field-head">
+                  <span>Nội dung bài viết</span>
+                  <small>Soạn bằng trình biên tập, hệ thống sẽ tự lưu thành HTML chuẩn.</small>
+                </div>
+                <div id="articleRichEditor" class="rich-editor"></div>
+                <textarea class="rich-source" name="content_html" rows="12" placeholder="<p>Đoạn mở đầu...</p>"></textarea>
+              </div>
               <details class="helper-box">
                 <summary>Mẫu chèn ảnh trong bài</summary>
                 <pre><code>&lt;figure&gt;
@@ -127,6 +132,7 @@
               </label>
               <div class="form-actions">
                 <button class="primary-action" type="submit">Lưu bài viết</button>
+                <button class="ghost-action" id="articlePreviewButton" type="button">Xem trước</button>
                 <button class="ghost-action" id="articleCancelEdit" type="button" hidden>Hủy sửa</button>
                 <a class="secondary-link" href="/#market" target="_blank" rel="noreferrer">Xem khu bài viết</a>
               </div>
@@ -204,16 +210,21 @@
                 SEO description
                 <textarea name="seo_description" rows="2" placeholder="Mô tả ngắn cho Google."></textarea>
               </label>
-              <label>
-                Nội dung HTML
-                <textarea name="content_html" rows="12" placeholder="<h2>Tổng quan dự án</h2><p>...</p>" required></textarea>
-              </label>
+              <div class="rich-field" data-rich-field="project">
+                <div class="field-head">
+                  <span>Nội dung trang dự án</span>
+                  <small>Soạn nội dung tổng quan, pháp lý, tiện ích, tài chính và CTA.</small>
+                </div>
+                <div id="projectRichEditor" class="rich-editor"></div>
+                <textarea class="rich-source" name="content_html" rows="12" placeholder="<h2>Tổng quan dự án</h2><p>...</p>"></textarea>
+              </div>
               <label>
                 Nội dung Markdown (tùy chọn)
                 <textarea name="content_markdown" rows="5"></textarea>
               </label>
               <div class="form-actions">
                 <button class="primary-action" type="submit">Lưu dự án</button>
+                <button class="ghost-action" id="projectPreviewButton" type="button">Xem trước</button>
                 <button class="ghost-action" id="projectCancelEdit" type="button" hidden>Hủy sửa</button>
                 <a class="secondary-link" href="/#projects" target="_blank" rel="noreferrer">Xem khu dự án</a>
               </div>
@@ -265,6 +276,20 @@
         </section>
       </section>
     </main>
+    <div class="preview-modal" id="previewModal" hidden role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+      <div class="preview-backdrop" data-close-preview></div>
+      <section class="preview-panel">
+        <header class="preview-head">
+          <div>
+            <p class="panel-label">Xem trước nội dung</p>
+            <h2 id="previewTitle">Bản xem trước</h2>
+          </div>
+          <button class="ghost-action" id="previewCloseButton" type="button">Đóng</button>
+        </header>
+        <div class="preview-body" id="previewBody"></div>
+      </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script src="/admin/admin.js"></script>
   </body>
 </html>

@@ -395,14 +395,24 @@ refreshButton?.addEventListener("click", () => {
   });
 });
 
+document.addEventListener("mousedown", (event) => {
+  const target = event.target instanceof Element ? event.target : null;
+  if (target?.closest("[data-insert-block]")) {
+    event.preventDefault();
+  }
+});
+
 document.addEventListener("click", async (event) => {
-  const blockButton = event.target.closest("[data-insert-block]");
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target) return;
+
+  const blockButton = target.closest("[data-insert-block]");
   if (blockButton) {
     insertDesignBlock(blockButton.dataset.insertBlock, blockButton.dataset.block);
     return;
   }
 
-  const copyButton = event.target.closest("[data-copy-url]");
+  const copyButton = target.closest("[data-copy-url]");
   if (copyButton) {
     const url = copyButton.dataset.copyUrl;
     try {
@@ -417,25 +427,25 @@ document.addEventListener("click", async (event) => {
     return;
   }
 
-  const editArticleButton = event.target.closest("[data-edit-article]");
+  const editArticleButton = target.closest("[data-edit-article]");
   if (editArticleButton) {
     await editArticle(editArticleButton.dataset.editArticle);
     return;
   }
 
-  const deleteArticleButton = event.target.closest("[data-delete-article]");
+  const deleteArticleButton = target.closest("[data-delete-article]");
   if (deleteArticleButton) {
     await deleteArticle(deleteArticleButton.dataset.deleteArticle, deleteArticleButton.dataset.title);
     return;
   }
 
-  const editProjectButton = event.target.closest("[data-edit-project]");
+  const editProjectButton = target.closest("[data-edit-project]");
   if (editProjectButton) {
     await editProject(editProjectButton.dataset.editProject);
     return;
   }
 
-  const deleteProjectButton = event.target.closest("[data-delete-project]");
+  const deleteProjectButton = target.closest("[data-delete-project]");
   if (deleteProjectButton) {
     await deleteProject(deleteProjectButton.dataset.deleteProject, deleteProjectButton.dataset.title);
   }
@@ -738,17 +748,61 @@ function runEditorCommand(key, command, value = "") {
 function insertDesignBlock(key, blockName) {
   const html = DESIGN_BLOCKS[blockName];
   const editor = richEditors[key];
-  if (!html || !editor) return;
+  const note = key === "article" ? articleNote : projectNote;
+  if (!html || !editor) {
+    setNote(note, "Chưa tìm thấy khu vực soạn thảo để chèn mẫu.", true);
+    return;
+  }
+
+  insertHtmlIntoEditor(key, html);
+  editor.root.classList.add("is-updated");
+  window.setTimeout(() => editor.root.classList.remove("is-updated"), 900);
+  editor.root.scrollIntoView({ behavior: "smooth", block: "center" });
+  saveEditorSelection(key);
+  syncRichEditorToField(key);
+  setNote(note, "Đã chèn mẫu thiết kế vào nội dung. Bạn có thể sửa chữ và ảnh ngay trong khung soạn thảo.");
+}
+
+function insertHtmlIntoEditor(key, html) {
+  const editor = richEditors[key];
+  if (!editor) return;
 
   editor.root.focus();
   restoreEditorSelection(key);
-  if (selectionIsInside(editor.root)) {
-    document.execCommand("insertHTML", false, html);
-  } else {
-    editor.root.insertAdjacentHTML("beforeend", html);
+
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount && selectionIsInside(editor.root)) {
+    const range = selection.getRangeAt(0);
+    const template = document.createElement("template");
+    template.innerHTML = html.trim();
+    const fragment = template.content;
+    const lastNode = fragment.lastChild;
+    range.deleteContents();
+    range.insertNode(fragment);
+
+    if (lastNode) {
+      const nextRange = document.createRange();
+      nextRange.setStartAfter(lastNode);
+      nextRange.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(nextRange);
+    }
+    return;
   }
-  saveEditorSelection(key);
-  syncRichEditorToField(key);
+
+  editor.root.insertAdjacentHTML("beforeend", html);
+  placeCaretAtEnd(editor.root);
+}
+
+function placeCaretAtEnd(root) {
+  const selection = window.getSelection();
+  if (!selection) return;
+
+  const range = document.createRange();
+  range.selectNodeContents(root);
+  range.collapse(false);
+  selection.removeAllRanges();
+  selection.addRange(range);
 }
 
 function saveEditorSelection(key) {

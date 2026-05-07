@@ -455,6 +455,11 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(216, 180, 99, 0.14);
 }
 
+.rich-editor.is-updated {
+  border-color: rgba(241, 215, 144, 0.92);
+  box-shadow: 0 0 0 4px rgba(216, 180, 99, 0.2), 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
 .rich-editor h2,
 .rich-editor h3 {
   margin: 20px 0 10px;

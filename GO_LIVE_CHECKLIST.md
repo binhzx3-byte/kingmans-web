@@ -38,7 +38,7 @@ Nếu domain quản lý trong Cloudflare:
 1. Tạo Google Analytics 4 property và lấy Measurement ID dạng `G-XXXXXXXXXX`.
 2. Nếu chạy quảng cáo Facebook, tạo Meta Pixel và lấy Pixel ID dạng số.
 3. Điền ID vào `tracking-config.js`.
-4. Form hiện gửi lead về `binhopusrealty@gmail.com` qua FormSubmit.
+4. Website hiển thị `contact@kingmansrealty.com`; form hiện vẫn gửi lead về Gmail qua FormSubmit để tránh gián đoạn nhận khách.
 5. Lần submit đầu tiên, FormSubmit sẽ gửi email xác nhận. Mở email và bấm xác nhận để kích hoạt nhận lead.
 6. Test form ở:
    - `https://kingmansrealty.com/#contact`

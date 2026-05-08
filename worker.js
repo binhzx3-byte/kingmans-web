@@ -846,7 +846,7 @@ async function renderArticlePage(slug, env, origin) {
     <nav class="main-nav" aria-label="Điều hướng chính">
       <a href="/#market">Góc chuyên gia</a>
       <a href="/#projects">Dự án</a>
-      <a href="/#profile">Hồ sơ</a>
+      <a href="/#profile">Đội ngũ</a>
       <a href="/#contact">Liên hệ</a>
     </nav>
     <a class="header-cta" href="tel:0396460442">Gọi hotline</a>
@@ -882,10 +882,10 @@ async function renderArticlePage(slug, env, origin) {
     </section>
   </main>
   <footer class="site-footer">
-    <div><strong>KINGMANS</strong><span>Cố vấn bất động sản cá nhân tại TP.HCM, Bình Dương và khu vực vệ tinh.</span></div>
+    <div><strong>KINGMANS</strong><span>Đội ngũ cố vấn bất động sản độc lập tại TP.HCM, Bình Dương và khu vực vệ tinh.</span></div>
     <div class="footer-links">
       <a href="tel:0396460442">0396 460 442</a>
-      <a href="mailto:binhopusrealty@gmail.com">binhopusrealty@gmail.com</a>
+      <a href="mailto:contact@kingmansrealty.com">contact@kingmansrealty.com</a>
       <a href="https://www.facebook.com/profile.php?id=61586688100723&amp;locale=vi_VN" target="_blank" rel="noreferrer">Facebook</a>
       <a href="https://zalo.me/0396460442" target="_blank" rel="noreferrer">Zalo</a>
     </div>
@@ -954,7 +954,7 @@ async function renderProjectPage(slug, env, origin) {
     <nav class="main-nav" aria-label="Điều hướng chính">
       <a href="/#market">Góc chuyên gia</a>
       <a href="/#projects">Dự án</a>
-      <a href="/#profile">Hồ sơ</a>
+      <a href="/#profile">Đội ngũ</a>
       <a href="/#contact">Liên hệ</a>
     </nav>
     <a class="header-cta" href="tel:0396460442">Gọi hotline</a>

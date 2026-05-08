@@ -18,12 +18,12 @@ Mở file `index.html` trực tiếp trong trình duyệt. Hai dự án Emerald 
 - Cấu hình cache/header cho Cloudflare: `_headers`.
 - Redirect `www` về non-www nên làm trong Cloudflare Rules sau khi gắn domain.
 - Cấu hình đo lường: điền GA4/Meta Pixel trong `tracking-config.js`.
-- Form liên hệ đang gửi về `binhopusrealty@gmail.com` qua FormSubmit.
+- Website hiển thị `contact@kingmansrealty.com`; form liên hệ vẫn gửi về Gmail qua FormSubmit để tránh gián đoạn lead.
 
 ## Chỗ nên thay trước khi dùng thật
 
 - Hotline hiện tại: `0396 460 442`.
-- Email hiện tại: `binhopusrealty@gmail.com`.
+- Email hiện tại: `contact@kingmansrealty.com`.
 - Facebook hiện tại: `https://www.facebook.com/profile.php?id=61586688100723&locale=vi_VN`.
 - Logo thương hiệu: `assets/kingmans-logo.webp`.
 - Ảnh The Emerald Boulevard: `assets/images/the-emerald-boulevard.webp`.

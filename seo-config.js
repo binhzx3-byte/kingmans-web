@@ -4,7 +4,7 @@ const SEO_CONFIG = {
   slogan: "Cố vấn đầu tư bất động sản cá nhân",
   phone: "0396460442",
   phoneDisplay: "0396 460 442",
-  email: "binhopusrealty@gmail.com",
+  email: "contact@kingmansrealty.com",
   facebook: "https://www.facebook.com/profile.php?id=61586688100723&locale=vi_VN",
   logo: "assets/kingmans-logo.png",
   defaultImage: "assets/kingmans-logo.png",

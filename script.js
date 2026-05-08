@@ -174,6 +174,10 @@ let projects = [
     image: "assets/images/khai-hoan-imperial-exterior.webp",
     description:
       "Khu phức hợp căn hộ Bespoke hạng sang trên mặt tiền Quốc lộ 13, do Khải Hoàn Land phát triển dự án, nổi bật với 2 tháp 41 tầng và bộ tiện ích riêng tư.",
+    typeLabel: "Căn hộ hạng sang",
+    priceRange: "Đang cập nhật",
+    legalStatus: "Pháp lý/tiến độ: cần đối chiếu hồ sơ mới nhất",
+    fit: ["An cư", "Tích sản", "Cho thuê"],
     stats: ["10.542,8 m²", "2 tháp 41 tầng", "03 tầng hầm", "Dự kiến 07/2028"],
     areas: ["tp-hcm", "binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
@@ -186,6 +190,10 @@ let projects = [
     image: "assets/images/opal-luxury-hero.webp",
     description:
       "Khu căn hộ cao cấp thuộc hệ sinh thái Đất Xanh, quy mô khoảng 8,68 ha, định vị như một tổ hợp sống resort tại cửa ngõ TP.HCM.",
+    typeLabel: "Căn hộ",
+    priceRange: "Liên hệ bảng giá cập nhật",
+    legalStatus: "Pháp lý: cần kiểm tra 1/500, điều kiện mở bán",
+    fit: ["An cư", "Tích sản", "Cho thuê"],
     stats: ["8,68 ha", "11 block căn hộ", "45+ tiện ích", "Kiểm định pháp lý"],
     areas: ["binh-duong", "di-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
@@ -198,6 +206,10 @@ let projects = [
     image: "assets/images/the-emerald-boulevard.webp",
     description:
       "Căn hộ cao cấp trên trục Quốc lộ 13, nổi bật với chuẩn bàn giao hiện đại và lợi thế khai thác thuê tại Thuận An.",
+    typeLabel: "Căn hộ",
+    priceRange: "Từ 62,x triệu/m²",
+    legalStatus: "Pháp lý: đang cập nhật",
+    fit: ["An cư", "Tích sản trung hạn"],
     stats: ["Mặt tiền Quốc lộ 13", "Căn hộ 1-3PN", "Tệp thuê chuyên gia", "Pháp lý cần đối chiếu"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
@@ -210,6 +222,10 @@ let projects = [
     image: "assets/images/the-emerald-garden-view.webp",
     description:
       "Tổ hợp căn hộ phù hợp khách hàng cần kết nối nhanh về TP.HCM, đồng thời ưu tiên môi trường sống hoàn chỉnh tại Thuận An.",
+    typeLabel: "Căn hộ",
+    priceRange: "Đang cập nhật",
+    legalStatus: "Pháp lý: đang cập nhật",
+    fit: ["An cư", "Tích sản"],
     stats: ["Trục Quốc lộ 13", "Căn hộ 1-3PN", "Nhu cầu ở thật", "Khai thác thuê"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
@@ -222,10 +238,14 @@ let projects = [
     image: "assets/images/at-sky-garden.webp",
     description:
       "Căn hộ cao cấp chuẩn B+ tại trung tâm Lái Thiêu, nổi bật với địa thế ba mặt hướng thủy và hệ tiện ích tầng cao.",
+    typeLabel: "Căn hộ chuẩn B+",
+    priceRange: "Liên hệ bảng giá cập nhật",
+    legalStatus: "Đã có GPXD, cần đối chiếu hồ sơ mở bán",
+    fit: ["An cư", "Cho thuê"],
     stats: ["2 tháp 40 tầng", "946 căn hộ + shophouse", "Dự kiến Q2/2026", "Liên hệ bảng giá"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang"],
-    link: "project-detail.html?project=at-sky-garden"
+    link: "at-sky-garden.html"
   },
   {
     slug: "symlife",
@@ -234,10 +254,14 @@ let projects = [
     image: "assets/images/symlife.webp",
     description:
       "Căn hộ cao cấp mặt tiền Quốc lộ 13, phù hợp người mua lần đầu và nhà đầu tư cần lịch thanh toán dễ kiểm soát.",
+    typeLabel: "Căn hộ",
+    priceRange: "Từ 36,8 triệu/m²",
+    legalStatus: "GPXD số 1338/GPXD, MB Bank bảo trợ",
+    fit: ["An cư", "Tích sản", "Người mua lần đầu"],
     stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Dự kiến Q3/2027", "MB Bank bảo trợ"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
-    link: "project-detail.html?project=symlife"
+    link: "symlife.html"
   },
   {
     slug: "astral-city",
@@ -246,10 +270,14 @@ let projects = [
     image: "assets/images/astral-city.webp",
     description:
       "Dự án căn hộ quy mô lớn trên trục thương mại Thuận An, phù hợp khách hàng tìm sản phẩm đô thị cửa ngõ có hệ tiện ích đồng bộ.",
+    typeLabel: "Căn hộ",
+    priceRange: "Đang cập nhật",
+    legalStatus: "Pháp lý/tiến độ: đang cập nhật",
+    fit: ["Tích sản", "Cho thuê"],
     stats: ["Trục Quốc lộ 13", "Tiện ích quy mô lớn", "Lịch thanh toán linh hoạt", "Kết nối TP.HCM"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
-    link: "project-detail.html?project=astral-city"
+    link: "astral-city.html"
   }
 ];
 
@@ -288,6 +316,14 @@ const CATEGORY_LABELS = {
   guide: "Hướng dẫn",
   finance: "Tài chính",
   lifestyle: "Sống xanh & Công nghệ"
+};
+
+const PROJECT_TYPE_LABELS = {
+  "can-ho": "Căn hộ",
+  "hang-sang": "Căn hộ hạng sang",
+  "dau-tu": "Đầu tư",
+  "shophouse": "Shophouse",
+  "dat-nen": "Đất nền"
 };
 
 function normalizeText(value) {
@@ -371,6 +407,10 @@ async function loadCmsFeed() {
         location: item.location || "TP.HCM",
         image: item.cover_image_url || "assets/images/opal-luxury-hero.webp",
         description: item.summary || "",
+        typeLabel: PROJECT_TYPE_LABELS[item.project_type] || item.project_type || "Căn hộ",
+        priceRange: item.price_range || "Liên hệ bảng giá cập nhật",
+        legalStatus: item.legal_status || "Pháp lý/tiến độ: cần đối chiếu",
+        fit: ["An cư", "Tích sản", "Cho thuê"],
         stats: ["Dự án đã xác minh", "Pháp lý cần đối chiếu", "Liên hệ để nhận bảng giá"],
         areas: ["tp-hcm", "binh-duong", "di-an", "thuan-an", "trung-tam-tphcm"],
         types: [item.project_type || "can-ho"],
@@ -424,9 +464,9 @@ function projectMatches(project) {
   const query = normalizeText(state.projectQuery.trim());
   const matchesQuery =
     !query ||
-    normalizeText(`${project.name} ${project.location} ${project.description} ${project.stats.join(" ")}`).includes(
-      query
-    );
+    normalizeText(
+      `${project.name} ${project.location} ${project.description} ${project.typeLabel || ""} ${project.priceRange || ""} ${project.legalStatus || ""} ${(project.fit || []).join(" ")} ${project.stats.join(" ")}`
+    ).includes(query);
   const matchesArea = state.projectArea === "all" || project.areas.includes(state.projectArea);
   const matchesType = state.projectType === "all" || project.types.includes(state.projectType);
 
@@ -488,14 +528,21 @@ function renderProjects() {
           <div class="project-body">
             <div class="project-meta">
               <span class="tag">${project.location}</span>
-              <span>${project.types.includes("hang-sang") ? "Hạng sang" : "Căn hộ"}</span>
+              <span>${project.typeLabel || (project.types.includes("hang-sang") ? "Hạng sang" : "Căn hộ")}</span>
             </div>
             <h3>${project.name}</h3>
             <p>${project.description}</p>
-            <div class="project-stats">
-              ${project.stats.map((item) => `<span>${item}</span>`).join("")}
+            <div class="project-facts" aria-label="Thông tin tóm tắt ${project.name}">
+              <span><strong>Khu vực</strong>${project.location}</span>
+              <span><strong>Loại hình</strong>${project.typeLabel || "Căn hộ"}</span>
+              <span><strong>Khoảng giá</strong>${project.priceRange || "Đang cập nhật"}</span>
+              <span><strong>Pháp lý / tiến độ</strong>${project.legalStatus || "Cần đối chiếu"}</span>
             </div>
-            <span class="card-link">Xem phân tích dự án</span>
+            <div class="project-fit">
+              <strong>Phù hợp với:</strong>
+              <span>${(project.fit || ["An cư", "Tích sản"]).join(" / ")}</span>
+            </div>
+            <span class="card-link">Xem phân tích</span>
           </div>
         </a>
       `
@@ -567,7 +614,7 @@ mainNav?.addEventListener("click", () => {
 });
 
 leadForm?.addEventListener("submit", () => {
-  formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Tôi sẽ phản hồi lại trong thời gian sớm nhất.";
+  formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Chúng tôi sẽ phản hồi bằng danh sách dự án phù hợp trong thời gian sớm nhất.";
 });
 
 bootstrapContent();

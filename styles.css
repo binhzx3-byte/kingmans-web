@@ -75,6 +75,12 @@ main [id] {
   scroll-margin-top: 96px;
 }
 
+.anchor-offset {
+  display: block;
+  height: 0;
+  scroll-margin-top: 16px;
+}
+
 body {
   margin: 0;
   background: var(--paper);
@@ -490,6 +496,8 @@ h2 {
 }
 
 .screening-section {
+  position: relative;
+  padding-top: clamp(72px, 9vw, 112px);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(247, 245, 239, 0.96)),
     linear-gradient(90deg, rgba(13, 27, 42, 0.05), rgba(200, 164, 93, 0.12));
@@ -498,7 +506,7 @@ h2 {
 }
 
 .screening-head {
-  align-items: start;
+  gap: clamp(20px, 4vw, 56px);
 }
 
 .screening-head > p {
@@ -511,8 +519,8 @@ h2 {
 
 .screening-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
 }
 
 .screening-card {
@@ -543,10 +551,13 @@ h2 {
 
 .screening-status {
   width: fit-content;
+  max-width: 100%;
   padding: 7px 10px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 900;
+  line-height: 1.25;
+  white-space: normal;
 }
 
 .screening-status.is-pass {
@@ -568,6 +579,12 @@ h2 {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   margin-bottom: 28px;
+}
+
+.section-head.screening-head {
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.72fr);
+  align-items: end;
+  margin-bottom: 34px;
 }
 
 .filter-group {
@@ -1538,6 +1555,11 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .section-head.screening-head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
   .filter-group {
     justify-content: flex-start;
   }
@@ -1562,7 +1584,7 @@ textarea:focus {
   }
 
   .screening-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 
   .detail-content {
@@ -1589,6 +1611,14 @@ textarea:focus {
 
   main [id] {
     scroll-margin-top: 84px;
+  }
+
+  .anchor-offset {
+    scroll-margin-top: 14px;
+  }
+
+  .screening-section {
+    padding-top: 58px;
   }
 
   .brand-wordmark {
@@ -1622,11 +1652,14 @@ textarea:focus {
   }
 
   .intro h2,
-  .screening-head h2,
   .projects-section h2,
   .market-section h2,
   .contact-copy h2 {
     width: min(100%, 330px);
+  }
+
+  .screening-head h2 {
+    width: 100%;
   }
 
   .hero {

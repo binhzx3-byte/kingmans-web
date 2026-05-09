@@ -1,5 +1,16 @@
 let articles = [
   {
+    slug: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san",
+    title: "Quốc lộ 13 mở rộng: vì sao bất động sản dọc trục có tiềm năng tăng giá?",
+    category: "market",
+    label: "Thị trường",
+    date: "09.05.2026",
+    image: "assets/images/article-quoc-lo-13-tang-gia.webp",
+    excerpt:
+      "Phân tích cơ chế tăng giá dọc Quốc lộ 13: kết nối TP.HCM, lực thuê, thương mại dịch vụ, mặt bằng giá và các rủi ro cần kiểm chứng trước khi xuống tiền.",
+    link: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san.html"
+  },
+  {
     slug: "gem-sky-world-long-thanh-ha-tang-san-bay-2026",
     title: "Gem Sky World Long Thành 2026: đô thị sân bay và bài toán hạ tầng Long Thành",
     category: "market",

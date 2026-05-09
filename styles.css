@@ -1143,6 +1143,8 @@ textarea:focus {
 
 .article-hero-content {
   align-self: end;
+  width: min(100%, 920px);
+  min-width: 0;
   max-width: 920px;
 }
 
@@ -1152,9 +1154,12 @@ textarea:focus {
   font-size: clamp(38px, 6.4vw, 76px);
   font-weight: 700;
   line-height: 1.03;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .article-hero p {
+  width: 100%;
   max-width: 760px;
   margin: 18px 0 0;
   color: rgba(255, 255, 255, 0.86);
@@ -1784,18 +1789,26 @@ textarea:focus {
     min-height: 560px;
     padding-top: 64px;
     padding-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .article-hero-content {
+    width: min(100%, 330px);
+    max-width: 330px;
   }
 
   .article-hero h1,
   .detail-hero h1 {
-    font-size: clamp(32px, 9.5vw, 40px);
+    font-size: clamp(30px, 8vw, 34px);
     line-height: 1.08;
   }
 
   .article-hero p,
   .detail-hero p {
+    max-width: 100%;
     font-size: 16px;
     line-height: 1.58;
+    overflow-wrap: break-word;
   }
 
   .site-footer {

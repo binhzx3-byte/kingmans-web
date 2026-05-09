@@ -1268,6 +1268,12 @@ textarea:focus {
   object-fit: cover;
 }
 
+.article-figure-contain img {
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 .article-figure figcaption,
 .article-source-list {
   color: var(--muted);

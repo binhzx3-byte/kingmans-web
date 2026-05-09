@@ -179,6 +179,22 @@ let articles = [
 
 let projects = [
   {
+    slug: "gem-sky-world",
+    name: "Gem Sky World",
+    location: "Long Thành, Đồng Nai",
+    image: "assets/images/article-gem-sky-world-hero.webp",
+    description:
+      "Khu đô thị thương mại - giải trí 92,2 ha tại Long Đức, Long Thành, hưởng lợi từ sân bay Long Thành, Sky Park 3 ha và hạ tầng liên vùng.",
+    typeLabel: "Đô thị thấp tầng",
+    priceRange: "Từ 2,x tỷ/lô tham khảo",
+    legalStatus: "Pháp lý: cần đối chiếu từng sản phẩm, quy hoạch 1/500 và tình trạng cấp sổ",
+    fit: ["Tích sản", "Kinh doanh", "Giữ tài sản"],
+    stats: ["92,2 ha", "Sky Park 3 ha", "Long Đức - Long Thành", "Đất Xanh phát triển"],
+    areas: ["dong-nai", "long-thanh"],
+    types: ["dau-tu"],
+    link: "gem-sky-world.html"
+  },
+  {
     slug: "khai-hoan-imperial",
     name: "Khải Hoàn Imperial",
     location: "Thuận Giao, TP.HCM",

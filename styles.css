@@ -509,8 +509,17 @@ h2 {
   gap: clamp(20px, 4vw, 56px);
 }
 
+.screening-head > div {
+  min-width: 0;
+  max-width: 980px;
+}
+
+.screening-head h2 {
+  max-width: 980px;
+}
+
 .screening-head > p {
-  max-width: 520px;
+  max-width: 760px;
   margin: 0;
   color: var(--muted);
   font-size: 16px;
@@ -519,7 +528,7 @@ h2 {
 
 .screening-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
 }
 
@@ -582,8 +591,8 @@ h2 {
 }
 
 .section-head.screening-head {
-  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.72fr);
-  align-items: end;
+  grid-template-columns: 1fr;
+  align-items: start;
   margin-bottom: 34px;
 }
 

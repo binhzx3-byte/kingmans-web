@@ -22,6 +22,13 @@ const autoNewsNote = document.querySelector("#autoNewsNote");
 const autoNewsResult = document.querySelector("#autoNewsResult");
 const autoNewsSources = document.querySelector("#autoNewsSources");
 const autoNewsRefreshButton = document.querySelector("#autoNewsRefreshButton");
+const seoChecklist = document.querySelector("#seoChecklist");
+const seoResetChecklist = document.querySelector("#seoResetChecklist");
+const seoChecklistNote = document.querySelector("#seoChecklistNote");
+const backlinkForm = document.querySelector("#backlinkForm");
+const backlinkList = document.querySelector("#backlinkList");
+const backlinkNote = document.querySelector("#backlinkNote");
+const backlinkSeedButton = document.querySelector("#backlinkSeedButton");
 const articleList = document.querySelector("#articleList");
 const projectList = document.querySelector("#projectList");
 const refreshButton = document.querySelector("#refreshButton");
@@ -34,6 +41,49 @@ const tabPanes = document.querySelectorAll(".tab-pane");
 const richEditors = {};
 const savedSelections = {};
 const seoCounterUpdaters = [];
+const SEO_CHECKLIST_STORAGE = "kingmans-free-seo-checklist";
+const BACKLINK_STORAGE = "kingmans-free-seo-backlinks";
+const SEO_CHECKLIST_ITEMS = [
+  "Đăng ít nhất 3 bài mới trong tuần, mỗi bài có ảnh, CTA và internal link.",
+  "Mở Google Search Console, kiểm tra trang có impression nhưng CTR thấp.",
+  "Gửi sitemap lại sau khi có bài hoặc landing page quan trọng.",
+  "Chia sẻ 2 bài tốt nhất lên Facebook, LinkedIn, Zalo và Google Business Profile.",
+  "Thêm 3 internal link trỏ về Opal Luxury, Gem Sky World hoặc Khải Hoàn Imperial.",
+  "Kiểm tra 1 bài cũ: thêm FAQ, cập nhật ngày, bổ sung nguồn hoặc bảng so sánh.",
+  "Tạo hoặc cập nhật 1 hồ sơ backlink sạch: profile, directory, đối tác hoặc cộng đồng."
+];
+const BACKLINK_SEED_ITEMS = [
+  {
+    site: "Google Business Profile",
+    url: "https://www.google.com/business/",
+    type: "Profile",
+    status: "Cần làm"
+  },
+  {
+    site: "LinkedIn cá nhân / Company Page",
+    url: "https://www.linkedin.com/",
+    type: "Social",
+    status: "Cần làm"
+  },
+  {
+    site: "Facebook Page KINGMANS Realty",
+    url: "https://www.facebook.com/profile.php?id=61586688100723&locale=vi_VN",
+    type: "Social",
+    status: "Đã có link"
+  },
+  {
+    site: "Zalo OA / Zalo cá nhân",
+    url: "https://zalo.me/0396460442",
+    type: "Social",
+    status: "Cần làm"
+  },
+  {
+    site: "Trang đối tác / chủ đầu tư / cộng đồng cư dân",
+    url: "",
+    type: "PR cộng đồng",
+    status: "Cần làm"
+  }
+];
 const DESIGN_BLOCKS = {
   "article-lede": `
     <p class="article-lede">Đặt vấn đề bằng một góc nhìn rõ ràng: thị trường đang thay đổi như thế nào, người mua cần thận trọng ở đâu và đâu là dữ liệu nên kiểm chứng trước khi xuống tiền.</p>
@@ -418,6 +468,56 @@ autoNewsRefreshButton?.addEventListener("click", async () => {
   await loadAutoNewsSources();
 });
 
+seoChecklist?.addEventListener("change", (event) => {
+  const target = event.target instanceof HTMLInputElement ? event.target : null;
+  if (!target || target.type !== "checkbox") return;
+  const checked = readJsonStorage(SEO_CHECKLIST_STORAGE, {});
+  checked[target.value] = target.checked;
+  localStorage.setItem(SEO_CHECKLIST_STORAGE, JSON.stringify(checked));
+});
+
+seoResetChecklist?.addEventListener("click", () => {
+  localStorage.removeItem(SEO_CHECKLIST_STORAGE);
+  renderSeoChecklist();
+  setNote(seoChecklistNote, "Đã reset checklist SEO cho tuần mới.");
+});
+
+backlinkSeedButton?.addEventListener("click", () => {
+  const current = readBacklinks();
+  const existingSites = new Set(current.map((item) => item.site.toLowerCase()));
+  const additions = BACKLINK_SEED_ITEMS
+    .filter((item) => !existingSites.has(item.site.toLowerCase()))
+    .map((item) => ({ ...item, id: createLocalId(), created_at: new Date().toISOString() }));
+  if (!additions.length) {
+    setNote(backlinkNote, "Các mẫu backlink gợi ý đã có trong danh sách.");
+    return;
+  }
+  writeBacklinks([...additions, ...current]);
+  renderBacklinks();
+  setNote(backlinkNote, `Đã thêm ${additions.length} mẫu backlink sạch để xử lý dần.`);
+});
+
+backlinkForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(backlinkForm);
+  const item = {
+    id: createLocalId(),
+    site: String(formData.get("site") || "").trim(),
+    url: String(formData.get("url") || "").trim(),
+    type: String(formData.get("type") || "Profile"),
+    status: String(formData.get("status") || "Cần làm"),
+    created_at: new Date().toISOString()
+  };
+  if (!item.site) {
+    setNote(backlinkNote, "Vui lòng nhập tên kênh hoặc website.", true);
+    return;
+  }
+  writeBacklinks([item, ...readBacklinks()]);
+  backlinkForm.reset();
+  renderBacklinks();
+  setNote(backlinkNote, "Đã thêm backlink vào danh sách theo dõi.");
+});
+
 articleCancelEdit?.addEventListener("click", () => {
   resetArticleEditor();
   setNote(articleNote, "Đã hủy chế độ sửa bài viết.");
@@ -509,6 +609,18 @@ document.addEventListener("click", async (event) => {
   const deleteProjectButton = target.closest("[data-delete-project]");
   if (deleteProjectButton) {
     await deleteProject(deleteProjectButton.dataset.deleteProject, deleteProjectButton.dataset.title);
+    return;
+  }
+
+  const backlinkStatusButton = target.closest("[data-backlink-status]");
+  if (backlinkStatusButton) {
+    updateBacklinkStatus(backlinkStatusButton.dataset.backlinkStatus);
+    return;
+  }
+
+  const backlinkDeleteButton = target.closest("[data-backlink-delete]");
+  if (backlinkDeleteButton) {
+    deleteBacklink(backlinkDeleteButton.dataset.backlinkDelete);
   }
 });
 
@@ -555,6 +667,101 @@ async function loadAutoNewsSources() {
   } catch (error) {
     setNote(autoNewsNote, `Chưa tải được nguồn tin: ${error.message}`, true);
   }
+}
+
+function renderSeoChecklist() {
+  if (!seoChecklist) return;
+  const checked = readJsonStorage(SEO_CHECKLIST_STORAGE, {});
+  seoChecklist.innerHTML = SEO_CHECKLIST_ITEMS
+    .map((item, index) => {
+      const id = `seo-check-${index}`;
+      return `
+        <label class="seo-check-item" for="${id}">
+          <input id="${id}" type="checkbox" value="${escapeHtml(item)}" ${checked[item] ? "checked" : ""}>
+          <span>${escapeHtml(item)}</span>
+        </label>
+      `;
+    })
+    .join("");
+}
+
+function renderBacklinks() {
+  if (!backlinkList) return;
+  const items = readBacklinks();
+  backlinkList.innerHTML = items.length
+    ? items
+        .map((item) => {
+          const nextStatus = nextBacklinkStatus(item.status);
+          return `
+            <article class="backlink-row">
+              <div>
+                <strong>${escapeHtml(item.site)}</strong>
+                <small>${escapeHtml(item.type)} · ${escapeHtml(item.status)} · ${escapeHtml(formatDate(item.created_at))}</small>
+                ${
+                  item.url
+                    ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="nofollow noopener noreferrer">${escapeHtml(item.url)}</a>`
+                    : "<code>Chưa có URL, cần bổ sung sau khi tạo hồ sơ hoặc đăng bài.</code>"
+                }
+              </div>
+              <div class="row-actions">
+                <button class="copy-button" type="button" data-backlink-status="${escapeHtml(item.id)}">${escapeHtml(nextStatus)}</button>
+                <button class="copy-button danger-action" type="button" data-backlink-delete="${escapeHtml(item.id)}">Xóa</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("")
+    : '<p class="note">Chưa có backlink nào. Bấm “Thêm mẫu gợi ý” để tạo danh sách việc miễn phí đầu tiên.</p>';
+}
+
+function loadSeoPlanner() {
+  renderSeoChecklist();
+  renderBacklinks();
+}
+
+function readBacklinks() {
+  return readJsonStorage(BACKLINK_STORAGE, [])
+    .filter((item) => item && item.id && item.site)
+    .slice(0, 80);
+}
+
+function writeBacklinks(items) {
+  localStorage.setItem(BACKLINK_STORAGE, JSON.stringify(items.slice(0, 80)));
+}
+
+function updateBacklinkStatus(id) {
+  const items = readBacklinks().map((item) => (
+    item.id === id ? { ...item, status: nextBacklinkStatus(item.status) } : item
+  ));
+  writeBacklinks(items);
+  renderBacklinks();
+}
+
+function deleteBacklink(id) {
+  const items = readBacklinks().filter((item) => item.id !== id);
+  writeBacklinks(items);
+  renderBacklinks();
+  setNote(backlinkNote, "Đã xóa backlink khỏi danh sách theo dõi.");
+}
+
+function nextBacklinkStatus(status) {
+  if (status === "Cần làm") return "Đang liên hệ";
+  if (status === "Đang liên hệ") return "Đã có link";
+  return "Cần làm";
+}
+
+function readJsonStorage(key, fallback) {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key) || "");
+    return parsed ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function createLocalId() {
+  if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  return `local-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 async function loadArticles() {
@@ -610,6 +817,7 @@ async function loadProjects() {
 }
 
 async function loadDashboard() {
+  loadSeoPlanner();
   await Promise.all([loadMedia(), loadAutoNewsSources(), loadArticles(), loadProjects()]);
 }
 

@@ -49,6 +49,7 @@
           <button class="tab-button active" type="button" data-tab="articlePane">Bài viết</button>
           <button class="tab-button" type="button" data-tab="projectPane">Dự án</button>
           <button class="tab-button" type="button" data-tab="autoNewsPane">Tin tự động</button>
+          <button class="tab-button" type="button" data-tab="seoPane">SEO miễn phí</button>
           <button class="tab-button" type="button" data-tab="mediaPane">Kho ảnh</button>
           <button class="tab-button" type="button" data-tab="contentPane">Đã xuất bản</button>
         </nav>
@@ -322,6 +323,97 @@
             </form>
             <p class="note" id="autoNewsNote" role="status"></p>
             <div class="auto-result" id="autoNewsResult"></div>
+          </article>
+        </section>
+
+        <section class="tab-pane" id="seoPane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>SEO miễn phí hằng tuần</h2>
+                <p>Quản lý các việc không tốn ngân sách: đăng bài đều, internal link, Search Console, chia sẻ mạng xã hội và backlink sạch từ hồ sơ uy tín.</p>
+              </div>
+              <span class="status-chip">Free SEO</span>
+            </div>
+
+            <div class="seo-dashboard">
+              <section class="seo-card seo-focus-card">
+                <p class="panel-label">Ưu tiên 30 ngày</p>
+                <h3>Cụm từ khóa cần đẩy</h3>
+                <div class="seo-keywords">
+                  <span>Opal Luxury Dĩ An</span>
+                  <span>Gem Sky World Long Thành</span>
+                  <span>Khải Hoàn Imperial</span>
+                  <span>căn hộ Thuận An 2026</span>
+                  <span>bất động sản Quốc lộ 13</span>
+                  <span>pháp lý căn hộ sơ cấp</span>
+                </div>
+              </section>
+
+              <section class="seo-card">
+                <div class="seo-card-head">
+                  <div>
+                    <p class="panel-label">Checklist</p>
+                    <h3>Việc cần làm trong tuần</h3>
+                  </div>
+                  <button class="copy-button" id="seoResetChecklist" type="button">Reset tuần</button>
+                </div>
+                <div class="seo-checklist" id="seoChecklist"></div>
+                <p class="note" id="seoChecklistNote" role="status"></p>
+              </section>
+
+              <section class="seo-card seo-plan-card">
+                <p class="panel-label">Lịch nội dung</p>
+                <h3>Kế hoạch 4 tuần miễn phí</h3>
+                <div class="seo-plan-grid">
+                  <article>
+                    <strong>Tuần 1</strong>
+                    <span>2 bài thị trường Bình Dương/Dĩ An, 1 bài pháp lý, 1 bài so sánh dự án.</span>
+                  </article>
+                  <article>
+                    <strong>Tuần 2</strong>
+                    <span>Đẩy Opal Luxury: pháp lý, dòng tiền cho thuê, so sánh TP.Thủ Đức.</span>
+                  </article>
+                  <article>
+                    <strong>Tuần 3</strong>
+                    <span>Đẩy Gem Sky World: sân bay Long Thành, giá đất nền, shophouse, rủi ro pháp lý.</span>
+                  </article>
+                  <article>
+                    <strong>Tuần 4</strong>
+                    <span>Tối ưu bài đã có impression, thêm FAQ, thêm internal link và chia sẻ lại.</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="seo-card">
+                <div class="seo-card-head">
+                  <div>
+                    <p class="panel-label">Backlink sạch</p>
+                    <h3>CRM backlink miễn phí</h3>
+                  </div>
+                  <button class="copy-button" id="backlinkSeedButton" type="button">Thêm mẫu gợi ý</button>
+                </div>
+                <form class="backlink-form" id="backlinkForm">
+                  <input type="text" name="site" placeholder="Tên kênh/site" required>
+                  <input type="url" name="url" placeholder="Link hồ sơ/bài đăng">
+                  <select name="type" required>
+                    <option value="Profile">Profile</option>
+                    <option value="Social">Social</option>
+                    <option value="Guest post">Guest post</option>
+                    <option value="Directory">Directory</option>
+                    <option value="PR cộng đồng">PR cộng đồng</option>
+                  </select>
+                  <select name="status" required>
+                    <option value="Cần làm">Cần làm</option>
+                    <option value="Đang liên hệ">Đang liên hệ</option>
+                    <option value="Đã có link">Đã có link</option>
+                  </select>
+                  <button class="primary-action" type="submit">Thêm backlink</button>
+                </form>
+                <p class="note" id="backlinkNote" role="status"></p>
+                <div class="backlink-list" id="backlinkList"></div>
+              </section>
+            </div>
           </article>
         </section>
 

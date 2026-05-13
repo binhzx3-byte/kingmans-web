@@ -17,6 +17,11 @@ const projectNote = document.querySelector("#projectNote");
 const projectCancelEdit = document.querySelector("#projectCancelEdit");
 const projectPreviewButton = document.querySelector("#projectPreviewButton");
 const projectSubmitButton = projectForm?.querySelector("button[type='submit']");
+const autoNewsForm = document.querySelector("#autoNewsForm");
+const autoNewsNote = document.querySelector("#autoNewsNote");
+const autoNewsResult = document.querySelector("#autoNewsResult");
+const autoNewsSources = document.querySelector("#autoNewsSources");
+const autoNewsRefreshButton = document.querySelector("#autoNewsRefreshButton");
 const articleList = document.querySelector("#articleList");
 const projectList = document.querySelector("#projectList");
 const refreshButton = document.querySelector("#refreshButton");
@@ -357,6 +362,62 @@ projectForm?.addEventListener("submit", async (event) => {
   }
 });
 
+autoNewsForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const formData = new FormData(autoNewsForm);
+  const sources = formData.getAll("sources").map((value) => String(value));
+  if (!sources.length) {
+    setNote(autoNewsNote, "Vui lòng chọn ít nhất một nguồn tin.", true);
+    return;
+  }
+
+  const payload = {
+    topic: String(formData.get("topic") || "market-pulse"),
+    status: String(formData.get("status") || "draft"),
+    keywords: String(formData.get("keywords") || ""),
+    sources
+  };
+
+  try {
+    setNote(autoNewsNote, "Đang thu thập nguồn tin và tạo bài nháp...");
+    autoNewsResult.innerHTML = "";
+    const result = await requestJson("/api/admin/auto-news/generate", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    const publicUrl = `/bai-viet/${result.slug}`;
+    setNote(
+      autoNewsNote,
+      result.status === "published"
+        ? `Đã tạo và xuất bản bài viết: ${publicUrl}`
+        : `Đã tạo bản nháp. Bạn có thể sửa lại trước khi xuất bản: ${publicUrl}`
+    );
+    autoNewsResult.innerHTML = `
+      <article class="auto-result-card">
+        <strong>${escapeHtml(result.status === "published" ? "Đã xuất bản" : "Đã tạo bản nháp")}</strong>
+        <span>${escapeHtml(result.itemCount || 0)} nguồn tin đã được dùng để dựng bài.</span>
+        ${
+          result.failedSources?.length
+            ? `<small>Nguồn chưa phản hồi: ${escapeHtml(result.failedSources.join(", "))}</small>`
+            : ""
+        }
+        <div class="row-actions">
+          <button class="copy-button" type="button" data-edit-article="${escapeHtml(result.id)}">Mở để chỉnh sửa</button>
+          <a class="copy-button" href="${escapeHtml(publicUrl)}" target="_blank" rel="noreferrer">Xem link public</a>
+        </div>
+      </article>
+    `;
+    await loadArticles();
+  } catch (error) {
+    setNote(autoNewsNote, error.message, true);
+  }
+});
+
+autoNewsRefreshButton?.addEventListener("click", async () => {
+  await loadAutoNewsSources();
+});
+
 articleCancelEdit?.addEventListener("click", () => {
   resetArticleEditor();
   setNote(articleNote, "Đã hủy chế độ sửa bài viết.");
@@ -473,6 +534,29 @@ async function loadMedia() {
     : '<p class="note">Chưa có ảnh nào. Upload ảnh đầu tiên để dùng cho bài viết hoặc dự án.</p>';
 }
 
+async function loadAutoNewsSources() {
+  if (!autoNewsSources) return;
+  try {
+    const payload = await requestJson("/api/admin/auto-news/sources", { method: "GET" });
+    const sources = payload.sources || [];
+    if (!sources.length) return;
+    autoNewsSources.innerHTML = sources
+      .map(
+        (source) => `
+          <label>
+            <input type="checkbox" name="sources" value="${escapeHtml(source.key)}" checked>
+            <span>${escapeHtml(source.label)}</span>
+            <small>${escapeHtml(source.domain)}</small>
+          </label>
+        `
+      )
+      .join("");
+    setNote(autoNewsNote, "Đã tải danh sách nguồn tin.");
+  } catch (error) {
+    setNote(autoNewsNote, `Chưa tải được nguồn tin: ${error.message}`, true);
+  }
+}
+
 async function loadArticles() {
   const payload = await requestJson("/api/admin/articles?limit=50", { method: "GET" });
   const items = payload.items || [];
@@ -526,7 +610,7 @@ async function loadProjects() {
 }
 
 async function loadDashboard() {
-  await Promise.all([loadMedia(), loadArticles(), loadProjects()]);
+  await Promise.all([loadMedia(), loadAutoNewsSources(), loadArticles(), loadProjects()]);
 }
 
 async function editArticle(id) {

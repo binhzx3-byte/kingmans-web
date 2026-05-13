@@ -48,6 +48,7 @@
         <nav class="admin-tabs" aria-label="Khu vực quản trị">
           <button class="tab-button active" type="button" data-tab="articlePane">Bài viết</button>
           <button class="tab-button" type="button" data-tab="projectPane">Dự án</button>
+          <button class="tab-button" type="button" data-tab="autoNewsPane">Tin tự động</button>
           <button class="tab-button" type="button" data-tab="mediaPane">Kho ảnh</button>
           <button class="tab-button" type="button" data-tab="contentPane">Đã xuất bản</button>
         </nav>
@@ -259,6 +260,68 @@
               </div>
             </form>
             <p class="note" id="projectNote" role="status"></p>
+          </article>
+        </section>
+
+        <section class="tab-pane" id="autoNewsPane">
+          <article class="editor-card">
+            <div class="card-head">
+              <div>
+                <h2>Tạo bài tin thị trường tự động</h2>
+                <p>Hệ thống thu thập tin từ nguồn công khai, tạo bản nháp theo giọng chuyên gia khách quan và đưa vào CMS để bạn duyệt trước khi đăng.</p>
+              </div>
+              <span class="status-chip">Market Briefing</span>
+            </div>
+
+            <form id="autoNewsForm" class="editor-form">
+              <div class="form-grid">
+                <label>
+                  Chủ đề
+                  <select name="topic" id="autoNewsTopic" required>
+                    <option value="market-pulse">Nhịp thị trường</option>
+                    <option value="apartment">Căn hộ đô thị vệ tinh</option>
+                    <option value="infrastructure">Hạ tầng & đô thị</option>
+                    <option value="legal-finance">Pháp lý & tài chính</option>
+                  </select>
+                </label>
+                <label>
+                  Trạng thái sau khi tạo
+                  <select name="status" required>
+                    <option value="draft">Tạo bản nháp để duyệt</option>
+                    <option value="published">Tạo và xuất bản ngay</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Từ khóa lọc thêm
+                <input type="text" name="keywords" placeholder="Ví dụ: Thuận An, Dĩ An, Long Thành, Quốc lộ 13">
+              </label>
+
+              <div class="auto-source-box">
+                <div class="field-head">
+                  <span>Nguồn tin</span>
+                  <small>Chọn 1-3 nguồn. Bài viết sẽ dẫn link nguồn để kiểm chứng.</small>
+                </div>
+                <div class="auto-source-list" id="autoNewsSources">
+                  <label><input type="checkbox" name="sources" value="vnexpress-bat-dong-san" checked> VnExpress - Bất động sản</label>
+                  <label><input type="checkbox" name="sources" value="tuoitre-bat-dong-san" checked> Tuổi Trẻ - Bất động sản</label>
+                  <label><input type="checkbox" name="sources" value="vietnamnet-bat-dong-san" checked> VietnamNet - Bất động sản</label>
+                </div>
+              </div>
+
+              <div class="auto-guidelines">
+                <strong>Quy tắc giọng văn</strong>
+                <span>Khách quan, có điểm cần kiểm chứng, không cam kết lợi nhuận, không thúc ép xuống tiền.</span>
+              </div>
+
+              <div class="form-actions">
+                <button class="primary-action" type="submit">Tạo bài từ nguồn tin</button>
+                <button class="ghost-action" id="autoNewsRefreshButton" type="button">Tải lại nguồn</button>
+              </div>
+            </form>
+            <p class="note" id="autoNewsNote" role="status"></p>
+            <div class="auto-result" id="autoNewsResult"></div>
           </article>
         </section>
 

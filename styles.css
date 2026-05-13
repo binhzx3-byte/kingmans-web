@@ -69,6 +69,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
+  overflow-x: hidden;
 }
 
 main [id] {
@@ -89,6 +90,7 @@ body {
   text-rendering: optimizeLegibility;
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 button,
@@ -1173,11 +1175,14 @@ textarea:focus {
   gap: clamp(28px, 6vw, 80px);
   align-items: start;
   padding: clamp(54px, 8vw, 96px) clamp(18px, 4vw, 56px);
+  min-width: 0;
 }
 
 .article-prose {
   display: grid;
   gap: 30px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .article-lede {
@@ -1186,6 +1191,8 @@ textarea:focus {
   font-size: clamp(18px, 2vw, 22px);
   font-weight: 600;
   line-height: 1.75;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .article-section {
@@ -1193,6 +1200,7 @@ textarea:focus {
   gap: 14px;
   padding-top: 28px;
   border-top: 1px solid var(--line);
+  min-width: 0;
 }
 
 .article-section h2 {
@@ -1206,6 +1214,7 @@ textarea:focus {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.82;
+  overflow-wrap: break-word;
 }
 
 .article-section h3 {
@@ -1301,6 +1310,8 @@ textarea:focus {
 
 .cms-content {
   align-content: start;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .cms-content > :first-child {
@@ -1457,6 +1468,146 @@ textarea:focus {
 
 .article-sidebar h2 {
   font-size: clamp(24px, 3vw, 34px);
+}
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 3px;
+  background: rgba(13, 27, 42, 0.08);
+  pointer-events: none;
+}
+
+.reading-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--gold), #f0d98f, var(--gold-dark));
+}
+
+.reading-time-chip {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(8, 13, 20, 0.36);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.article-trust-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgba(200, 164, 93, 0.3);
+  border-radius: 8px;
+  background: #fbfaf5;
+}
+
+.article-trust-note strong {
+  flex: 1 1 100%;
+  color: var(--ink);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.article-trust-note span {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #4c3a16;
+  background: rgba(200, 164, 93, 0.16);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.article-seo-toc,
+.article-related-card {
+  display: grid;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-seo-toc strong,
+.article-related-card strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.18;
+}
+
+.article-seo-toc ol,
+.article-related-card ul {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.article-seo-toc a,
+.article-related-card a {
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.article-seo-toc a:hover,
+.article-related-card a:hover {
+  color: var(--gold-dark);
+}
+
+.article-copy-link {
+  min-height: 42px;
+  border: 1px solid rgba(200, 164, 93, 0.36);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(200, 164, 93, 0.12);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.article-copy-link:hover {
+  background: var(--gold);
+}
+
+.article-enhanced-page .article-prose h2 {
+  scroll-margin-top: 98px;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress span,
+  .reveal-on-scroll {
+    transition: none;
+  }
 }
 
 .thank-you-section {
@@ -1621,6 +1772,11 @@ textarea:focus {
 
   .article-sidebar {
     position: static;
+  }
+
+  .article-seo-toc,
+  .article-related-card {
+    padding-bottom: 14px;
   }
 }
 
@@ -1815,6 +1971,33 @@ textarea:focus {
     font-size: 16px;
     line-height: 1.58;
     overflow-wrap: break-word;
+  }
+
+  .article-layout {
+    width: 100%;
+    max-width: 100vw;
+    padding-right: 20px;
+    padding-left: 20px;
+    overflow: hidden;
+  }
+
+  .reading-time-chip {
+    margin-top: 10px;
+  }
+
+  .article-trust-note {
+    gap: 7px;
+  }
+
+  .article-trust-note span {
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .article-seo-toc strong,
+  .article-related-card strong {
+    font-size: 20px;
   }
 
   .site-footer {

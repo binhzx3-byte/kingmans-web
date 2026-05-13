@@ -7,6 +7,52 @@ const SESSION_COOKIE = "kingmans_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 12;
 const ARTICLE_CATEGORIES = new Set(["market", "guide", "finance", "lifestyle"]);
 const PROJECT_TYPES = new Set(["can-ho", "hang-sang", "dau-tu", "khac"]);
+const AUTO_NEWS_SOURCES = [
+  {
+    key: "vnexpress-bat-dong-san",
+    label: "VnExpress - Bất động sản",
+    url: "https://vnexpress.net/rss/bat-dong-san.rss",
+    domain: "vnexpress.net"
+  },
+  {
+    key: "tuoitre-bat-dong-san",
+    label: "Tuổi Trẻ - Bất động sản",
+    url: "https://tuoitre.vn/rss/bat-dong-san.rss",
+    domain: "tuoitre.vn"
+  },
+  {
+    key: "vietnamnet-bat-dong-san",
+    label: "VietnamNet - Bất động sản",
+    url: "https://vietnamnet.vn/rss/bat-dong-san.rss",
+    domain: "vietnamnet.vn"
+  }
+];
+const AUTO_NEWS_TOPICS = {
+  "market-pulse": {
+    label: "Nhịp thị trường",
+    category: "market",
+    cover: "/assets/images/article-market-binh-duong.webp",
+    keywords: ["bất động sản", "nhà đất", "căn hộ", "thị trường", "nguồn cung", "giao dịch", "giá nhà"]
+  },
+  "apartment": {
+    label: "Căn hộ đô thị vệ tinh",
+    category: "market",
+    cover: "/assets/images/article-thuan-an-2026.webp",
+    keywords: ["căn hộ", "chung cư", "Bình Dương", "Dĩ An", "Thuận An", "TP.HCM", "Thủ Đức"]
+  },
+  "infrastructure": {
+    label: "Hạ tầng & đô thị",
+    category: "market",
+    cover: "/assets/images/article-quoc-lo-13-hero.webp",
+    keywords: ["hạ tầng", "cao tốc", "vành đai", "quốc lộ", "sân bay", "metro", "cầu", "đường"]
+  },
+  "legal-finance": {
+    label: "Pháp lý & tài chính",
+    category: "guide",
+    cover: "/assets/images/article-legal-checklist.webp",
+    keywords: ["pháp lý", "sổ hồng", "tín dụng", "lãi suất", "vay", "ngân hàng", "mở bán", "quy hoạch"]
+  }
+};
 
 const textEncoder = new TextEncoder();
 const keyCache = new Map();
@@ -26,6 +72,16 @@ export default {
         500
       );
     }
+  },
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(
+      runAutoNewsJob(env, {
+        author: "auto-market",
+        topic: "market-pulse",
+        status: "draft",
+        limit: 8
+      })
+    );
   }
 };
 
@@ -164,6 +220,12 @@ async function handleApi(request, env, url) {
     }
     if (pathname === "/api/admin/media" && method === "GET") {
       return listMedia(url, env);
+    }
+    if (pathname === "/api/admin/auto-news/sources" && method === "GET") {
+      return listAutoNewsSources();
+    }
+    if (pathname === "/api/admin/auto-news/generate" && method === "POST") {
+      return generateAutoNewsArticle(request, env, session.sub);
     }
   }
 
@@ -666,6 +728,411 @@ async function listMedia(url, env) {
     .bind(limit, offset)
     .all();
   return json({ ok: true, items: result.results ?? [] });
+}
+
+function listAutoNewsSources() {
+  const topics = Object.entries(AUTO_NEWS_TOPICS).map(([key, value]) => ({
+    key,
+    label: value.label,
+    category: value.category
+  }));
+
+  const sources = AUTO_NEWS_SOURCES.map(({ key, label, domain }) => ({
+    key,
+    label,
+    domain
+  }));
+
+  return json({ ok: true, topics, sources });
+}
+
+async function generateAutoNewsArticle(request, env, author) {
+  const body = await request.json().catch(() => ({}));
+  const topic = normalizeAutoNewsTopic(body.topic);
+  const sourceKeys = normalizeAutoNewsSourceKeys(body.sources);
+  const status = normalizeStatus(body.status) || "draft";
+  const keywords = String(body.keywords || "").trim();
+  const limit = clampInt(body.limit, 3, 12, 8);
+
+  if (!topic) {
+    return json({ ok: false, error: "Chủ đề tạo bài không hợp lệ." }, 400);
+  }
+
+  const result = await createAutoNewsArticle(env, {
+    author,
+    topic,
+    sourceKeys,
+    status,
+    keywords,
+    limit
+  });
+
+  if (!result.ok) {
+    return json(result, 502);
+  }
+  return json(result);
+}
+
+async function runAutoNewsJob(env, options = {}) {
+  try {
+    await createAutoNewsArticle(env, {
+      author: options.author || "auto-market",
+      topic: options.topic || "market-pulse",
+      sourceKeys: options.sourceKeys || AUTO_NEWS_SOURCES.map((source) => source.key),
+      status: options.status || "draft",
+      limit: options.limit || 8
+    });
+  } catch (error) {
+    console.error("Auto news job failed", error);
+  }
+}
+
+async function createAutoNewsArticle(env, options) {
+  const topicKey = normalizeAutoNewsTopic(options.topic) || "market-pulse";
+  const topic = AUTO_NEWS_TOPICS[topicKey];
+  const sourceKeys = normalizeAutoNewsSourceKeys(options.sourceKeys);
+  const selectedSources = sourceKeys.length
+    ? AUTO_NEWS_SOURCES.filter((source) => sourceKeys.includes(source.key))
+    : AUTO_NEWS_SOURCES;
+  const limit = clampInt(options.limit, 3, 12, 8);
+  const extraKeywords = String(options.keywords || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const fetched = await Promise.allSettled(
+    selectedSources.map(async (source) => {
+      const response = await fetch(source.url);
+      if (!response.ok) {
+        throw new Error(`${source.label}: ${response.status}`);
+      }
+      const xml = await response.text();
+      return parseRssItems(xml, source);
+    })
+  );
+
+  const allItems = fetched
+    .filter((entry) => entry.status === "fulfilled")
+    .flatMap((entry) => entry.value)
+    .filter((item) => item.title && item.link);
+
+  const keywords = [...topic.keywords, ...extraKeywords];
+  const matchedItems = allItems.filter((item) => matchesKeywords(item, keywords));
+  const items = uniqueNewsItems(matchedItems.length ? matchedItems : allItems).slice(0, limit);
+
+  if (!items.length) {
+    return {
+      ok: false,
+      error: "Chưa lấy được nguồn tin phù hợp. Hãy thử lại sau hoặc chọn nguồn khác."
+    };
+  }
+
+  const now = new Date();
+  const isoNow = now.toISOString();
+  const dateText = formatVietnameseDate(isoNow.slice(0, 10));
+  const sourceSummary = items
+    .map((item) => `${item.sourceLabel}: ${item.title}`)
+    .join("\n");
+  const baseSlug = `${topicSlugPrefix(topicKey)}-${isoNow.slice(0, 10)}`;
+  const slug = await createUniqueArticleSlug(baseSlug, env);
+  const title = `${topic.label} bất động sản ngày ${dateText}: các tín hiệu cần kiểm chứng`;
+  const excerpt = `Bản tổng hợp nguồn tin công khai trong ngày, kèm góc nhìn kiểm chứng về giá, pháp lý, hạ tầng và dòng tiền trước khi ra quyết định.`;
+  const contentHtml = buildAutoNewsHtml({ topicKey, topic, items, dateText, sourceSummary });
+  const seoTitle = `${topic.label} bất động sản ${dateText} | KINGMANS`;
+  const seoDescription = `Cập nhật ${topic.label.toLowerCase()} bất động sản ngày ${dateText}: nguồn tin đáng chú ý, tác động với người mua và các điểm cần kiểm chứng trước khi xuống tiền.`;
+  const id = crypto.randomUUID();
+  const status = normalizeStatus(options.status) || "draft";
+  const publishedAt = status === "published" ? isoNow : null;
+
+  await env.DB.prepare(
+    `INSERT INTO articles (
+      id, slug, title, excerpt, content_markdown, content_html, category,
+      cover_image_url, seo_title, seo_description, status, author, published_at, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  )
+    .bind(
+      id,
+      slug,
+      title,
+      excerpt,
+      sourceSummary,
+      contentHtml,
+      topic.category,
+      topic.cover,
+      seoTitle,
+      seoDescription,
+      status,
+      options.author || "auto-market",
+      publishedAt,
+      isoNow,
+      isoNow
+    )
+    .run();
+
+  return {
+    ok: true,
+    id,
+    slug,
+    status,
+    publishedAt,
+    itemCount: items.length,
+    failedSources: fetched
+      .filter((entry) => entry.status === "rejected")
+      .map((entry) => entry.reason?.message || "Nguồn không phản hồi")
+  };
+}
+
+function buildAutoNewsHtml({ topicKey, topic, items, dateText, sourceSummary }) {
+  const sourceRows = items
+    .map(
+      (item, index) => `
+        <li>
+          <strong>${index + 1}. ${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.sourceLabel)}${item.pubDate ? ` · ${escapeHtml(formatSourceDate(item.pubDate))}` : ""}</span>
+          ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ""}
+          <p><a href="${escapeHtml(item.link)}" target="_blank" rel="nofollow noopener noreferrer">Xem nguồn gốc</a></p>
+        </li>`
+    )
+    .join("");
+
+  const angle = autoNewsAngle(topicKey);
+  const checklist = angle.checklist
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+  const implications = angle.implications
+    .map(
+      (row) => `
+        <tr>
+          <td>${escapeHtml(row.group)}</td>
+          <td>${escapeHtml(row.reading)}</td>
+          <td>${escapeHtml(row.action)}</td>
+        </tr>`
+    )
+    .join("");
+
+  return `
+    <p class="article-lede">Bản tin này tổng hợp các nguồn công khai trong ngày ${escapeHtml(dateText)} và được trình bày theo góc nhìn kiểm chứng của KINGMANS Realty. Nội dung có mục tiêu hỗ trợ người mua đọc thị trường tỉnh táo hơn, không thay thế cho việc đối chiếu hồ sơ pháp lý, bảng giá và tiến độ thực tế tại thời điểm giao dịch.</p>
+
+    <h2>Nguồn tin đáng chú ý</h2>
+    <p>Các tiêu đề dưới đây được chọn vì có liên quan đến ${escapeHtml(topic.label.toLowerCase())}, biến động cung cầu, chính sách hoặc yếu tố hạ tầng có thể ảnh hưởng đến quyết định mua bất động sản.</p>
+    <ul class="article-source-list">
+      ${sourceRows}
+    </ul>
+
+    <h2>Góc nhìn KINGMANS: đọc tin theo dữ liệu, không theo cảm xúc</h2>
+    <p>${escapeHtml(angle.viewpoint)}</p>
+    <div class="article-callout">
+      <strong>Những điểm cần kiểm chứng thêm</strong>
+      <ul>${checklist}</ul>
+    </div>
+
+    <h2>Tác động với từng nhóm khách hàng</h2>
+    <div class="article-table-wrap">
+      <table class="article-table">
+        <thead>
+          <tr>
+            <th>Nhóm khách hàng</th>
+            <th>Cách đọc thông tin</th>
+            <th>Hành động nên làm</th>
+          </tr>
+        </thead>
+        <tbody>${implications}</tbody>
+      </table>
+    </div>
+
+    <h2>Kết luận thận trọng</h2>
+    <p>${escapeHtml(angle.conclusion)}</p>
+    <p>Với các thông tin liên quan đến giá bán, tiến độ dự án, pháp lý hoặc chính sách tín dụng, KINGMANS Realty khuyến nghị khách hàng đối chiếu trực tiếp với hồ sơ gốc và phương án tài chính cá nhân trước khi đặt cọc.</p>
+
+    <div class="article-callout cta-callout">
+      <strong>Cần lọc dự án theo ngân sách và khẩu vị rủi ro?</strong>
+      <p>Gửi khu vực quan tâm, ngân sách dự kiến và mục tiêu mua. KINGMANS Realty sẽ hỗ trợ sàng lọc danh sách dự án phù hợp, chỉ ra các điểm cần kiểm tra trước khi xuống tiền.</p>
+      <p><a class="button primary" href="/#contact">Nhận danh sách dự án phù hợp</a></p>
+    </div>
+
+    <h2>Nguồn tham khảo</h2>
+    <pre>${escapeHtml(sourceSummary)}</pre>
+  `.trim();
+}
+
+function autoNewsAngle(topicKey) {
+  const angles = {
+    apartment: {
+      viewpoint: "Thông tin về căn hộ cần được đọc cùng lúc ở ba lớp: nguồn cung thực tế, khả năng hấp thụ và chi phí sở hữu sau ưu đãi. Một khu vực có nhiều dự án mới chưa chắc là cơ hội nếu lực thuê hoặc nhu cầu ở thật chưa đủ rõ.",
+      checklist: [
+        "Mặt bằng giá sơ cấp và thứ cấp trong bán kính 3-5 km.",
+        "Tiến độ thi công, thời điểm bàn giao và chi phí vận hành sau nhận nhà.",
+        "Lực thuê thực tế, nhóm khách thuê chính và tỷ lệ trống của dự án lân cận."
+      ],
+      implications: [
+        { group: "Mua ở", reading: "Ưu tiên tiện ích, kết nối đi làm và chi phí hàng tháng.", action: "So sánh tổng chi phí sở hữu thay vì chỉ nhìn giá niêm yết." },
+        { group: "Đầu tư", reading: "Quan sát lực thuê và thanh khoản thứ cấp.", action: "Lập bảng dòng tiền 3-5 năm trước khi chọn căn." },
+        { group: "Ký gửi", reading: "Tin thị trường có thể ảnh hưởng kỳ vọng giá bán.", action: "Định giá lại theo giao dịch thật, không theo giá rao cao nhất." }
+      ],
+      conclusion: "Cơ hội căn hộ vẫn nằm ở sản phẩm có nhu cầu ở thật, pháp lý rõ và tổng giá phù hợp với dòng tiền của người mua mục tiêu."
+    },
+    infrastructure: {
+      viewpoint: "Hạ tầng là yếu tố có thể nâng kỳ vọng giá, nhưng chỉ tạo giá trị bền vững khi công trình đi vào triển khai thực tế và kéo theo dân cư, thương mại, dịch vụ.",
+      checklist: [
+        "Phân biệt hạ tầng đã phê duyệt, đang thi công và đã vận hành.",
+        "Khoảng cách thực tế từ dự án đến điểm kết nối, không chỉ nhìn bản đồ quảng cáo.",
+        "Tác động đến thời gian di chuyển, lực thuê và khả năng hình thành tiện ích mới."
+      ],
+      implications: [
+        { group: "Mua ở", reading: "Hạ tầng tốt giúp giảm thời gian di chuyển.", action: "Đi thực tế vào giờ cao điểm để kiểm chứng." },
+        { group: "Đầu tư", reading: "Giá thường phản ánh kỳ vọng trước khi hạ tầng hoàn thành.", action: "Không mua chỉ vì tin quy hoạch, cần so sánh biên an toàn giá." },
+        { group: "Cho thuê", reading: "Hạ tầng tốt có thể mở rộng tập khách thuê.", action: "Kiểm tra khu công nghiệp, văn phòng, trường học và tiện ích quanh dự án." }
+      ],
+      conclusion: "Tin hạ tầng chỉ đáng chuyển thành quyết định đầu tư khi có tiến độ rõ, tác động kết nối thật và giá vào vẫn còn biên an toàn."
+    },
+    "legal-finance": {
+      viewpoint: "Pháp lý và tài chính là lớp phòng thủ đầu tiên của người mua. Bất kỳ ưu đãi lãi suất hay lịch thanh toán đẹp nào cũng cần được kiểm tra cùng hợp đồng, bảo lãnh ngân hàng và nghĩa vụ tài chính thực tế.",
+      checklist: [
+        "Quy hoạch 1/500, giấy phép xây dựng và điều kiện mở bán.",
+        "Bảo lãnh ngân hàng cho từng hợp đồng mua bán.",
+        "Lãi suất sau ưu đãi, phí trả nợ trước hạn và khoản dự phòng khẩn cấp."
+      ],
+      implications: [
+        { group: "Mua ở", reading: "Khoản vay phải phù hợp thu nhập sau khi hết ưu đãi.", action: "Giữ tỷ lệ trả nợ trong vùng an toàn 35-40% thu nhập." },
+        { group: "Đầu tư", reading: "Pháp lý chậm có thể làm giảm thanh khoản.", action: "Chỉ xuống tiền khi hiểu rõ điều kiện chuyển nhượng và bàn giao." },
+        { group: "Ký gửi", reading: "Người mua ngày càng hỏi sâu về hồ sơ pháp lý.", action: "Chuẩn bị bộ tài liệu pháp lý trước khi chào bán." }
+      ],
+      conclusion: "Một giao dịch tốt không chỉ cần giá tốt, mà cần khả năng đi đến bàn giao và vận hành tài sản với rủi ro được kiểm soát."
+    },
+    "market-pulse": {
+      viewpoint: "Tin thị trường nên được xem như tín hiệu ban đầu, không phải kết luận cuối cùng. Điều cần quan sát là xu hướng lặp lại qua nhiều nguồn: giá, thanh khoản, pháp lý, tín dụng và hạ tầng.",
+      checklist: [
+        "Tin nào phản ánh giao dịch thật, tin nào chỉ là kỳ vọng.",
+        "Khu vực nào có nhu cầu ở thật, lực thuê và hạ tầng đang vận hành.",
+        "Mức giá hiện tại còn phù hợp với thu nhập, dòng tiền và biên an toàn hay không."
+      ],
+      implications: [
+        { group: "Mua ở", reading: "Thị trường biến động không quan trọng bằng sự phù hợp với nhu cầu sống.", action: "Chọn sản phẩm vừa ngân sách, pháp lý rõ và tiện đi lại." },
+        { group: "Đầu tư", reading: "Không chạy theo tin nóng nếu chưa có số liệu hấp thụ.", action: "So sánh giá vào, lực thuê và khả năng thoát hàng." },
+        { group: "Giữ tài sản", reading: "Tập trung khu vực có hạ tầng, dân cư và tiện ích tăng đều.", action: "Ưu tiên tài sản có vị trí khó thay thế và chi phí nắm giữ hợp lý." }
+      ],
+      conclusion: "Trong giai đoạn thị trường phân hóa, lợi thế thuộc về người mua có quy trình kiểm chứng rõ ràng và không để cảm xúc dẫn dắt quyết định."
+    }
+  };
+  return angles[topicKey] || angles["market-pulse"];
+}
+
+function parseRssItems(xml, source) {
+  const items = String(xml || "").match(/<item\b[\s\S]*?<\/item>/gi) || [];
+  return items.slice(0, 20).map((item) => {
+    const title = cleanNewsText(readXmlTag(item, "title"), 180);
+    const link = cleanNewsUrl(readXmlTag(item, "link"));
+    const summary = cleanNewsText(readXmlTag(item, "description"), 240);
+    const pubDate = cleanNewsText(readXmlTag(item, "pubDate"), 80);
+    return {
+      title,
+      link,
+      summary,
+      pubDate,
+      sourceKey: source.key,
+      sourceLabel: source.label,
+      sourceDomain: source.domain
+    };
+  });
+}
+
+function readXmlTag(xml, tagName) {
+  const match = String(xml || "").match(new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "i"));
+  if (!match) return "";
+  return decodeXmlEntities(stripCdata(match[1]));
+}
+
+function stripCdata(value) {
+  return String(value || "")
+    .replace(/^<!\[CDATA\[/i, "")
+    .replace(/\]\]>$/i, "");
+}
+
+function decodeXmlEntities(value) {
+  return String(value || "")
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, num) => String.fromCodePoint(Number.parseInt(num, 10)))
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+}
+
+function cleanNewsText(value, maxLength) {
+  return String(value || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+function cleanNewsUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw.startsWith("http://") && !raw.startsWith("https://")) return "";
+  return raw;
+}
+
+function matchesKeywords(item, keywords) {
+  const haystack = `${item.title} ${item.summary}`.toLowerCase();
+  return keywords.some((keyword) => haystack.includes(String(keyword).toLowerCase()));
+}
+
+function uniqueNewsItems(items) {
+  const seen = new Set();
+  const unique = [];
+  for (const item of items) {
+    const key = item.link || item.title;
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    unique.push(item);
+  }
+  return unique;
+}
+
+function normalizeAutoNewsTopic(value) {
+  const raw = String(value || "").trim();
+  return AUTO_NEWS_TOPICS[raw] ? raw : null;
+}
+
+function normalizeAutoNewsSourceKeys(value) {
+  const allowed = new Set(AUTO_NEWS_SOURCES.map((source) => source.key));
+  const input = Array.isArray(value) ? value : String(value || "").split(",");
+  return input
+    .map((item) => String(item || "").trim())
+    .filter((item) => allowed.has(item));
+}
+
+function topicSlugPrefix(topicKey) {
+  const map = {
+    "market-pulse": "nhip-thi-truong-bat-dong-san",
+    apartment: "tin-can-ho-do-thi-ve-tinh",
+    infrastructure: "tin-ha-tang-do-thi-bat-dong-san",
+    "legal-finance": "tin-phap-ly-tai-chinh-bat-dong-san"
+  };
+  return map[topicKey] || map["market-pulse"];
+}
+
+async function createUniqueArticleSlug(baseSlug, env) {
+  const cleanBase = sanitizeSlug(baseSlug) || `bai-viet-${new Date().toISOString().slice(0, 10)}`;
+  for (let index = 0; index < 20; index += 1) {
+    const slug = index === 0 ? cleanBase : `${cleanBase}-${index + 1}`;
+    const existing = await env.DB.prepare("SELECT id FROM articles WHERE slug = ? LIMIT 1")
+      .bind(slug)
+      .first();
+    if (!existing) return slug;
+  }
+  return `${cleanBase}-${crypto.randomUUID().slice(0, 8)}`;
+}
+
+function formatSourceDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
 }
 
 async function serveMedia(key, env) {

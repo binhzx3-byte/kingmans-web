@@ -48,6 +48,7 @@ Project da duoc bo sung:
 - Worker API: `worker.js`
 - D1 schema: `db/schema.sql`
 - Admin page: `/admin` (`admin/index.html`, `admin/admin.js`, `admin/admin.css`)
+- Auto market briefing: tao ban nhap tin thi truong tu RSS cong khai trong admin
 - Public dynamic URLs:
   - Bai viet: `/bai-viet/<slug>`
   - Du an: `/du-an/<slug>`
@@ -97,6 +98,7 @@ npx wrangler deploy
 - Dang bai/du an qua form admin
 - Upload anh len R2 trong block "Upload anh (R2)"
 - URL anh upload se co dang `/media/uploads/...`
+- Tab "Tin tu dong" tao ban nhap tu nguon cong khai. Mac dinh cron tao ban nhap luc 08:00 gio Viet Nam vao Thu 2/4/6.
 
 ### API nhanh
 
@@ -112,3 +114,5 @@ npx wrangler deploy
   - `GET/POST/PUT/DELETE /api/admin/articles`
   - `GET/POST/PUT/DELETE /api/admin/projects`
   - `POST /api/admin/media`
+  - `GET /api/admin/auto-news/sources`
+  - `POST /api/admin/auto-news/generate`

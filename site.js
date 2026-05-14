@@ -15,6 +15,11 @@ if (siteMenuButton && siteMainNav) {
 
 const ARTICLE_LINK_LIBRARY = [
   {
+    title: "Thị trường bất động sản Bình Dương 2026",
+    href: "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html",
+    tags: ["bình dương", "binh duong", "thuận an", "thuan an", "dĩ an", "di an", "nguồn cung", "nguon cung", "quốc lộ 13", "quoc lo 13", "dòng tiền", "dong tien"]
+  },
+  {
     title: "Opal Luxury Dĩ An",
     href: "/opal-luxury.html",
     tags: ["opal", "dĩ an", "di an", "sóng thần", "song than", "thủ đức", "thu duc"]
@@ -86,6 +91,7 @@ function enhanceArticleExperience() {
   addReadingProgress();
   addReadingTime(article);
   addArticleTrustNote(article);
+  addArticleSchema(article);
   addArticleTableOfContents(article);
   addRelatedArticles(article);
   addFaqSchema(article);
@@ -150,6 +156,57 @@ function addArticleTrustNote(article) {
     <span>Tính toán dòng tiền</span>
   `;
   lede.insertAdjacentElement("afterend", note);
+}
+
+function addArticleSchema(article) {
+  const hasArticleSchema = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+    .some((script) => script.textContent.includes('"Article"'));
+  if (hasArticleSchema) return;
+
+  const headline = document.querySelector("h1")?.textContent?.trim() || document.title;
+  const description = document.querySelector('meta[name="description"]')?.getAttribute("content") || "";
+  const image = document.querySelector('meta[property="og:image"]')?.getAttribute("content") || "";
+  const canonical = document.querySelector('link[rel="canonical"]')?.getAttribute("href") || window.location.href;
+  const published = document.querySelector('meta[property="article:published_time"]')?.getAttribute("content") || new Date().toISOString().slice(0, 10);
+  const modified = document.querySelector('meta[property="article:modified_time"]')?.getAttribute("content") || published;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${canonical}#article`,
+    headline,
+    description,
+    image: image ? [image] : undefined,
+    datePublished: published,
+    dateModified: modified,
+    inLanguage: "vi-VN",
+    author: {
+      "@type": "Organization",
+      name: "KINGMANS Realty",
+      url: "https://kingmansrealty.com/"
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "KINGMANS Realty",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://kingmansrealty.com/assets/kingmans-logo.png"
+      }
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonical
+    }
+  };
+
+  Object.keys(schema).forEach((key) => {
+    if (schema[key] === undefined || schema[key] === "") delete schema[key];
+  });
+
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(schema);
+  document.head.append(script);
 }
 
 function addArticleTableOfContents(article) {

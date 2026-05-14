@@ -30,7 +30,7 @@
     <meta name="twitter:title" content="KINGMANS Realty | Đội ngũ cố vấn bất động sản TP.HCM & Bình Dương">
     <meta name="twitter:description" content="Đội ngũ cố vấn bất động sản độc lập giúp khách hàng sàng lọc thị trường, kiểm tra pháp lý, tính toán dòng tiền và chọn danh mục dự án phù hợp.">
     <meta name="twitter:image" content="https://kingmansrealty.com/assets/kingmans-logo.png">
-    <link rel="stylesheet" href="styles.css?v=20260509-gem">
+    <link rel="stylesheet" href="styles.css?v=20260514-trust">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -47,6 +47,13 @@
             "email": "contact@kingmansrealty.com",
             "priceRange": "$$",
             "areaServed": ["Bình Dương", "Thuận An", "Dĩ An", "TP.HCM"],
+            "knowsAbout": [
+              "Phân tích thị trường bất động sản",
+              "Kiểm tra pháp lý dự án",
+              "Dòng tiền cho thuê căn hộ",
+              "Căn hộ Bình Dương",
+              "Bất động sản TP.HCM"
+            ],
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Thuận An",
@@ -249,6 +256,47 @@
         </div>
       </section>
 
+      <section class="section report-section" aria-labelledby="reportTitle">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Report demo</p>
+            <h2 id="reportTitle">Minh bạch cách đọc dữ liệu trước khi đề xuất dự án.</h2>
+          </div>
+          <p>
+            Mẫu dưới đây mô phỏng một bản sàng lọc ngắn đã ẩn thông tin nhạy cảm. Mục tiêu là giúp khách hàng thấy
+            KINGMANS đánh giá dự án bằng dữ liệu, hồ sơ pháp lý và dòng tiền, không chỉ bằng cảm tính.
+          </p>
+        </div>
+        <div class="report-demo" aria-label="Mẫu dashboard sàng lọc dự án">
+          <article class="report-panel report-summary">
+            <span class="report-label">Mẫu phân tích</span>
+            <h3>Dự án căn hộ khu Đông / Bình Dương</h3>
+            <p>Ngày cập nhật: 14.05.2026</p>
+            <strong>Kết luận sơ bộ: Cần kiểm tra thêm pháp lý và giá vào trước khi khuyến nghị.</strong>
+          </article>
+          <article class="report-panel">
+            <span class="report-status is-pass">Đạt</span>
+            <h3>Vị trí & hạ tầng</h3>
+            <p>Kết nối nhanh đến trục chính, tiện ích hiện hữu trong bán kính 3-5 km.</p>
+          </article>
+          <article class="report-panel">
+            <span class="report-status is-review">Cần đối chiếu</span>
+            <h3>Mặt bằng giá</h3>
+            <p>So sánh giá/m², tổng giá trị căn và chính sách thanh toán với 3 dự án lân cận.</p>
+          </article>
+          <article class="report-panel">
+            <span class="report-status is-review">Cần hồ sơ</span>
+            <h3>Pháp lý</h3>
+            <p>Yêu cầu 1/500, giấy phép xây dựng, điều kiện mở bán và bảo lãnh ngân hàng.</p>
+          </article>
+          <article class="report-panel">
+            <span class="report-status is-pass">Có cơ sở</span>
+            <h3>Dòng tiền thuê</h3>
+            <p>Lập 3 kịch bản: thận trọng, cơ sở và tích cực sau khi trừ chi phí vận hành.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="section market-section" id="market">
         <div class="section-head">
           <div>
@@ -383,37 +431,42 @@
             <input type="tel" name="phone" placeholder="09xx xxx xxx" required>
           </label>
           <label>
-            Khu vực quan tâm
-            <input type="text" name="area" placeholder="TP.HCM, Bình Dương, Dĩ An, Thuận An...">
-          </label>
-          <label>
-            Ngân sách dự kiến
-            <input type="text" name="budget" placeholder="Ví dụ: 2-3 tỷ, 30% vốn tự có...">
-          </label>
-          <label>
-            Mục tiêu
+            Nhu cầu
             <select name="need" required>
-              <option value="">Chọn mục tiêu</option>
+              <option value="">Chọn nhu cầu</option>
               <option>Mua để ở</option>
               <option>Đầu tư</option>
               <option>Cho thuê</option>
               <option>Ký gửi bán/cho thuê</option>
             </select>
           </label>
-          <label>
-            Thời gian dự kiến mua
-            <select name="timeline">
-              <option value="">Chọn thời gian</option>
-              <option>Trong 1 tháng</option>
-              <option>1-3 tháng</option>
-              <option>3-6 tháng</option>
-              <option>Chưa cố định, cần tư vấn thêm</option>
-            </select>
-          </label>
-          <label>
-            Ghi chú
-            <textarea name="message" rows="4" placeholder="Nhu cầu ở thực, kỳ vọng thuê, phương án vay hoặc dự án đang quan tâm..."></textarea>
-          </label>
+          <details class="form-more">
+            <summary>Thêm ngân sách, khu vực và ghi chú nếu đã có</summary>
+            <div class="form-more-grid">
+              <label>
+                Khu vực quan tâm
+                <input type="text" name="area" placeholder="TP.HCM, Bình Dương, Dĩ An, Thuận An...">
+              </label>
+              <label>
+                Ngân sách dự kiến
+                <input type="text" name="budget" placeholder="Ví dụ: 2-3 tỷ, 30% vốn tự có...">
+              </label>
+              <label>
+                Thời gian dự kiến mua
+                <select name="timeline">
+                  <option value="">Chọn thời gian</option>
+                  <option>Trong 1 tháng</option>
+                  <option>1-3 tháng</option>
+                  <option>3-6 tháng</option>
+                  <option>Chưa cố định, cần tư vấn thêm</option>
+                </select>
+              </label>
+              <label>
+                Ghi chú
+                <textarea name="message" rows="4" placeholder="Dự án đang quan tâm, phương án vay hoặc kỳ vọng khai thác thuê..."></textarea>
+              </label>
+            </div>
+          </details>
           <button class="button primary" type="submit">Nhận danh sách dự án phù hợp</button>
           <p class="form-trust">KINGMANS phản hồi bằng danh sách lựa chọn phù hợp và các điểm cần kiểm tra trước khi xuống tiền.</p>
           <p class="form-note" id="formNote" role="status"></p>
@@ -434,6 +487,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260509-gem"></script>
+    <script src="script.js?v=20260514-trust"></script>
   </body>
 </html>

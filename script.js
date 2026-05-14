@@ -1,5 +1,16 @@
 let articles = [
   {
+    slug: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026",
+    title: "Thị trường bất động sản Bình Dương 2026: đâu là điểm rơi dòng tiền?",
+    category: "market",
+    label: "Thị trường",
+    date: "14.05.2026",
+    image: "assets/images/article-market-binh-duong.webp",
+    excerpt:
+      "Phân tích nguồn cung căn hộ, hạ tầng Quốc lộ 13, lực thuê, rủi ro pháp lý và chiến lược chọn dự án Bình Dương theo mục tiêu an cư, cho thuê hoặc tích sản.",
+    link: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html"
+  },
+  {
     slug: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san",
     title: "Quốc lộ 13 mở rộng: vì sao bất động sản dọc trục có tiềm năng tăng giá?",
     category: "market",

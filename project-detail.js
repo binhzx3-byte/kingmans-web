@@ -111,31 +111,31 @@ const projectDetails = {
       }
     ]
   },
-  "astral-city": {
-    name: "Astral City",
-    location: "Thuận An, Bình Dương",
-    image: "assets/images/astral-city.webp",
+  "the-habitat-binh-duong": {
+    name: "The Habitat Bình Dương",
+    location: "VSIP 1, Thuận An",
+    image: "assets/images/the-habitat-binh-duong.webp",
     description:
-      "Dự án căn hộ quy mô lớn trên trục thương mại Thuận An, phù hợp khách hàng tìm sản phẩm đô thị cửa ngõ có hệ tiện ích đồng bộ.",
+      "Khu căn hộ trong lòng VSIP 1, phù hợp khách hàng cần môi trường sống ổn định, cộng đồng chuyên gia và khả năng khai thác thuê thực tế.",
     overview:
-      "Astral City là lựa chọn đáng theo dõi với khách hàng quan tâm sản phẩm căn hộ trong khu đô thị quy mô lớn. Khi tư vấn, KINGMANS ưu tiên kiểm tra tiến độ thực tế, phương án tài chính, tiện ích vận hành và biên độ giá so với các dự án đã bàn giao gần đó.",
-    stats: ["Trục Quốc lộ 13", "Tiện ích quy mô lớn", "Lịch thanh toán linh hoạt", "Kết nối TP.HCM"],
+      "The Habitat Bình Dương nằm tại số 8 Đại lộ Hữu Nghị, cửa ngõ VSIP 1. Dự án được phát triển bởi VSIP-Sembcorp Gateway Development, có lợi thế rõ về tệp cư dân chuyên gia, khả năng cho thuê và môi trường sống đã hình thành. Khi tư vấn, KINGMANS ưu tiên đối chiếu từng giai đoạn bàn giao, hồ sơ pháp lý, mức phí vận hành và mặt bằng thuê thực tế quanh VSIP 1 trước khi khuyến nghị khách hàng xuống tiền.",
+    stats: ["Số 8 Hữu Nghị", "Trong VSIP 1", "3 giai đoạn - 11 tháp", "Tệp thuê chuyên gia"],
     points: [
       {
-        title: "Quy mô dự án",
-        text: "Quy mô lớn giúp tạo hệ tiện ích phong phú, đồng thời cần theo dõi kỹ tiến độ từng giai đoạn."
+        title: "Vị trí trong VSIP 1",
+        text: "Lợi thế lớn nhất của Habitat là nằm trong môi trường đô thị - công nghiệp đã vận hành, gần nhóm khách thuê là chuyên gia, kỹ sư và quản lý nước ngoài."
       },
       {
-        title: "Tiềm năng khai thác",
-        text: "Vị trí thương mại phù hợp nhu cầu thuê nếu sản phẩm có mức giá, diện tích và lịch thanh toán hợp lý."
+        title: "Chủ đầu tư quốc tế",
+        text: "Dự án gắn với VSIP-Sembcorp Gateway, nhóm phát triển có kinh nghiệm ở mô hình đô thị chuyên gia nên cần được đánh giá bằng chất lượng vận hành thực tế."
       },
       {
-        title: "Kế hoạch vốn",
-        text: "Khách hàng nên chuẩn bị kịch bản lãi suất và dòng tiền trả nợ trong ít nhất 24 tháng sau ưu đãi."
+        title: "Khai thác cho thuê",
+        text: "Tệp khách thuê quanh VSIP 1 là điểm cộng, nhưng vẫn cần bóc tách giá thuê, tỷ lệ trống phòng, phí nội thất và phí quản lý để tính hiệu quả ròng."
       },
       {
-        title: "So sánh khu vực",
-        text: "Giá trị thực cần được đối chiếu với dự án đã bàn giao, tỷ lệ lấp đầy, mức thuê và thanh khoản thứ cấp."
+        title: "Pháp lý từng giai đoạn",
+        text: "Người mua nên đối chiếu hồ sơ từng block/giai đoạn, tình trạng bàn giao, sổ hồng và các nghĩa vụ tài chính liên quan trước khi đặt cọc."
       }
     ]
   }

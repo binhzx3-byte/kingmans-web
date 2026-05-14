@@ -302,20 +302,20 @@ let projects = [
     link: "symlife.html"
   },
   {
-    slug: "astral-city",
-    name: "Astral City",
-    location: "Thuận An, Bình Dương",
-    image: "assets/images/astral-city.webp",
+    slug: "the-habitat-binh-duong",
+    name: "The Habitat Bình Dương",
+    location: "VSIP 1, Thuận An",
+    image: "assets/images/the-habitat-binh-duong.webp",
     description:
-      "Dự án căn hộ quy mô lớn trên trục thương mại Thuận An, phù hợp khách hàng tìm sản phẩm đô thị cửa ngõ có hệ tiện ích đồng bộ.",
+      "Khu căn hộ trong lòng VSIP 1, phù hợp khách hàng cần môi trường sống ổn định, cộng đồng chuyên gia và khả năng khai thác thuê thực tế.",
     typeLabel: "Căn hộ",
-    priceRange: "Đang cập nhật",
-    legalStatus: "Pháp lý/tiến độ: đang cập nhật",
-    fit: ["Tích sản", "Cho thuê"],
-    stats: ["Trục Quốc lộ 13", "Tiện ích quy mô lớn", "Lịch thanh toán linh hoạt", "Kết nối TP.HCM"],
+    priceRange: "Liên hệ bảng giá cập nhật",
+    legalStatus: "Pháp lý từng giai đoạn: cần đối chiếu hồ sơ",
+    fit: ["An cư", "Cho thuê", "Chuyên gia"],
+    stats: ["Số 8 Hữu Nghị", "Trong VSIP 1", "VSIP-Sembcorp Gateway", "Tệp thuê chuyên gia"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
-    link: "astral-city.html"
+    link: "the-habitat-binh-duong.html"
   }
 ];
 

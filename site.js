@@ -30,6 +30,11 @@ const ARTICLE_LINK_LIBRARY = [
     tags: ["gem sky world", "long thành", "long thanh", "sân bay", "san bay", "đồng nai", "dong nai"]
   },
   {
+    title: "The Habitat Bình Dương",
+    href: "/the-habitat-binh-duong.html",
+    tags: ["the habitat", "habitat", "vsip", "vsip 1", "thuận an", "thuan an", "bình dương", "binh duong", "chuyên gia", "chuyen gia", "cho thuê", "cho thue"]
+  },
+  {
     title: "Khải Hoàn Imperial",
     href: "/khai-hoan-imperial.html",
     tags: ["khải hoàn", "khai hoan", "nhà bè", "nha be", "nam sài gòn", "nam sai gon"]

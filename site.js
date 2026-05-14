@@ -94,6 +94,7 @@ function enhanceArticleExperience() {
   addArticleSchema(article);
   addArticleTableOfContents(article);
   addRelatedArticles(article);
+  addTopicClusterLinks(article);
   addFaqSchema(article);
   setupArticleReveal(article);
 }
@@ -292,6 +293,66 @@ function addRelatedArticles(article) {
       copyButton.textContent = "Không copy được";
     }
   });
+}
+
+function addTopicClusterLinks(article) {
+  if (document.querySelector(".article-cluster-card")) return;
+
+  const currentPath = normalizePath(window.location.pathname);
+  const clusters = [
+    {
+      label: "Pháp lý",
+      items: [
+        ["Checklist pháp lý căn hộ sơ cấp", "/checklist-phap-ly-can-ho-so-cap.html"],
+        ["Pháp lý Opal Luxury cần kiểm tra gì?", "/phap-ly-opal-luxury-can-kiem-tra-gi.html"],
+        ["Checklist 7 điểm trước khi ký hợp đồng", "/checklist-7-diem-hop-dong-mua-can-ho.html"]
+      ]
+    },
+    {
+      label: "Dòng tiền",
+      items: [
+        ["Đòn bẩy tài chính khi mua căn hộ", "/don-bay-tai-chinh-mua-can-ho.html"],
+        ["Mua căn hộ 2,5 tỷ với vốn 700 triệu", "/mua-can-ho-2-5-ty-von-700-trieu.html"],
+        ["Dòng tiền cho thuê căn hộ Dĩ An", "/dong-tien-cho-thue-can-ho-di-an.html"]
+      ]
+    },
+    {
+      label: "Dự án & thị trường",
+      items: [
+        ["Thị trường Bình Dương 2026", "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html"],
+        ["Quốc lộ 13 và tiềm năng tăng giá", "/quoc-lo-13-tiem-nang-tang-gia-bat-dong-san.html"],
+        ["Opal Luxury Dĩ An", "/opal-luxury.html"]
+      ]
+    }
+  ];
+
+  const html = clusters
+    .map((cluster) => {
+      const links = cluster.items
+        .filter(([, href]) => normalizePath(href) !== currentPath)
+        .map(([title, href]) => `<li><a href="${escapeAttribute(href)}">${escapeHtmlText(title)}</a></li>`)
+        .join("");
+      return links ? `<div><strong>${escapeHtmlText(cluster.label)}</strong><ul>${links}</ul></div>` : "";
+    })
+    .filter(Boolean)
+    .join("");
+
+  if (!html) return;
+
+  const card = document.createElement("aside");
+  card.className = "article-cluster-card";
+  card.innerHTML = `
+    <p class="section-kicker">Cụm chủ đề</p>
+    <h2>Đọc tiếp theo mạch pháp lý, dòng tiền và dự án</h2>
+    <div class="article-cluster-grid">${html}</div>
+  `;
+
+  const sidebar = document.querySelector(".article-sidebar");
+  if (sidebar) {
+    sidebar.append(card);
+  } else {
+    article.append(card);
+  }
 }
 
 function enhanceArticleLinks(article) {

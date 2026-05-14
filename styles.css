@@ -665,86 +665,6 @@ h2 {
   background: #f7d3cf;
 }
 
-.report-section {
-  background: var(--paper);
-}
-
-.report-demo {
-  display: grid;
-  grid-template-columns: minmax(280px, 1.35fr) repeat(2, minmax(220px, 1fr));
-  gap: 14px;
-}
-
-.report-panel {
-  display: grid;
-  align-content: start;
-  gap: 10px;
-  min-height: 188px;
-  padding: 20px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 14px 36px rgba(11, 17, 29, 0.07);
-}
-
-.report-summary {
-  grid-row: span 2;
-  background:
-    linear-gradient(145deg, rgba(13, 27, 42, 0.96), rgba(20, 35, 52, 0.92)),
-    linear-gradient(90deg, rgba(200, 164, 93, 0.16), rgba(255, 255, 255, 0));
-  color: var(--white);
-}
-
-.report-label,
-.report-status {
-  width: fit-content;
-  max-width: 100%;
-  padding: 7px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.report-label {
-  color: var(--ink);
-  background: var(--gold);
-}
-
-.report-status.is-pass {
-  color: #0b3d2e;
-  background: #dff4e8;
-}
-
-.report-status.is-review {
-  color: #5c4212;
-  background: #f8e8bd;
-}
-
-.report-panel h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
-  line-height: 1.2;
-}
-
-.report-panel p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.report-summary p {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.report-summary strong {
-  margin-top: auto;
-  color: #f5df9d;
-  line-height: 1.55;
-}
-
 .section-head {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
@@ -832,7 +752,6 @@ h2 {
 .value-card,
 .proof-card,
 .screening-card,
-.report-panel,
 .article-card,
 .project-card {
   content-visibility: auto;
@@ -1974,15 +1893,6 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .report-demo {
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
-  }
-
-  .report-summary {
-    grid-column: 1 / -1;
-    grid-row: auto;
-  }
-
   .detail-content {
     grid-template-columns: 1fr;
   }
@@ -2150,8 +2060,7 @@ textarea:focus {
 
   .value-grid,
   .proof-grid,
-  .screening-grid,
-  .report-demo {
+  .screening-grid {
     grid-template-columns: 1fr;
   }
 

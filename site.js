@@ -15,6 +15,16 @@ if (siteMenuButton && siteMainNav) {
 
 const ARTICLE_LINK_LIBRARY = [
   {
+    title: "Bình Dương sau sáp nhập TP.HCM",
+    href: "/binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026.html",
+    tags: ["bình dương", "binh duong", "sáp nhập", "sap nhap", "tp.hcm", "tphcm", "nguồn cung", "nguon cung", "căn hộ", "can ho", "quốc lộ 13", "quoc lo 13"]
+  },
+  {
+    title: "Căn hộ gần khu công nghiệp Bình Dương",
+    href: "/can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia.html",
+    tags: ["khu công nghiệp", "khu cong nghiep", "vsip", "sóng thần", "song than", "chuyên gia", "chuyen gia", "cho thuê", "cho thue", "bình dương", "binh duong"]
+  },
+  {
     title: "Thị trường bất động sản Bình Dương 2026",
     href: "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html",
     tags: ["bình dương", "binh duong", "thuận an", "thuan an", "dĩ an", "di an", "nguồn cung", "nguon cung", "quốc lộ 13", "quoc lo 13", "dòng tiền", "dong tien"]

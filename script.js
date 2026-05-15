@@ -1,5 +1,27 @@
 let articles = [
   {
+    slug: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026",
+    title: "Bình Dương sau sáp nhập TP.HCM: mặt bằng giá căn hộ 2026 được định giá lại thế nào?",
+    category: "market",
+    label: "Thị trường",
+    date: "15.05.2026",
+    image: "assets/images/article-thuan-an-2026.webp",
+    excerpt:
+      "Phân tích nguồn cung, mặt bằng giá, Vành đai 3, Quốc lộ 13 và vùng an toàn khi mua căn hộ Bình Dương trong không gian TP.HCM mở rộng.",
+    link: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026.html"
+  },
+  {
+    slug: "can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia",
+    title: "Căn hộ gần khu công nghiệp Bình Dương: lực thuê chuyên gia có đủ hấp dẫn để đầu tư?",
+    category: "market",
+    label: "Thị trường",
+    date: "15.05.2026",
+    image: "assets/images/article-thuan-an-2025.webp",
+    excerpt:
+      "Góc nhìn chuyên gia về lực thuê quanh VSIP, Sóng Thần, Thuận An và Dĩ An: lợi suất ròng, rủi ro trống phòng và tiêu chí chọn căn.",
+    link: "can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia.html"
+  },
+  {
     slug: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026",
     title: "Thị trường bất động sản Bình Dương 2026: đâu là điểm rơi dòng tiền?",
     category: "market",

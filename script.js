@@ -347,6 +347,12 @@ const state = {
   projectVisible: 6
 };
 
+let homeRevealObserver = null;
+const homeRevealTargets = new Set();
+let homeRevealTicking = false;
+let homeRevealListenersBound = false;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const INITIAL_VISIBLE = 6;
 const LOAD_MORE_STEP = 6;
 const CATEGORY_LABELS = {
@@ -520,6 +526,83 @@ function emptyState(label, message) {
   `;
 }
 
+function observeHomepageMotion(targets) {
+  const elements = Array.from(targets || []).filter(Boolean);
+  if (!elements.length) return;
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    elements.forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+
+  bindHomepageRevealListeners();
+
+  if (!homeRevealObserver) {
+    homeRevealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          homeRevealTargets.delete(entry.target);
+          homeRevealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+    );
+  }
+
+  elements.forEach((element, index) => {
+    if (!element.classList.contains("home-reveal")) {
+      element.classList.add("home-reveal");
+      element.style.setProperty("--reveal-delay", `${Math.min(index % 6, 5) * 55}ms`);
+    }
+
+    if (!element.classList.contains("is-visible")) {
+      homeRevealTargets.add(element);
+      homeRevealObserver.observe(element);
+    }
+  });
+
+  scheduleHomepageReveal();
+}
+
+function setupHomepageMotion() {
+  observeHomepageMotion(
+    document.querySelectorAll(
+      ".intro, .proof-head, .proof-card, .screening-head, .screening-card, .section-head, .content-toolbar, .insight-band > div, .process-list li, .contact-copy, .contact-form"
+    )
+  );
+}
+
+function bindHomepageRevealListeners() {
+  if (homeRevealListenersBound) return;
+  homeRevealListenersBound = true;
+  window.addEventListener("scroll", scheduleHomepageReveal, { passive: true });
+  window.addEventListener("resize", scheduleHomepageReveal);
+  window.addEventListener("hashchange", scheduleHomepageReveal);
+}
+
+function scheduleHomepageReveal() {
+  if (homeRevealTicking) return;
+  homeRevealTicking = true;
+  window.requestAnimationFrame(() => {
+    homeRevealTicking = false;
+    revealVisibleHomepageElements();
+  });
+}
+
+function revealVisibleHomepageElements() {
+  const revealLine = window.innerHeight * 0.92;
+  homeRevealTargets.forEach((element) => {
+    const rect = element.getBoundingClientRect();
+    if (rect.top <= revealLine && rect.bottom >= 0) {
+      element.classList.add("is-visible");
+      homeRevealTargets.delete(element);
+      homeRevealObserver?.unobserve(element);
+    }
+  });
+}
+
 function renderArticles() {
   const filteredArticles = getFilteredArticles();
   const visibleArticles = filteredArticles.slice(0, state.articleVisible);
@@ -655,4 +738,5 @@ leadForm?.addEventListener("submit", () => {
   formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Chúng tôi sẽ phản hồi bằng danh sách dự án phù hợp trong thời gian sớm nhất.";
 });
 
+setupHomepageMotion();
 bootstrapContent();

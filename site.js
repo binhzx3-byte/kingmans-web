@@ -1,17 +1,73 @@
 const siteMenuButton = document.querySelector(".menu-button");
 const siteMainNav = document.querySelector(".main-nav");
 
-if (siteMenuButton && siteMainNav) {
-  siteMenuButton.addEventListener("click", () => {
-    const isOpen = siteMainNav.classList.toggle("open");
-    siteMenuButton.setAttribute("aria-expanded", String(isOpen));
+function setupSmartSiteMenu(button, nav) {
+  if (!button || !nav) return;
+
+  if (!nav.id) nav.id = "mainNavigation";
+  button.setAttribute("aria-controls", nav.id);
+  button.setAttribute("aria-label", "Mở menu");
+
+  const header = button.closest(".site-header");
+  const links = Array.from(nav.querySelectorAll("a"));
+  const backdrop = document.createElement("button");
+  backdrop.type = "button";
+  backdrop.className = "nav-backdrop";
+  backdrop.setAttribute("aria-label", "Đóng menu");
+  document.body.append(backdrop);
+
+  const setOpen = (isOpen) => {
+    nav.classList.toggle("open", isOpen);
+    backdrop.classList.toggle("is-open", isOpen);
+    document.body.classList.toggle("nav-open", isOpen);
+    header?.classList.toggle("menu-open", isOpen);
+    button.setAttribute("aria-expanded", String(isOpen));
+    button.setAttribute("aria-label", isOpen ? "Đóng menu" : "Mở menu");
+  };
+
+  const closeMenu = () => setOpen(false);
+
+  const syncActiveLink = () => {
+    let activeLink = null;
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+
+    activeLink = links.find((link) => {
+      const href = link.getAttribute("href") || "";
+      const url = new URL(href, window.location.href);
+      const linkPath = url.pathname.split("/").pop() || "index.html";
+      return linkPath === currentPath && (!url.hash || url.hash === window.location.hash);
+    });
+
+    links.forEach((link) => {
+      link.classList.toggle("is-active", link === activeLink);
+    });
+  };
+
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setOpen(!nav.classList.contains("open"));
   });
 
-  siteMainNav.addEventListener("click", () => {
-    siteMainNav.classList.remove("open");
-    siteMenuButton.setAttribute("aria-expanded", "false");
+  backdrop.addEventListener("click", closeMenu);
+
+  nav.addEventListener("click", (event) => {
+    if (!event.target.closest("a")) return;
+    closeMenu();
   });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 981px)").matches) closeMenu();
+  });
+
+  window.addEventListener("hashchange", syncActiveLink);
+  syncActiveLink();
 }
+
+setupSmartSiteMenu(siteMenuButton, siteMainNav);
 
 const ARTICLE_LINK_LIBRARY = [
   {

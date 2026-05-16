@@ -373,6 +373,86 @@ let homeRevealObserver = null;
 const homeRevealTargets = new Set();
 let homeRevealTicking = false;
 let homeRevealListenersBound = false;
+
+function setupSmartMobileMenu(button, nav) {
+  if (!button || !nav) return;
+
+  if (!nav.id) nav.id = "mainNavigation";
+  button.setAttribute("aria-controls", nav.id);
+  button.setAttribute("aria-label", "Mở menu");
+
+  const header = button.closest(".site-header");
+  const links = Array.from(nav.querySelectorAll("a"));
+  const backdrop = document.createElement("button");
+  backdrop.type = "button";
+  backdrop.className = "nav-backdrop";
+  backdrop.setAttribute("aria-label", "Đóng menu");
+  document.body.append(backdrop);
+
+  const setOpen = (isOpen) => {
+    nav.classList.toggle("open", isOpen);
+    backdrop.classList.toggle("is-open", isOpen);
+    document.body.classList.toggle("nav-open", isOpen);
+    header?.classList.toggle("menu-open", isOpen);
+    button.setAttribute("aria-expanded", String(isOpen));
+    button.setAttribute("aria-label", isOpen ? "Đóng menu" : "Mở menu");
+  };
+
+  const closeMenu = () => setOpen(false);
+  const isSamePageLink = (link) => {
+    const href = link.getAttribute("href") || "";
+    const url = new URL(href, window.location.href);
+    return url.pathname === window.location.pathname;
+  };
+
+  const syncActiveLink = () => {
+    let activeLink = null;
+    const hash = window.location.hash;
+
+    if (hash) {
+      activeLink = links.find((link) => {
+        const url = new URL(link.getAttribute("href") || "", window.location.href);
+        return url.hash === hash && url.pathname === window.location.pathname;
+      });
+    }
+
+    if (!activeLink) {
+      activeLink = links.find((link) => {
+        const url = new URL(link.getAttribute("href") || "", window.location.href);
+        return !url.hash && isSamePageLink(link);
+      });
+    }
+
+    links.forEach((link) => {
+      link.classList.toggle("is-active", link === activeLink);
+    });
+  };
+
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setOpen(!nav.classList.contains("open"));
+  });
+
+  backdrop.addEventListener("click", closeMenu);
+
+  nav.addEventListener("click", (event) => {
+    const link = event.target.closest("a");
+    if (!link) return;
+    closeMenu();
+    window.setTimeout(syncActiveLink, 80);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 981px)").matches) closeMenu();
+  });
+
+  window.addEventListener("hashchange", syncActiveLink);
+  syncActiveLink();
+}
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const INITIAL_VISIBLE = 6;
@@ -488,19 +568,40 @@ async function loadCmsFeed() {
   }
 }
 
-async function bootstrapContent() {
-  renderArticles();
-  renderProjects();
+function scheduleNonCriticalTask(callback) {
+  const run = () => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback, { timeout: 1800 });
+      return;
+    }
 
+    window.setTimeout(callback, 900);
+  };
+
+  if (document.readyState === "complete") {
+    run();
+    return;
+  }
+
+  window.addEventListener("load", run, { once: true });
+}
+
+async function refreshCmsContent() {
   try {
     await loadCmsFeed();
     state.articleVisible = INITIAL_VISIBLE;
     state.projectVisible = INITIAL_VISIBLE;
     renderArticles();
     renderProjects();
-  } catch (error) {
-    console.warn("CMS feed not available, using bundled content only.", error);
+  } catch {
+    // Static content is already rendered for the first page load.
   }
+}
+
+function bootstrapContent() {
+  renderArticles();
+  renderProjects();
+  scheduleNonCriticalTask(refreshCmsContent);
 }
 
 function articleMatchesQuery(article) {
@@ -635,7 +736,7 @@ function renderArticles() {
       (article) => `
         <a class="article-card" href="${article.link}" aria-label="Đọc ${article.title}">
           <span class="card-image-link">
-            <img class="card-image" src="${article.image}" alt="${article.title}" width="760" height="480" loading="lazy" decoding="async">
+            <img class="card-image" src="${article.image}" alt="${article.title}" width="760" height="480" loading="lazy" decoding="async" fetchpriority="low">
           </span>
           <div class="article-body">
             <div class="article-meta">
@@ -666,7 +767,7 @@ function renderProjects() {
       (project) => `
         <a class="project-card" href="${project.link}" aria-label="Xem ${project.name}">
           <span class="project-image-link">
-            <img class="project-image" src="${project.image}" alt="${project.name}" width="760" height="540" loading="lazy" decoding="async">
+            <img class="project-image" src="${project.image}" alt="${project.name}" width="760" height="540" loading="lazy" decoding="async" fetchpriority="low">
           </span>
           <div class="project-body">
             <div class="project-meta">
@@ -746,15 +847,7 @@ projectLoadMore.addEventListener("click", () => {
   renderProjects();
 });
 
-menuButton?.addEventListener("click", () => {
-  const isOpen = mainNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
-});
-
-mainNav?.addEventListener("click", () => {
-  mainNav.classList.remove("open");
-  menuButton.setAttribute("aria-expanded", "false");
-});
+setupSmartMobileMenu(menuButton, mainNav);
 
 leadForm?.addEventListener("submit", () => {
   formNote.textContent = "KINGMANS đang tiếp nhận thông tin. Chúng tôi sẽ phản hồi bằng danh sách dự án phù hợp trong thời gian sớm nhất.";

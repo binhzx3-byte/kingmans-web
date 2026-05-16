@@ -79,6 +79,14 @@ main [id] {
   scroll-margin-top: 96px;
 }
 
+@supports (content-visibility: auto) {
+  .section:not(.intro),
+  .contact-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 760px;
+  }
+}
+
 .anchor-offset {
   display: block;
   height: 0;
@@ -213,9 +221,26 @@ img {
   color: var(--gold-dark);
 }
 
+.main-nav a.is-active {
+  color: var(--gold-dark);
+}
+
 .main-nav a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+.main-nav a.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-backdrop {
+  display: none;
+}
+
+body.nav-open {
+  overflow: hidden;
 }
 
 .header-cta,
@@ -285,11 +310,16 @@ img {
 
 .menu-button {
   display: none;
+  position: relative;
   width: 44px;
   height: 44px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
 }
 
 .menu-button span {
@@ -298,6 +328,23 @@ img {
   height: 2px;
   margin: 5px auto;
   background: var(--ink);
+  transition:
+    transform 220ms var(--ease-luxury),
+    opacity 220ms ease,
+    background-color 220ms ease;
+}
+
+.menu-button[aria-expanded="true"] {
+  border-color: rgba(200, 164, 93, 0.72);
+  box-shadow: 0 10px 24px rgba(11, 17, 29, 0.12);
+}
+
+.menu-button[aria-expanded="true"] span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.menu-button[aria-expanded="true"] span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
 }
 
 .hero {
@@ -1365,9 +1412,7 @@ h2 {
 
 .contact-section {
   padding: clamp(54px, 8vw, 96px) clamp(18px, 4vw, 56px);
-  background:
-    linear-gradient(rgba(248, 246, 239, 0.9), rgba(248, 246, 239, 0.95)),
-    url("assets/images/contact-consulting.webp") center/cover;
+  background: linear-gradient(135deg, rgba(248, 246, 239, 0.96), rgba(238, 232, 218, 0.86));
 }
 
 .contact-methods {
@@ -2168,6 +2213,14 @@ textarea:focus {
   line-height: 1.75;
 }
 
+@media (min-width: 900px) {
+  .contact-section {
+    background:
+      linear-gradient(rgba(248, 246, 239, 0.9), rgba(248, 246, 239, 0.95)),
+      url("assets/images/contact-consulting.webp") center/cover;
+  }
+}
+
 @media (max-height: 760px) and (min-width: 981px) {
   .hero {
     padding-top: 48px;
@@ -2207,32 +2260,86 @@ textarea:focus {
     grid-template-columns: 1fr auto;
   }
 
-  .main-nav,
   .header-cta {
     display: none;
   }
 
-  .main-nav.open {
-    position: absolute;
-    top: 71px;
-    left: 18px;
-    right: 18px;
+  .site-header.menu-open {
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 16px 44px rgba(11, 17, 29, 0.16);
+  }
+
+  .main-nav {
+    position: fixed;
+    z-index: 34;
+    top: 74px;
+    left: 14px;
+    right: 14px;
     display: grid;
     justify-content: stretch;
-    gap: 0;
+    gap: 4px;
+    max-height: calc(100svh - 96px);
     padding: 10px;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
+    overflow-y: auto;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(200, 164, 93, 0.24);
+    border-radius: 10px;
+    box-shadow: 0 24px 68px rgba(11, 17, 29, 0.22);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px) scale(0.98);
+    transition:
+      opacity 220ms ease,
+      visibility 220ms ease,
+      transform 260ms var(--ease-luxury);
+  }
+
+  .main-nav.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
   }
 
   .main-nav.open a {
-    padding: 14px;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 8px;
+  }
+
+  .main-nav a:hover,
+  .main-nav a.is-active {
+    background: rgba(200, 164, 93, 0.1);
+  }
+
+  .main-nav a::after {
+    display: none;
+  }
+
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 18;
+    display: block;
+    background: rgba(7, 9, 13, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+    transition: opacity 220ms ease;
+  }
+
+  .nav-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .menu-button {
     display: block;
+    z-index: 35;
   }
 
   .hero {

@@ -16,8 +16,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="preload" as="image" href="assets/images/hero-luxury-home.webp" fetchpriority="high">
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dm-sans-1.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/dm-sans-2.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-5.woff2" crossorigin>
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/hero-luxury-home-960.webp"
+      imagesrcset="assets/images/hero-luxury-home-960.webp 960w, assets/images/hero-luxury-home-1440.webp 1440w, assets/images/hero-luxury-home.webp 1800w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    >
     <meta property="og:locale" content="vi_VN">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="KINGMANS">
@@ -30,7 +39,7 @@
     <meta name="twitter:title" content="KINGMANS Realty | Cố vấn bất động sản TP.HCM, Bình Dương">
     <meta name="twitter:description" content="Tư vấn bất động sản độc lập tại TP.HCM và Bình Dương: sàng lọc dự án, kiểm tra pháp lý, tính dòng tiền trước khi xuống tiền.">
     <meta name="twitter:image" content="https://kingmansrealty.com/assets/kingmans-logo.png">
-    <link rel="stylesheet" href="styles.css?v=20260515-luxury-motion-2">
+    <link rel="stylesheet" href="styles.css?v=20260516-speed">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -132,8 +141,19 @@
     <main id="home">
       <section class="hero">
         <picture class="hero-media" aria-hidden="true">
-          <source srcset="assets/images/hero-luxury-home.webp" type="image/webp">
-          <img src="assets/images/hero-luxury-home.webp" alt="" width="1800" height="1040" fetchpriority="high" loading="eager" decoding="async">
+          <source media="(max-width: 700px)" srcset="assets/images/hero-luxury-home-960.webp" type="image/webp">
+          <source media="(max-width: 1200px)" srcset="assets/images/hero-luxury-home-1440.webp" type="image/webp">
+          <img
+            src="assets/images/hero-luxury-home-1440.webp"
+            srcset="assets/images/hero-luxury-home-960.webp 960w, assets/images/hero-luxury-home-1440.webp 1440w, assets/images/hero-luxury-home.webp 1800w"
+            sizes="100vw"
+            alt=""
+            width="1440"
+            height="960"
+            fetchpriority="high"
+            loading="eager"
+            decoding="async"
+          >
         </picture>
         <div class="hero-content">
           <p class="eyebrow">Cố vấn bất động sản độc lập</p>
@@ -515,6 +535,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260515-market-articles"></script>
+    <script src="script.js?v=20260516-speed"></script>
   </body>
 </html>

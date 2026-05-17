@@ -29,12 +29,12 @@ function setupSmartSiteMenu(button, nav) {
 
   const syncActiveLink = () => {
     let activeLink = null;
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    const currentPath = window.location.pathname.split("/").pop() || "index";
 
     activeLink = links.find((link) => {
       const href = link.getAttribute("href") || "";
       const url = new URL(href, window.location.href);
-      const linkPath = url.pathname.split("/").pop() || "index.html";
+      const linkPath = url.pathname.split("/").pop() || "index";
       return linkPath === currentPath && (!url.hash || url.hash === window.location.hash);
     });
 
@@ -72,77 +72,77 @@ setupSmartSiteMenu(siteMenuButton, siteMainNav);
 const ARTICLE_LINK_LIBRARY = [
   {
     title: "Bình Dương sau sáp nhập TP.HCM",
-    href: "/binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026.html",
+    href: "/binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026",
     tags: ["bình dương", "binh duong", "sáp nhập", "sap nhap", "tp.hcm", "tphcm", "nguồn cung", "nguon cung", "căn hộ", "can ho", "quốc lộ 13", "quoc lo 13"]
   },
   {
     title: "Căn hộ gần khu công nghiệp Bình Dương",
-    href: "/can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia.html",
+    href: "/can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia",
     tags: ["khu công nghiệp", "khu cong nghiep", "vsip", "sóng thần", "song than", "chuyên gia", "chuyen gia", "cho thuê", "cho thue", "bình dương", "binh duong"]
   },
   {
     title: "Thị trường bất động sản Bình Dương 2026",
-    href: "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html",
+    href: "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026",
     tags: ["bình dương", "binh duong", "thuận an", "thuan an", "dĩ an", "di an", "nguồn cung", "nguon cung", "quốc lộ 13", "quoc lo 13", "dòng tiền", "dong tien"]
   },
   {
     title: "Opal Luxury Dĩ An",
-    href: "/opal-luxury.html",
+    href: "/opal-luxury",
     tags: ["opal", "dĩ an", "di an", "sóng thần", "song than", "thủ đức", "thu duc"]
   },
   {
     title: "Gem Sky World Long Thành",
-    href: "/gem-sky-world.html",
+    href: "/gem-sky-world",
     tags: ["gem sky world", "long thành", "long thanh", "sân bay", "san bay", "đồng nai", "dong nai"]
   },
   {
     title: "The Habitat Bình Dương",
-    href: "/the-habitat-binh-duong.html",
+    href: "/the-habitat-binh-duong",
     tags: ["the habitat", "habitat", "vsip", "vsip 1", "thuận an", "thuan an", "bình dương", "binh duong", "chuyên gia", "chuyen gia", "cho thuê", "cho thue"]
   },
   {
     title: "Khải Hoàn Imperial",
-    href: "/khai-hoan-imperial.html",
+    href: "/khai-hoan-imperial",
     tags: ["khải hoàn", "khai hoan", "nhà bè", "nha be", "nam sài gòn", "nam sai gon"]
   },
   {
     title: "Tiềm năng tăng giá dọc Quốc lộ 13",
-    href: "/quoc-lo-13-tiem-nang-tang-gia-bat-dong-san.html",
+    href: "/quoc-lo-13-tiem-nang-tang-gia-bat-dong-san",
     tags: ["quốc lộ 13", "quoc lo 13", "ql13", "thuận an", "thuan an", "bình dương", "binh duong"]
   },
   {
     title: "Đánh giá thị trường căn hộ Thuận An 2026",
-    href: "/danh-gia-thi-truong-can-ho-thuan-an-2026.html",
+    href: "/danh-gia-thi-truong-can-ho-thuan-an-2026",
     tags: ["thuận an", "thuan an", "căn hộ", "can ho", "bình dương", "binh duong"]
   },
   {
     title: "Bảng giá căn hộ Dĩ An 2026",
-    href: "/bang-gia-can-ho-di-an-2026.html",
+    href: "/bang-gia-can-ho-di-an-2026",
     tags: ["dĩ an", "di an", "bảng giá", "bang gia", "căn hộ", "can ho"]
   },
   {
     title: "Dòng tiền cho thuê căn hộ Dĩ An",
-    href: "/dong-tien-cho-thue-can-ho-di-an.html",
+    href: "/dong-tien-cho-thue-can-ho-di-an",
     tags: ["cho thuê", "cho thue", "dòng tiền", "dong tien", "dĩ an", "di an"]
   },
   {
     title: "Pháp lý Opal Luxury cần kiểm tra gì?",
-    href: "/phap-ly-opal-luxury-can-kiem-tra-gi.html",
+    href: "/phap-ly-opal-luxury-can-kiem-tra-gi",
     tags: ["pháp lý", "phap ly", "opal", "dĩ an", "di an"]
   },
   {
     title: "Checklist pháp lý căn hộ sơ cấp",
-    href: "/checklist-phap-ly-can-ho-so-cap.html",
+    href: "/checklist-phap-ly-can-ho-so-cap",
     tags: ["pháp lý", "phap ly", "đặt cọc", "dat coc", "hợp đồng", "hop dong"]
   },
   {
     title: "Bài toán đòn bẩy tài chính khi mua căn hộ",
-    href: "/don-bay-tai-chinh-mua-can-ho.html",
+    href: "/don-bay-tai-chinh-mua-can-ho",
     tags: ["tài chính", "tai chinh", "vay", "lãi suất", "lai suat", "đòn bẩy", "don bay"]
   },
   {
     title: "Smart Home ở căn hộ Bình Dương",
-    href: "/smart-home-can-ho-binh-duong-thuc-te.html",
+    href: "/smart-home-can-ho-binh-duong-thuc-te",
     tags: ["smart home", "sống xanh", "song xanh", "công nghệ", "cong nghe", "bình dương", "binh duong"]
   }
 ];
@@ -374,25 +374,25 @@ function addTopicClusterLinks(article) {
     {
       label: "Pháp lý",
       items: [
-        ["Checklist pháp lý căn hộ sơ cấp", "/checklist-phap-ly-can-ho-so-cap.html"],
-        ["Pháp lý Opal Luxury cần kiểm tra gì?", "/phap-ly-opal-luxury-can-kiem-tra-gi.html"],
-        ["Checklist 7 điểm trước khi ký hợp đồng", "/checklist-7-diem-hop-dong-mua-can-ho.html"]
+        ["Checklist pháp lý căn hộ sơ cấp", "/checklist-phap-ly-can-ho-so-cap"],
+        ["Pháp lý Opal Luxury cần kiểm tra gì?", "/phap-ly-opal-luxury-can-kiem-tra-gi"],
+        ["Checklist 7 điểm trước khi ký hợp đồng", "/checklist-7-diem-hop-dong-mua-can-ho"]
       ]
     },
     {
       label: "Dòng tiền",
       items: [
-        ["Đòn bẩy tài chính khi mua căn hộ", "/don-bay-tai-chinh-mua-can-ho.html"],
-        ["Mua căn hộ 2,5 tỷ với vốn 700 triệu", "/mua-can-ho-2-5-ty-von-700-trieu.html"],
-        ["Dòng tiền cho thuê căn hộ Dĩ An", "/dong-tien-cho-thue-can-ho-di-an.html"]
+        ["Đòn bẩy tài chính khi mua căn hộ", "/don-bay-tai-chinh-mua-can-ho"],
+        ["Mua căn hộ 2,5 tỷ với vốn 700 triệu", "/mua-can-ho-2-5-ty-von-700-trieu"],
+        ["Dòng tiền cho thuê căn hộ Dĩ An", "/dong-tien-cho-thue-can-ho-di-an"]
       ]
     },
     {
       label: "Dự án & thị trường",
       items: [
-        ["Thị trường Bình Dương 2026", "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html"],
-        ["Quốc lộ 13 và tiềm năng tăng giá", "/quoc-lo-13-tiem-nang-tang-gia-bat-dong-san.html"],
-        ["Opal Luxury Dĩ An", "/opal-luxury.html"]
+        ["Thị trường Bình Dương 2026", "/phan-tich-thi-truong-bat-dong-san-binh-duong-2026"],
+        ["Quốc lộ 13 và tiềm năng tăng giá", "/quoc-lo-13-tiem-nang-tang-gia-bat-dong-san"],
+        ["Opal Luxury Dĩ An", "/opal-luxury"]
       ]
     }
   ];
@@ -539,6 +539,7 @@ function normalizePath(value) {
     .replace(/^https?:\/\/[^/]+/i, "")
     .replace(/^\//, "")
     .replace(/\/$/, "")
+    .replace(/\.html$/i, "")
     .toLowerCase();
 }
 

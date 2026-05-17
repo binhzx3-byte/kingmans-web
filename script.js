@@ -8,7 +8,7 @@ let articles = [
     image: "assets/images/the-emerald-boulevard.webp",
     excerpt:
       "Trước đợt mở bán The Emerald Boulevard, người mua nên kiểm tra giá, pháp lý, lịch thanh toán, dòng tiền vay và điều kiện giữ chỗ để ra quyết định an toàn.",
-    link: "checklist-mo-ban-the-emerald-boulevard.html"
+    link: "checklist-mo-ban-the-emerald-boulevard"
   },
   {
     slug: "doc-bang-gia-can-ho-thuan-an-truoc-khi-xuong-tien",
@@ -19,7 +19,7 @@ let articles = [
     image: "assets/images/article-thuan-an-2026.webp",
     excerpt:
       "Cách đọc bảng giá căn hộ Thuận An theo tổng giá trị căn, chiết khấu, lịch thanh toán, lãi vay, pháp lý và khả năng cho thuê thay vì chỉ nhìn giá/m².",
-    link: "doc-bang-gia-can-ho-thuan-an-truoc-khi-xuong-tien.html"
+    link: "doc-bang-gia-can-ho-thuan-an-truoc-khi-xuong-tien"
   },
   {
     slug: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026",
@@ -30,7 +30,7 @@ let articles = [
     image: "assets/images/article-thuan-an-2026.webp",
     excerpt:
       "Phân tích nguồn cung, mặt bằng giá, Vành đai 3, Quốc lộ 13 và vùng an toàn khi mua căn hộ Bình Dương trong không gian TP.HCM mở rộng.",
-    link: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026.html"
+    link: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026"
   },
   {
     slug: "can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia",
@@ -41,7 +41,7 @@ let articles = [
     image: "assets/images/article-thuan-an-2025.webp",
     excerpt:
       "Góc nhìn chuyên gia về lực thuê quanh VSIP, Sóng Thần, Thuận An và Dĩ An: lợi suất ròng, rủi ro trống phòng và tiêu chí chọn căn.",
-    link: "can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia.html"
+    link: "can-ho-gan-khu-cong-nghiep-binh-duong-luc-thue-chuyen-gia"
   },
   {
     slug: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026",
@@ -52,7 +52,7 @@ let articles = [
     image: "assets/images/article-market-binh-duong.webp",
     excerpt:
       "Phân tích nguồn cung căn hộ, hạ tầng Quốc lộ 13, lực thuê, rủi ro pháp lý và chiến lược chọn dự án Bình Dương theo mục tiêu an cư, cho thuê hoặc tích sản.",
-    link: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026.html"
+    link: "phan-tich-thi-truong-bat-dong-san-binh-duong-2026"
   },
   {
     slug: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san",
@@ -63,7 +63,7 @@ let articles = [
     image: "assets/images/article-quoc-lo-13-tang-gia.webp",
     excerpt:
       "Phân tích cơ chế tăng giá dọc Quốc lộ 13: kết nối TP.HCM, lực thuê, thương mại dịch vụ, mặt bằng giá và các rủi ro cần kiểm chứng trước khi xuống tiền.",
-    link: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san.html"
+    link: "quoc-lo-13-tiem-nang-tang-gia-bat-dong-san"
   },
   {
     slug: "gem-sky-world-long-thanh-ha-tang-san-bay-2026",
@@ -74,7 +74,7 @@ let articles = [
     image: "assets/images/article-gem-sky-world-hero.webp",
     excerpt:
       "Phân tích Gem Sky World trong bối cảnh sân bay Long Thành vận hành năm 2026: quy hoạch 92,2 ha, tiện ích, giá tham khảo, pháp lý và dòng tiền shophouse.",
-    link: "gem-sky-world-long-thanh-ha-tang-san-bay-2026.html"
+    link: "gem-sky-world-long-thanh-ha-tang-san-bay-2026"
   },
   {
     slug: "phap-ly-opal-luxury-can-kiem-tra-gi",
@@ -85,7 +85,7 @@ let articles = [
     image: "assets/images/opal-luxury-masterplan.webp",
     excerpt:
       "Checklist 1/500, tiền sử dụng đất, điều kiện mở bán và bảo lãnh ngân hàng cần kiểm chứng trước khi giữ chỗ Opal Luxury.",
-    link: "phap-ly-opal-luxury-can-kiem-tra-gi.html"
+    link: "phap-ly-opal-luxury-can-kiem-tra-gi"
   },
   {
     slug: "opal-luxury-so-voi-can-ho-tp-thu-duc",
@@ -96,7 +96,7 @@ let articles = [
     image: "assets/images/opal-luxury-location.webp",
     excerpt:
       "So sánh Opal Luxury Dĩ An và căn hộ TP.Thủ Đức theo vị trí, giá vào, pháp lý, dòng tiền thuê và khả năng nắm giữ.",
-    link: "opal-luxury-so-voi-can-ho-tp-thu-duc.html"
+    link: "opal-luxury-so-voi-can-ho-tp-thu-duc"
   },
   {
     slug: "dong-tien-cho-thue-can-ho-di-an",
@@ -107,7 +107,7 @@ let articles = [
     image: "assets/images/article-finance-2-5-ty.webp",
     excerpt:
       "Cách kiểm tra lợi suất thuê căn hộ Dĩ An, tệp khách thuê quanh Sóng Thần và bảng dòng tiền cần lập trước khi đầu tư.",
-    link: "dong-tien-cho-thue-can-ho-di-an.html"
+    link: "dong-tien-cho-thue-can-ho-di-an"
   },
   {
     slug: "bang-gia-can-ho-di-an-2026",
@@ -118,7 +118,7 @@ let articles = [
     image: "assets/images/article-market-binh-duong.webp",
     excerpt:
       "Cách bóc tách giá/m², tổng giá trị căn, chiết khấu, lãi vay và tổng chi phí sở hữu khi xem bảng giá căn hộ Dĩ An.",
-    link: "bang-gia-can-ho-di-an-2026.html"
+    link: "bang-gia-can-ho-di-an-2026"
   },
   {
     slug: "co-nen-mua-can-ho-gan-song-than",
@@ -129,7 +129,7 @@ let articles = [
     image: "assets/images/opal-luxury-location.webp",
     excerpt:
       "Phân tích nhu cầu thuê, rủi ro vị trí, môi trường sống và cách đánh giá căn hộ gần Sóng Thần như Opal Luxury.",
-    link: "co-nen-mua-can-ho-gan-song-than.html"
+    link: "co-nen-mua-can-ho-gan-song-than"
   },
   {
     slug: "danh-gia-thi-truong-can-ho-thuan-an-2026",
@@ -140,7 +140,7 @@ let articles = [
     image: "assets/images/article-thuan-an-2026.webp",
     excerpt:
       "Góc nhìn toàn diện về hạ tầng, mặt bằng giá, dòng tiền cho thuê và vùng an toàn tài chính khi đầu tư căn hộ Thuận An.",
-    link: "danh-gia-thi-truong-can-ho-thuan-an-2026.html"
+    link: "danh-gia-thi-truong-can-ho-thuan-an-2026"
   },
   {
     slug: "can-ho-thuan-an-2025-dong-tien-cua-ngo",
@@ -151,7 +151,7 @@ let articles = [
     image: "assets/images/article-thuan-an-2025.webp",
     excerpt:
       "Phân tích lực kéo từ hạ tầng, khoảng chênh giá với TP.HCM và nhu cầu ở thật đang nâng vị thế Thuận An.",
-    link: "can-ho-thuan-an-2025-dong-tien-cua-ngo.html"
+    link: "can-ho-thuan-an-2025-dong-tien-cua-ngo"
   },
   {
     slug: "checklist-7-diem-hop-dong-mua-can-ho",
@@ -162,7 +162,7 @@ let articles = [
     image: "assets/images/article-checklist-hop-dong.webp",
     excerpt:
       "Bảy điểm pháp lý, tài chính và vận hành cần rà soát để bảo vệ dòng tiền trước khi ký hợp đồng mua căn hộ.",
-    link: "checklist-7-diem-hop-dong-mua-can-ho.html"
+    link: "checklist-7-diem-hop-dong-mua-can-ho"
   },
   {
     slug: "mua-can-ho-2-5-ty-von-700-trieu",
@@ -173,7 +173,7 @@ let articles = [
     image: "assets/images/article-finance-2-5-ty.webp",
     excerpt:
       "Mô phỏng khoản vay, ngưỡng thu nhập an toàn và kịch bản lãi suất thả nổi trước khi xuống tiền.",
-    link: "mua-can-ho-2-5-ty-von-700-trieu.html"
+    link: "mua-can-ho-2-5-ty-von-700-trieu"
   },
   {
     slug: "smart-home-can-ho-binh-duong-thuc-te",
@@ -184,7 +184,7 @@ let articles = [
     image: "assets/images/article-smart-home-binh-duong.webp",
     excerpt:
       "Phân loại các cấp độ smart home và những câu hỏi người mua cần đặt ra trước khi tin vào phần trình diễn nhà mẫu.",
-    link: "smart-home-can-ho-binh-duong-thuc-te.html"
+    link: "smart-home-can-ho-binh-duong-thuc-te"
   },
   {
     slug: "tin-hieu-gia-can-ho-binh-duong",
@@ -195,7 +195,7 @@ let articles = [
     image: "assets/images/article-market-binh-duong.webp",
     excerpt:
       "Theo dõi nguồn cung, tỷ lệ hấp thụ, tiến độ hạ tầng và lợi suất cho thuê để nhận diện giá trị thực.",
-    link: "thi-truong-can-ho-binh-duong.html"
+    link: "thi-truong-can-ho-binh-duong"
   },
   {
     slug: "checklist-phap-ly-can-ho-so-cap",
@@ -206,7 +206,7 @@ let articles = [
     image: "assets/images/article-legal-checklist.webp",
     excerpt:
       "Các hồ sơ nền tảng cần đối chiếu: quy hoạch 1/500, giấy phép xây dựng, điều kiện mở bán và bảo lãnh ngân hàng.",
-    link: "checklist-phap-ly-can-ho-so-cap.html"
+    link: "checklist-phap-ly-can-ho-so-cap"
   },
   {
     slug: "don-bay-tai-chinh-mua-can-ho",
@@ -217,7 +217,7 @@ let articles = [
     image: "assets/images/article-finance-leverage.webp",
     excerpt:
       "Ba nguyên tắc giúp kiểm soát khoản vay, dòng tiền trả nợ và rủi ro lãi suất sau giai đoạn ưu đãi.",
-    link: "don-bay-tai-chinh-mua-can-ho.html"
+    link: "don-bay-tai-chinh-mua-can-ho"
   },
   {
     slug: "smart-home-song-xanh",
@@ -228,7 +228,7 @@ let articles = [
     image: "assets/images/article-smart-home.webp",
     excerpt:
       "Đánh giá những tiện ích công nghệ và tiêu chuẩn sống xanh có khả năng tạo giá trị gia tăng dài hạn cho tài sản.",
-    link: "smart-home-song-xanh.html"
+    link: "smart-home-song-xanh"
   }
 ];
 
@@ -247,7 +247,7 @@ let projects = [
     stats: ["92,2 ha", "Sky Park 3 ha", "Long Đức - Long Thành", "Đất Xanh phát triển"],
     areas: ["dong-nai", "long-thanh"],
     types: ["dau-tu"],
-    link: "gem-sky-world.html"
+    link: "gem-sky-world"
   },
   {
     slug: "khai-hoan-imperial",
@@ -263,7 +263,7 @@ let projects = [
     stats: ["10.542,8 m²", "2 tháp 41 tầng", "03 tầng hầm", "Dự kiến 07/2028"],
     areas: ["tp-hcm", "binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
-    link: "khai-hoan-imperial.html"
+    link: "khai-hoan-imperial"
   },
   {
     slug: "opal-luxury",
@@ -279,7 +279,7 @@ let projects = [
     stats: ["8,68 ha", "11 block căn hộ", "45+ tiện ích", "Kiểm định pháp lý"],
     areas: ["binh-duong", "di-an"],
     types: ["can-ho", "hang-sang", "dau-tu"],
-    link: "opal-luxury.html"
+    link: "opal-luxury"
   },
   {
     slug: "the-emerald-boulevard",
@@ -327,7 +327,7 @@ let projects = [
     stats: ["2 tháp 40 tầng", "946 căn hộ + shophouse", "Dự kiến Q2/2026", "Liên hệ bảng giá"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "hang-sang"],
-    link: "at-sky-garden.html"
+    link: "at-sky-garden"
   },
   {
     slug: "symlife",
@@ -343,7 +343,7 @@ let projects = [
     stats: ["659 căn hộ", "Từ 36,8 triệu/m²", "Dự kiến Q3/2027", "MB Bank bảo trợ"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
-    link: "symlife.html"
+    link: "symlife"
   },
   {
     slug: "the-habitat-binh-duong",
@@ -359,7 +359,7 @@ let projects = [
     stats: ["Số 8 Hữu Nghị", "Trong VSIP 1", "VSIP-Sembcorp Gateway", "Tệp thuê chuyên gia"],
     areas: ["binh-duong", "thuan-an"],
     types: ["can-ho", "dau-tu"],
-    link: "the-habitat-binh-duong.html"
+    link: "the-habitat-binh-duong"
   }
 ];
 

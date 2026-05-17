@@ -135,7 +135,7 @@ const mainNav = document.querySelector(".main-nav");
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("article") || "tin-hieu-gia-can-ho-binh-duong";
 const article = articleDetails[slug] || articleDetails["tin-hieu-gia-can-ho-binh-duong"];
-const articleUrl = seoAbsoluteUrl(`/article-detail.html?article=${slug}`);
+const articleUrl = seoAbsoluteUrl(`/article-detail?article=${slug}`);
 const articleImageUrl = seoAbsoluteUrl(article.image);
 const articleIsoDate = toIsoDate(article.date);
 

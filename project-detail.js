@@ -146,7 +146,7 @@ const mainNav = document.querySelector(".main-nav");
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("project") || "the-emerald-boulevard";
 const project = projectDetails[slug] || projectDetails["the-emerald-boulevard"];
-const projectUrl = seoAbsoluteUrl(`/project-detail.html?project=${slug}`);
+const projectUrl = seoAbsoluteUrl(`/project-detail?project=${slug}`);
 const projectImageUrl = seoAbsoluteUrl(project.image);
 
 document.title = `${project.name} | KINGMANS Realty`;

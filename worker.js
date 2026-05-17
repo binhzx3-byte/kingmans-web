@@ -133,7 +133,40 @@ async function routeRequest(request, env) {
     return env.ASSETS.fetch(new Request(`${url.origin}/admin/index.html`, request));
   }
 
+  if (request.method === "GET" || request.method === "HEAD") {
+    const cleanRedirect = getCleanHtmlRedirectUrl(url);
+    if (cleanRedirect) {
+      return Response.redirect(cleanRedirect, 301);
+    }
+
+    const cleanHtmlResponse = await tryServeCleanHtml(request, env, url);
+    if (cleanHtmlResponse) {
+      return cleanHtmlResponse;
+    }
+  }
+
   return env.ASSETS.fetch(request);
+}
+
+function getCleanHtmlRedirectUrl(url) {
+  if (!url.pathname.endsWith(".html")) {
+    return "";
+  }
+
+  const cleanUrl = new URL(url.toString());
+  cleanUrl.pathname = cleanUrl.pathname === "/index.html" ? "/" : cleanUrl.pathname.slice(0, -5);
+  return cleanUrl.toString();
+}
+
+async function tryServeCleanHtml(request, env, url) {
+  if (url.pathname === "/" || url.pathname.endsWith("/") || /\.[a-z0-9]{2,8}$/i.test(url.pathname)) {
+    return null;
+  }
+
+  const htmlUrl = new URL(url.toString());
+  htmlUrl.pathname = `${url.pathname}.html`;
+  const response = await env.ASSETS.fetch(new Request(htmlUrl.toString(), request));
+  return response.status === 404 ? null : response;
 }
 
 async function handleApi(request, env, url) {

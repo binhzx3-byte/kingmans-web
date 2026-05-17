@@ -1,5 +1,27 @@
 let articles = [
   {
+    slug: "checklist-mo-ban-the-emerald-boulevard",
+    title: "Checklist mở bán The Emerald Boulevard: 9 điểm cần kiểm tra trước khi giữ chỗ",
+    category: "guide",
+    label: "Hướng dẫn",
+    date: "17.05.2026",
+    image: "assets/images/the-emerald-boulevard.webp",
+    excerpt:
+      "Trước đợt mở bán The Emerald Boulevard, người mua nên kiểm tra giá, pháp lý, lịch thanh toán, dòng tiền vay và điều kiện giữ chỗ để ra quyết định an toàn.",
+    link: "checklist-mo-ban-the-emerald-boulevard.html"
+  },
+  {
+    slug: "doc-bang-gia-can-ho-thuan-an-truoc-khi-xuong-tien",
+    title: "Đọc bảng giá căn hộ Thuận An: 5 điểm quyết định trước khi xuống tiền",
+    category: "finance",
+    label: "Tài chính",
+    date: "17.05.2026",
+    image: "assets/images/article-thuan-an-2026.webp",
+    excerpt:
+      "Cách đọc bảng giá căn hộ Thuận An theo tổng giá trị căn, chiết khấu, lịch thanh toán, lãi vay, pháp lý và khả năng cho thuê thay vì chỉ nhìn giá/m².",
+    link: "doc-bang-gia-can-ho-thuan-an-truoc-khi-xuong-tien.html"
+  },
+  {
     slug: "binh-duong-sau-sap-nhap-tphcm-gia-can-ho-2026",
     title: "Bình Dương sau sáp nhập TP.HCM: mặt bằng giá căn hộ 2026 được định giá lại thế nào?",
     category: "market",
